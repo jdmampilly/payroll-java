@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import dto.EmpLoanSummaryDto;
 import entities.Employee;
 import entities.EmployeeLoanSummaryView;
+import entities.LoanMaster;
 import repositories.PayrollRepository;
 import repositories.SalaryRepository;
 import java.time.temporal.ChronoUnit;
@@ -38,8 +39,10 @@ public class EmployeeService implements Serializable{
 		}
 		eDto.setEmpcode(empCode);
 		Employee emp = payrollRepo.getById(Employee.class,empCode);
+		LoanMaster lm = payrollRepo.getByKey(LoanMaster.class, "empCode", empCode);
 		eDto.setBasicSalary(emp.getBasicSalary());
 		eDto.setIndeminity(calculateIndeminity(emp));
+		eDto.setLoanInstallment(lm.getLoanInstallment());
 		return eDto;
 		
 	}

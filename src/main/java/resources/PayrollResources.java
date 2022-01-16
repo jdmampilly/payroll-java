@@ -11,6 +11,8 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -30,6 +32,7 @@ import entities.LoanTransaction;
 import entities.LoanTransactionView;
 import entities.Month;
 import entities.MonthEndTransaction;
+import entities.OtTable;
 import repositories.PayrollRepository;
 import services.EmployeeService;
 import services.SalaryService;
@@ -49,7 +52,13 @@ public class PayrollResources {
 	public Response echo() {
 		return Response.ok("hello").build();
 	}
-
+	@GET
+	@Path("/otRates")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getOTRates() throws Exception {
+		OtTable ot = repo.getById(OtTable.class, 1);
+		return Response.ok(ot).build();
+	}
 	@GET
 	@Path("/employee/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -105,6 +114,24 @@ public class PayrollResources {
 		MonthEndTransaction m = salServ.getEmployeeSalary(id);
 		return Response.ok(m).build();
 	}
+// Employee salary save	
+	@POST
+	@Path("/employee/met/save")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response create(MonthEndTransaction entity) {
+		System.out.println("saving employee month end transactions");
+		try {
+			salServ.save(entity, entity.getOtherAllowances(), entity.getOtherDeductions());
+		} catch (NotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Response.ok(entity).build();
+	}
+	
 // Leaves
 	@GET
 	@Path("/employee/leaves/{empCode}")
@@ -168,17 +195,7 @@ public class PayrollResources {
 	@GET
 	@Path("/employee/loan/summary/{empCode}")
 	public EmpLoanSummaryDto getEmployeeLoanSumary(@PathParam("empCode") int empCode) {
-//		EmployeeLoanSummaryView  e = repo.getByKey(EmployeeLoanSummaryView.class,"empCode", empCode);
-//		
-//		EmpLoanSummaryDto eDto  = new EmpLoanSummaryDto();
-//		eDto.setEmpcode(e.getEmpCode());
-//		eDto.setDrAmount(e.getDrAmount());
-//		eDto.setCrAmount(e.getCrAmount());
-//		eDto.setLastTrnDate(e.getLastTransactionDate());
-//		Employee emp = repo.getById(Employee.class,empCode);
-//		eDto.setBasicSalary(emp.getBasicSalary());
 		System.out.println("empCode in loan summary:" + empCode);
-		
 		return empServ.calculateEmpLoanInfo(empCode);
 		
 	}

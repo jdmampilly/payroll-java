@@ -3,18 +3,30 @@ package services;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.persistence.RollbackException;
 
 import entities.Employee;
 import entities.LoanMaster;
 import entities.Month;
+import entities.MonthEndAllowance;
+import entities.MonthEndDeduction;
 import entities.MonthEndTransaction;
 import exception.DataNotFoundException;
 import repositories.PayrollRepository;
 import repositories.SalaryRepository;
 
 @Stateless
+@TransactionManagement(value = TransactionManagementType.BEAN)
 public class SalaryService implements Serializable {
 
 	private static final long serialVersionUID = 7508312817184312175L;
@@ -22,6 +34,8 @@ public class SalaryService implements Serializable {
 	SalaryRepository repo;
 	@EJB
 	PayrollRepository payrollRepo;
+	@Resource
+	private UserTransaction utx;
 
 	public List<MonthEndTransaction> getAllEmployeeSalaryList(Class<MonthEndTransaction> clazz) {
 		List<MonthEndTransaction> l = repo.getAllEmployeeSalaryList(clazz);
@@ -61,10 +75,13 @@ public class SalaryService implements Serializable {
 				m.setTravelAllowance(emp.getTravelAllowance());
 				m.setSpageAllowance(emp.getSpecialAllowance());
 				m.setLoanDeduction(l.getLoanInstallment());
+				m.sethBankLoan(emp.getHousingBankAmount());
 
 			} else {
 				m.setEmpName(emp.getEmpName());
 				m.setMonthName(month.getMonthName());
+				m.setOtherAllowances(repo.getMEA(m.getId()));
+				m.setOtherDeductions(repo.getMED(m.getId()));
 			}
 
 		} catch (Exception e) {
@@ -73,6 +90,37 @@ public class SalaryService implements Serializable {
 
 		return m;
 	}
+
+	public void save(MonthEndTransaction met, List<MonthEndAllowance> mea,
+			List<MonthEndDeduction> med) throws NotSupportedException, SystemException {
+		// TODO Auto-generated method stub
+		System.out.println("save in salary service");
+		try {
+			utx.begin();
+			repo.save(met, mea, med);
+			utx.commit();
+		} catch (RollbackException re) {
+			System.out.println("Rollback....");
+//			hrq.setHrNo("Error");
+			utx.rollback();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (javax.transaction.RollbackException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (HeuristicMixedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (HeuristicRollbackException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
+		
 	
 	
 

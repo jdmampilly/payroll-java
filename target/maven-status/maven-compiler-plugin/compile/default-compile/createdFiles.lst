@@ -24,5 +24,6 @@ repositories\SalaryRepository.class
 entities\LoanTransactionView.class
 exception\NoResultException.class
 exception\NoResultExceptionMapper.class
+entities\OtTable.class
 entities\Employee.class
 entities\LoanMaster.class

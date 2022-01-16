@@ -1,6 +1,8 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -60,6 +62,10 @@ public class MonthEndTransaction  implements Serializable{
 	private double nShiftAllowance;
 	@Column(name="lateHours")
 	private double lateHours;
+	@Transient
+	private List<MonthEndAllowance> otherAllowances;
+	@Transient
+	private List<MonthEndDeduction> otherDeductions;
 	public int getId() {
 		return id;
 	}
@@ -192,48 +198,24 @@ public class MonthEndTransaction  implements Serializable{
 	public void setLateHours(double lateHours) {
 		this.lateHours = lateHours;
 	}
+	public List<MonthEndAllowance> getOtherAllowances() {
+		return otherAllowances;
+	}
+	public void setOtherAllowances(List<MonthEndAllowance> otherAllowances) {
+		this.otherAllowances = otherAllowances;
+	}
+	public List<MonthEndDeduction> getOtherDeductions() {
+		return otherDeductions;
+	}
+	public void setOtherDeductions(List<MonthEndDeduction> otherDeductions) {
+		this.otherDeductions = otherDeductions;
+	}
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(attendance);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((bankAcNo == null) ? 0 : bankAcNo.hashCode());
-		result = prime * result + ((bankCode == null) ? 0 : bankCode.hashCode());
-		temp = Double.doubleToLongBits(basicSalary);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + empCode;
-		result = prime * result + ((empName == null) ? 0 : empName.hashCode());
-		temp = Double.doubleToLongBits(gosiAmount);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(hBankLoan);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + id;
-		temp = Double.doubleToLongBits(lateHours);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(loanDeduction);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((monthName == null) ? 0 : monthName.hashCode());
-		temp = Double.doubleToLongBits(nShiftAllowance);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(ot1);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(ot2);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(otherAllowanceTotal);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(otherDeductionTotal);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(rentAllowance);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(spageAllowance);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(travelAllowance);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + trnMonth;
-		result = prime * result + trnYear;
-		return result;
+		return Objects.hash(attendance, bankAcNo, bankCode, basicSalary, empCode, empName, gosiAmount, hBankLoan, id,
+				lateHours, loanDeduction, monthName, nShiftAllowance, ot1, ot2, otherAllowanceTotal, otherAllowances,
+				otherDeductionTotal, otherDeductions, rentAllowance, spageAllowance, travelAllowance, trnMonth,
+				trnYear);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -244,63 +226,26 @@ public class MonthEndTransaction  implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		MonthEndTransaction other = (MonthEndTransaction) obj;
-		if (Double.doubleToLongBits(attendance) != Double.doubleToLongBits(other.attendance))
-			return false;
-		if (bankAcNo == null) {
-			if (other.bankAcNo != null)
-				return false;
-		} else if (!bankAcNo.equals(other.bankAcNo))
-			return false;
-		if (bankCode == null) {
-			if (other.bankCode != null)
-				return false;
-		} else if (!bankCode.equals(other.bankCode))
-			return false;
-		if (Double.doubleToLongBits(basicSalary) != Double.doubleToLongBits(other.basicSalary))
-			return false;
-		if (empCode != other.empCode)
-			return false;
-		if (empName == null) {
-			if (other.empName != null)
-				return false;
-		} else if (!empName.equals(other.empName))
-			return false;
-		if (Double.doubleToLongBits(gosiAmount) != Double.doubleToLongBits(other.gosiAmount))
-			return false;
-		if (Double.doubleToLongBits(hBankLoan) != Double.doubleToLongBits(other.hBankLoan))
-			return false;
-		if (id != other.id)
-			return false;
-		if (Double.doubleToLongBits(lateHours) != Double.doubleToLongBits(other.lateHours))
-			return false;
-		if (Double.doubleToLongBits(loanDeduction) != Double.doubleToLongBits(other.loanDeduction))
-			return false;
-		if (monthName == null) {
-			if (other.monthName != null)
-				return false;
-		} else if (!monthName.equals(other.monthName))
-			return false;
-		if (Double.doubleToLongBits(nShiftAllowance) != Double.doubleToLongBits(other.nShiftAllowance))
-			return false;
-		if (Double.doubleToLongBits(ot1) != Double.doubleToLongBits(other.ot1))
-			return false;
-		if (Double.doubleToLongBits(ot2) != Double.doubleToLongBits(other.ot2))
-			return false;
-		if (Double.doubleToLongBits(otherAllowanceTotal) != Double.doubleToLongBits(other.otherAllowanceTotal))
-			return false;
-		if (Double.doubleToLongBits(otherDeductionTotal) != Double.doubleToLongBits(other.otherDeductionTotal))
-			return false;
-		if (Double.doubleToLongBits(rentAllowance) != Double.doubleToLongBits(other.rentAllowance))
-			return false;
-		if (Double.doubleToLongBits(spageAllowance) != Double.doubleToLongBits(other.spageAllowance))
-			return false;
-		if (Double.doubleToLongBits(travelAllowance) != Double.doubleToLongBits(other.travelAllowance))
-			return false;
-		if (trnMonth != other.trnMonth)
-			return false;
-		if (trnYear != other.trnYear)
-			return false;
-		return true;
+		return Double.doubleToLongBits(attendance) == Double.doubleToLongBits(other.attendance)
+				&& Objects.equals(bankAcNo, other.bankAcNo) && Objects.equals(bankCode, other.bankCode)
+				&& Double.doubleToLongBits(basicSalary) == Double.doubleToLongBits(other.basicSalary)
+				&& empCode == other.empCode && Objects.equals(empName, other.empName)
+				&& Double.doubleToLongBits(gosiAmount) == Double.doubleToLongBits(other.gosiAmount)
+				&& Double.doubleToLongBits(hBankLoan) == Double.doubleToLongBits(other.hBankLoan) && id == other.id
+				&& Double.doubleToLongBits(lateHours) == Double.doubleToLongBits(other.lateHours)
+				&& Double.doubleToLongBits(loanDeduction) == Double.doubleToLongBits(other.loanDeduction)
+				&& Objects.equals(monthName, other.monthName)
+				&& Double.doubleToLongBits(nShiftAllowance) == Double.doubleToLongBits(other.nShiftAllowance)
+				&& Double.doubleToLongBits(ot1) == Double.doubleToLongBits(other.ot1)
+				&& Double.doubleToLongBits(ot2) == Double.doubleToLongBits(other.ot2)
+				&& Double.doubleToLongBits(otherAllowanceTotal) == Double.doubleToLongBits(other.otherAllowanceTotal)
+				&& Objects.equals(otherAllowances, other.otherAllowances)
+				&& Double.doubleToLongBits(otherDeductionTotal) == Double.doubleToLongBits(other.otherDeductionTotal)
+				&& Objects.equals(otherDeductions, other.otherDeductions)
+				&& Double.doubleToLongBits(rentAllowance) == Double.doubleToLongBits(other.rentAllowance)
+				&& Double.doubleToLongBits(spageAllowance) == Double.doubleToLongBits(other.spageAllowance)
+				&& Double.doubleToLongBits(travelAllowance) == Double.doubleToLongBits(other.travelAllowance)
+				&& trnMonth == other.trnMonth && trnYear == other.trnYear;
 	}
 	@Override
 	public String toString() {
@@ -311,7 +256,8 @@ public class MonthEndTransaction  implements Serializable{
 				+ otherAllowanceTotal + ", gosiAmount=" + gosiAmount + ", hBankLoan=" + hBankLoan + ", loanDeduction="
 				+ loanDeduction + ", otherDeductionTotal=" + otherDeductionTotal + ", bankCode=" + bankCode
 				+ ", bankAcNo=" + bankAcNo + ", ot1=" + ot1 + ", ot2=" + ot2 + ", nShiftAllowance=" + nShiftAllowance
-				+ ", lateHours=" + lateHours + "]";
+				+ ", lateHours=" + lateHours + ", otherAllowances=" + otherAllowances + ", otherDeductions="
+				+ otherDeductions + "]";
 	}
 	
 	
