@@ -77,6 +77,9 @@ public class PayrollRepository implements Serializable {
 					"Select a from " + entity.getSimpleName() + " a " + "where a." + searchKey + "= :searchValue",
 					entity).setParameter("searchValue", searchValue).getSingleResult();
 			return t;
+			
+//		}	catch (NoResultException nre) {
+//		        return null;
 		} catch (Exception e) {
 			throw new NoResultException("Data not found for searchValue: " + searchValue);
 		}

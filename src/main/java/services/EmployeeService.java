@@ -18,7 +18,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 @Stateless
-public class EmployeeService implements Serializable{
+public class EmployeeService implements Serializable {
 
 	private static final long serialVersionUID = 5122558391956505126L;
 	@EJB
@@ -26,29 +26,39 @@ public class EmployeeService implements Serializable{
 	@EJB
 	PayrollRepository payrollRepo;
 
-	
-	public EmpLoanSummaryDto calculateEmpLoanInfo (int empCode) {
-		EmployeeLoanSummaryView  e = new EmployeeLoanSummaryView();
-//			e = payrollRepo.getByKey(EmployeeLoanSummaryView.class,"empCode", empCode);
+	public EmpLoanSummaryDto calculateEmpLoanInfo(int empCode) {
+		EmployeeLoanSummaryView e = new EmployeeLoanSummaryView();
+//		e = payrollRepo.getByKey(EmployeeLoanSummaryView.class, "empCode", empCode);
+		try {
 			e = payrollRepo.getEmpLoanSummary(empCode);
-		EmpLoanSummaryDto eDto  = new EmpLoanSummaryDto();
-		if( e != null) {
-			eDto.setDrAmount(e.getDrAmount());
-			eDto.setCrAmount(e.getCrAmount());
+		} catch (Exception e2) {
+			// TODO: handle exception
+		}
+//			
+		EmpLoanSummaryDto eDto = new EmpLoanSummaryDto();
+		if (e != null) {
+			eDto.setDrAmountTotal(e.getDrAmount());
+			eDto.setCrAmountTotal(e.getCrAmount());
 			eDto.setLastTrnDate(e.getLastTransactionDate());
+		} else {
+			System.out.println("e is null");
 		}
 		eDto.setEmpcode(empCode);
-		Employee emp = payrollRepo.getById(Employee.class,empCode);
-		LoanMaster lm = payrollRepo.getByKey(LoanMaster.class, "empCode", empCode);
+		Employee emp = payrollRepo.getById(Employee.class, empCode);
+		try {
+			LoanMaster lm = payrollRepo.getByKey(LoanMaster.class, "empCode", empCode);
+			eDto.setLoanInstallment(lm.getLoanInstallment());
+		} catch (Exception e2) {
+			// TODO: handle exception
+		}
 		eDto.setBasicSalary(emp.getBasicSalary());
 		eDto.setIndeminity(calculateIndeminity(emp));
-		eDto.setLoanInstallment(lm.getLoanInstallment());
 		return eDto;
-		
+
 	}
-	
+
 	private double calculateIndeminity(Employee e) {
-		
+
 		double noOfDays;
 		double noOfDays2;
 		LocalDate endDate = null;
@@ -61,20 +71,20 @@ public class EmployeeService implements Serializable{
 		endDate = LocalDate.now();
 		noOfDays = ChronoUnit.DAYS.between(startDate, endDate);
 		System.out.println("Indeminity calculation...");
-		if(noOfDays < 1095) {
-			indeminity1 = (basicSalary/2)/365 * noOfDays;
+		if (noOfDays < 1095) {
+			indeminity1 = (basicSalary / 2) / 365 * noOfDays;
 		}
-		if(noOfDays > 1095) {
-			indeminity1 = (basicSalary/2)/365 * noOfDays;
+		if (noOfDays > 1095) {
+			indeminity1 = (basicSalary / 2) / 365 * noOfDays;
 			noOfDays2 = noOfDays - 1095;
-			indeminity2 = (basicSalary)/365 * noOfDays2;
+			indeminity2 = (basicSalary) / 365 * noOfDays2;
 		}
 		System.out.println("No of Days:" + noOfDays);
 		System.out.println("Indeminity1:" + indeminity1);
 		System.out.println("Indeminity2:" + indeminity2);
 		DecimalFormat newFormat = new DecimalFormat("#.###");
-		return  Double.valueOf(newFormat.format(indeminity1 + indeminity2));
+		return Double.valueOf(newFormat.format(indeminity1 + indeminity2));
 //		return  indeminity1 + indeminity2;
-		}
+	}
 
 }

@@ -8,29 +8,30 @@ public class EmpLoanSummaryDto  implements Serializable{
 
 	private static final long serialVersionUID = 5676099310140147179L;
 	private int empcode;
-	private double drAmount;
-	private double crAmount;
+	private double drAmountTotal;
+	private double crAmountTotal;
 	private Date lastTrnDate;
 	private double loanInstallment;
 	private double basicSalary;
 	private double indeminity;
+	
 	public int getEmpcode() {
 		return empcode;
 	}
 	public void setEmpcode(int empcode) {
 		this.empcode = empcode;
 	}
-	public double getDrAmount() {
-		return drAmount;
+	public double getDrAmountTotal() {
+		return drAmountTotal;
 	}
-	public void setDrAmount(double drAmount) {
-		this.drAmount = drAmount;
+	public void setDrAmountTotal(double drAmountTotal) {
+		this.drAmountTotal = drAmountTotal;
 	}
-	public double getCrAmount() {
-		return crAmount;
+	public double getCrAmountTotal() {
+		return crAmountTotal;
 	}
-	public void setCrAmount(double crAmount) {
-		this.crAmount = crAmount;
+	public void setCrAmountTotal(double crAmountTotal) {
+		this.crAmountTotal = crAmountTotal;
 	}
 	public Date getLastTrnDate() {
 		return lastTrnDate;
@@ -60,12 +61,12 @@ public class EmpLoanSummaryDto  implements Serializable{
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public EmpLoanSummaryDto(int empcode, double drAmount, double crAmount, Date lastTrnDate, double loanInstallment,
+	public EmpLoanSummaryDto(int empcode, double drAmountTotal, double crAmountTotal, Date lastTrnDate, double loanInstallment,
 			double basicSalary, double indeminity) {
 		super();
 		this.empcode = empcode;
-		this.drAmount = drAmount;
-		this.crAmount = crAmount;
+		this.drAmountTotal = drAmountTotal;
+		this.crAmountTotal = crAmountTotal;
 		this.lastTrnDate = lastTrnDate;
 		this.loanInstallment = loanInstallment;
 		this.basicSalary = basicSalary;
