@@ -12,97 +12,97 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 @Entity
-@Table(name="EmployeeMaster")
+@Table(name="EmployeeMaster1")
 public class Employee implements Serializable{
 
 	private static final long serialVersionUID = 1L;
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="empCode")
+	@Column(name="EMP_CODE")
 	private int id;
-	@Column(name="empName")
+	@Column(name="EMP_NAME")
 	private String empName;
 	@Temporal(TemporalType.DATE)
-	@Column(name="birthDate")
+	@Column(name="BIRTH_DATE")
 	private Date birthDate;
-	@Column(name="nationality")
+	@Column(name="NATIONALITY")
 	private String nationality;
-	@Column(name="passportNo")
+	@Column(name="PASSPORT_NO")
 	private String passportNo;
 	@Temporal(TemporalType.DATE)
-	@Column(name="passportIssuedDate")
+	@Column(name="PASSPORT_DT_ISSUE")
 	private Date passportIssuedDate;
 	@Temporal(TemporalType.DATE)
-	@Column(name="passportExpiryDate")
+	@Column(name="PASSPORT_DT_EXP")
 	private Date passportExpiryDate;
-	@Column(name="cprNo")
+	@Column(name="CPR_NO")
 	private String cprNo;
 	@Temporal(TemporalType.DATE)
-	@Column(name="cprIssuedDate")
+	@Column(name="CPR_DT_ISSUE")
 	private Date cprIssuedDate;
 	@Temporal(TemporalType.DATE)
-	@Column(name="cprExpiryDate")
+	@Column(name="CPR_DT_EXP")
 	private Date cprExpiryDate;
-	@Column(name="gosiNo")
+	@Column(name="GOSI_NO")
 	private String gosiNo;
 	@Temporal(TemporalType.DATE)
-	@Column(name="gosiRegistrationDate")
+	@Column(name="GOSI_REG_DT")
 	private Date gosiRegistrationDate;
 	@Temporal(TemporalType.DATE)
-	@Column(name="onBoardingDate")
+	@Column(name="EMP_DT_JOIN")
 	private Date onBoardingDate;
 	@Temporal(TemporalType.DATE)
-	@Column(name="offBoardingDate")
+	@Column(name="EMP_DT_LEAVE")
 	private Date offBoardingDate;
-	@Column(name="profession")
+	@Column(name="PROFFESSION")
 	private String profession;
-	@Column(name="workDesignation")
+	@Column(name="WORK_DESGN")
 	private String workDesignation;
-	@Column(name="deptCode")
+	@Column(name="DEPT_CODE")
 	private String deptCode;
-	@Column(name="contractType")
+	@Column(name="CONTRACT_TYPE")
 	private String contractType;
-	@Column(name="residencePermitNo")
+	@Column(name="RES_PERMIT")
 	private String residencePermitNo;
 	@Temporal(TemporalType.DATE)
-	@Column(name="residencePermitIssueDate")
+	@Column(name="RES_PMT_IS_DT")
 	private Date residencePermitIssueDate;
 	@Temporal(TemporalType.DATE)
-	@Column(name="residencePermitExpiryDate")
+	@Column(name="RE_PMT_EXP_DT")
 	private Date residencePermitExpiryDate;
-	@Column(name="passage")
+	@Column(name="PASSAGE")
 	private String passage;
-	@Column(name="ticket")
+	@Column(name="TICKET")
 	private String ticket;
-	@Column(name="basicSalary")
+	@Column(name="BASIC_SALARY")
 	private double basicSalary;
-	@Column(name="bankCode")
+	@Column(name="BANK_CODE")
 	private String bankCode;
-	@Column(name="acNumber")
+	@Column(name="AC_NO")
 	private String acNumber;
-	@Column(name="paymentMode")
+	@Column(name="PYMT_MODE")
 	private String paymentMode;
-	@Column(name="rentAllowance")
+	@Column(name="RENT_ALLOWANCE")
 	private double rentAllowance;
-	@Column(name="travelAllowance")
+	@Column(name="TRAVEL_ALLOWANCE")
 	private double travelAllowance;
-	@Column(name="specialAllowance")
+	@Column(name="SPL_ALLOWANCE")
 	private double specialAllowance;
-	@Column(name="gosiAmount")
+	@Column(name="GOSI_AMT")
 	private double gosiAmount;
-	@Column(name="housingBankAmount")
+	@Column(name="HSE_BANK_AMT")
 	private double housingBankAmount;
-	@Column(name="telephoneGuarantee")
+	@Column(name="TEL_GRNT")
 	private String telephoneGuarantee;
-	@Column(name="electricityGuarantee")
+	@Column(name="ELEC_GRNT")
 	private String electricityGuarantee;
-	@Column(name="externalBankLoanGuarantee")
+	@Column(name="EXT_BANK_LOAN_GRNT")
 	private String externalBankLoanGuarantee;
-	@Column(name="bankName")
+	@Column(name="EMP_BANK_NAME")
 	private String bankName;
-	@Column(name="otherAllowance")
+	@Column(name="OTH_ALLOWANCE")
 	private double otherAllowance;
-	@Column(name="nshAllowance")
+	@Column(name="NSH_ALLOWANCE")
 	private double nshAllowance;
 	
 	

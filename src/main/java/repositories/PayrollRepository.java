@@ -7,12 +7,15 @@ import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import entities.EmployeeLoanSummaryView;
 import entities.LeaveTransaction;
+import entities.LoanMaster;
 import entities.LoanTransaction;
 import exception.DataNotFoundException;
 import exception.NoResultException;
@@ -213,6 +216,43 @@ public class PayrollRepository implements Serializable {
 			// TODO: handle exception
 			System.out.println(e2.getLocalizedMessage());
 			return new EmployeeLoanSummaryView();
+		}
+		
+	}
+	
+	public void updateLoanMaster(int empCode, LoanTransaction ln) {
+		double amount = ln.getCrAmount() - ln.getDrAmount();
+		double additionalInstallment = ln.getAdditionalInstallment();
+		System.out.println("Additional Installment =" + additionalInstallment);
+		// To do
+		// check oracle code to verify how the data is maintained in the loan master
+		try {
+			LoanMaster lm = this.em
+					.createQuery("Select a from LoanMaster a where a.empCode = :empCode ",
+							LoanMaster.class)
+					.setParameter("empCode", empCode).setParameter("empCode", empCode).getSingleResult();
+			if(lm != null) {
+				Query query = this.em.createQuery("Update LoanMaster a set a.loanAmount = a.loanAmount + :amount, a.loanInstallment = a.loanInstallment + :additionalInstallment where a.empCode = :empCode")
+						.setParameter("empCode", empCode)
+						.setParameter("amount", amount)
+						.setParameter("additionalInstallment", additionalInstallment);
+				query.executeUpdate();
+				System.out.println("Query updated");
+			
+			} else {
+			
+				Query query = this.em.createQuery("INSERT INTO LoanMaster (empCode, loanAmount, loanDate,loanInstallment, loanType) VALUES (?,?,?,?,?)")
+						.setParameter("empCode", empCode)
+						.setParameter("loanAmount", ln.getCrAmount())
+						.setParameter("loanDate", ln.getTrnDate())
+						.setParameter("loanInstallment", ln.getAdditionalInstallment())
+						.setParameter("loanType", "1");
+				query.executeUpdate();
+				System.out.println("Query insert");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("error updating loan info:" + e.getMessage());
 		}
 		
 	}

@@ -134,6 +134,13 @@ public class PayrollResources {
 	
 // Leaves
 	@GET
+	@Path("/leaveTransactions")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllLeaveTrans() {
+		List<LeaveTransaction> l = repo.getAll(LeaveTransaction.class);
+		return Response.ok(l.toArray(new LeaveTransaction[l.size()])).build();
+	}
+	@GET
 	@Path("/employee/leaves/{empCode}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getEmployeeLeaveAllRecords(@PathParam("empCode") String empCode) {
@@ -205,6 +212,7 @@ public class PayrollResources {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(LoanTransaction entity) {
 		repo.save(entity);
+		repo.updateLoanMaster(entity.getEmpCode(), entity);
 		return Response.ok(entity).build();
 	}
 	
@@ -247,6 +255,15 @@ public class PayrollResources {
 	public Response fetchByLoanTransactionFilters(@PathParam("start") int start, @PathParam("maxR") int maxR, String jsonData) {
 		System.out.println("jsonData:" + jsonData);
 		return getByFilters(LoanTransactionView.class, start, maxR, jsonData);
+
+	}
+	
+	@POST
+	@Path("/filterLeaveTransactions/{start}/{maxR}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response fetchByLeaveTransactionFilters(@PathParam("start") int start, @PathParam("maxR") int maxR, String jsonData) {
+		System.out.println("jsonData:" + jsonData);
+		return getByFilters(LeaveTransaction.class, start, maxR, jsonData);
 
 	}
 

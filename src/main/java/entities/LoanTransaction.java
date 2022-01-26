@@ -2,6 +2,7 @@ package entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="LoanTransaction")
@@ -41,6 +43,8 @@ public class LoanTransaction implements Serializable {
 	private String bankCode;
 	@Column(name="voucherNo")
 	private String voucherNo;
+	@Transient
+	private double additionalInstallment;
 	public int getId() {
 		return id;
 	}
@@ -95,23 +99,16 @@ public class LoanTransaction implements Serializable {
 	public void setVoucherNo(String voucherNo) {
 		this.voucherNo = voucherNo;
 	}
+	public double getAdditionalInstallment() {
+		return additionalInstallment;
+	}
+	public void setAdditionalInstallment(double additionalInstallment) {
+		this.additionalInstallment = additionalInstallment;
+	}
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((bankCode == null) ? 0 : bankCode.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(crAmount);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(drAmount);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + empCode;
-		result = prime * result + id;
-		result = prime * result + ((trnDate == null) ? 0 : trnDate.hashCode());
-		result = prime * result + ((trnDescription == null) ? 0 : trnDescription.hashCode());
-		result = prime * result + trnId;
-		result = prime * result + ((voucherNo == null) ? 0 : voucherNo.hashCode());
-		return result;
+		return Objects.hash(additionalInstallment, bankCode, crAmount, drAmount, empCode, id, trnDate, trnDescription,
+				trnId, voucherNo);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -122,44 +119,23 @@ public class LoanTransaction implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		LoanTransaction other = (LoanTransaction) obj;
-		if (bankCode == null) {
-			if (other.bankCode != null)
-				return false;
-		} else if (!bankCode.equals(other.bankCode))
-			return false;
-		if (Double.doubleToLongBits(crAmount) != Double.doubleToLongBits(other.crAmount))
-			return false;
-		if (Double.doubleToLongBits(drAmount) != Double.doubleToLongBits(other.drAmount))
-			return false;
-		if (empCode != other.empCode)
-			return false;
-		if (id != other.id)
-			return false;
-		if (trnDate == null) {
-			if (other.trnDate != null)
-				return false;
-		} else if (!trnDate.equals(other.trnDate))
-			return false;
-		if (trnDescription == null) {
-			if (other.trnDescription != null)
-				return false;
-		} else if (!trnDescription.equals(other.trnDescription))
-			return false;
-		if (trnId != other.trnId)
-			return false;
-		if (voucherNo == null) {
-			if (other.voucherNo != null)
-				return false;
-		} else if (!voucherNo.equals(other.voucherNo))
-			return false;
-		return true;
+		return Double.doubleToLongBits(additionalInstallment) == Double.doubleToLongBits(other.additionalInstallment)
+				&& Objects.equals(bankCode, other.bankCode)
+				&& Double.doubleToLongBits(crAmount) == Double.doubleToLongBits(other.crAmount)
+				&& Double.doubleToLongBits(drAmount) == Double.doubleToLongBits(other.drAmount)
+				&& empCode == other.empCode && id == other.id && Objects.equals(trnDate, other.trnDate)
+				&& Objects.equals(trnDescription, other.trnDescription) && trnId == other.trnId
+				&& Objects.equals(voucherNo, other.voucherNo);
 	}
 	@Override
 	public String toString() {
-		return "LoanTransaction [id=" + id + ", empCode=" + empCode + ", trnId=" + trnId
-				+ ", trnDate=" + trnDate + ", drAmount=" + drAmount + ", crAmount=" + crAmount + ", trnDescription="
-				+ trnDescription + ", bankCode=" + bankCode + ", voucherNo=" + voucherNo + "]";
+		return "LoanTransaction [id=" + id + ", empCode=" + empCode + ", trnId=" + trnId + ", trnDate=" + trnDate
+				+ ", drAmount=" + drAmount + ", crAmount=" + crAmount + ", trnDescription=" + trnDescription
+				+ ", bankCode=" + bankCode + ", voucherNo=" + voucherNo + ", additionalInstallment="
+				+ additionalInstallment + "]";
 	}
+	
+	
 	
 	
 }
