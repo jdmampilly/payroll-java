@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 @Entity
-@Table(name="EmployeeMaster1")
+@Table(name="EMP_MAST")
 public class Employee implements Serializable{
 
 	private static final long serialVersionUID = 1L;

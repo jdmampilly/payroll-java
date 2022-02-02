@@ -11,19 +11,19 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="vwEmployeeLoanSummary")
+@Table(name="EMP_LN_SUMM_VU1")
 public class EmployeeLoanSummaryView implements Serializable {
 
 	private static final long serialVersionUID = 4139567230683771811L;
 	@Id
-	@Column(name="empCode")
+	@Column(name="emp_code")
 	private int empCode;
-	@Column(name="drAmount")
+	@Column(name="total_dr")
 	private double drAmount;
-	@Column(name="crAmount")
+	@Column(name="total_cr")
 	private double crAmount;
 	@Temporal(TemporalType.DATE)
-	@Column(name="lastTransactionDate")
+	@Column(name="last_trn_date")
 	private Date lastTransactionDate;
 	public int getEmpCode() {
 		return empCode;

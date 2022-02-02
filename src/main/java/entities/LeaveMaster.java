@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "LeaveMaster")
+@Table(name = "LV_MAST")
 public class LeaveMaster implements Serializable {
 
 	/**
@@ -22,7 +22,7 @@ public class LeaveMaster implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-	@Column(name="empCode")
+	@Column(name="EMP_CODE")
 	private int empCode;
 	@Column(name="annualLeave")
 	private double annualLeave;
