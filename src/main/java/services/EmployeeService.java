@@ -40,17 +40,20 @@ public class EmployeeService implements Serializable {
 			eDto.setDrAmountTotal(e.getDrAmount());
 			eDto.setCrAmountTotal(e.getCrAmount());
 			eDto.setLastTrnDate(e.getLastTransactionDate());
+			
 		} else {
 			System.out.println("e is null");
 		}
 		eDto.setEmpcode(empCode);
 		Employee emp = payrollRepo.getById(Employee.class, empCode);
-		try {
-			LoanMaster lm = payrollRepo.getByKey(LoanMaster.class, "empCode", empCode);
-			eDto.setLoanInstallment(lm.getLoanInstallment());
-		} catch (Exception e2) {
-			// TODO: handle exception
-		}
+		eDto.setLoanInstallment(emp.getLoanInstallment());
+//		try {
+////			LoanMaster lm = payrollRepo.getByKey(LoanMaster.class, "empCode", empCode);
+//			emp = payrollRepo.getByKey(Employee.class, "empCode", empCode);
+//			eDto.setLoanInstallment(emp.getLoanInstallment());
+//		} catch (Exception e2) {
+//			// TODO: handle exception
+//		}
 		eDto.setBasicSalary(emp.getBasicSalary());
 		eDto.setIndeminity(calculateIndeminity(emp));
 		return eDto;

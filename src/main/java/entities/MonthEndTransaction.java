@@ -13,54 +13,54 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name="MonthEndTransaction")
+@Table(name="MET_MAIN")
 public class MonthEndTransaction  implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name="ID")
 	private int id;
-	@Column(name="empCode")
+	@Column(name="EMP_CODE")
 	private int empCode;
 	@Transient
 	private String empName;
-	@Column(name="trnYear")
+	@Column(name="TRN_YEAR")
 	private int trnYear;
-	@Column(name="trnMonth")
+	@Column(name="TRN_MONTH")
 	private int trnMonth;
 	@Transient
 	private String monthName;
-	@Column(name="attendance")
+	@Column(name="ATTENDANCE")
 	private double attendance;
-	@Column(name="basicSalary")
+	@Column(name="BASIC_SAL")
 	private double basicSalary;
-	@Column(name="rentAllowance")
+	@Column(name="RENT_ALLOWANCE")
 	private double rentAllowance;
-	@Column(name="spageAllowance")
+	@Column(name="SPAGE_ALLOWANCE")
 	private double spageAllowance;
-	@Column(name="travelAllowance")
+	@Column(name="TRAVEL_ALLOWANCE")
 	private double travelAllowance;
-	@Column(name="otherAllowanceTotal")
+	@Column(name="OTHER_ALLOWANCE_TOTAL")
 	private double otherAllowanceTotal;
-	@Column(name="gosiAmount")
+	@Column(name="GOSI_AMT")
 	private double gosiAmount;
-	@Column(name="hBankLoan")
+	@Column(name="HBANK_LOAN")
 	private double hBankLoan;
-	@Column(name="loanDeduction")
+	@Column(name="LOAN_DEDUCTION")
 	private double loanDeduction;
-	@Column(name="otherDeductionTotal")
+	@Column(name="OTHER_DEDUCTION_TOTAL")
 	private double otherDeductionTotal;
-	@Column(name="bankCode")
+	@Column(name="BANK_CODE")
 	private String bankCode;
-	@Column(name="bankAcNo")
+	@Column(name="BANK_AC_NO")
 	private String bankAcNo;
-	@Column(name="ot1")
+	@Column(name="OT_1")
 	private double ot1;
-	@Column(name="ot2")
+	@Column(name="OT_2")
 	private double ot2;
-	@Column(name="nShiftAllowance")
+	@Column(name="NSHIFT_ALLOWANCE")
 	private double nShiftAllowance;
-	@Column(name="lateHours")
+	@Column(name="LATE_HRS")
 	private double lateHours;
 	@Transient
 	private List<MonthEndAllowance> otherAllowances;

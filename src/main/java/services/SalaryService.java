@@ -51,7 +51,7 @@ public class SalaryService implements Serializable {
 		}
 		try {
 			Employee emp = payrollRepo.getById(Employee.class, empCode);
-			Month month = payrollRepo.getByKey(Month.class, "status", "A");
+			Month month = payrollRepo.getByKey(Month.class, "status", "current");
 			LoanMaster l = new LoanMaster();
 			try {
 				l = payrollRepo.getByKey(LoanMaster.class,"empCode", empCode);
@@ -74,7 +74,7 @@ public class SalaryService implements Serializable {
 				m.setRentAllowance(emp.getRentAllowance());
 				m.setTravelAllowance(emp.getTravelAllowance());
 				m.setSpageAllowance(emp.getSpecialAllowance());
-				m.setLoanDeduction(l.getLoanInstallment());
+				m.setLoanDeduction(emp.getLoanInstallment());
 				m.sethBankLoan(emp.getHousingBankAmount());
 
 			} else {

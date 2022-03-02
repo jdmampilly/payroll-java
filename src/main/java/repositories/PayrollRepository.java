@@ -8,7 +8,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -161,6 +160,12 @@ public class PayrollRepository implements Serializable {
 				.createQuery("SELECT count(a) FROM " + tClass.getSimpleName() + " a " + filter.toString(), long.class)
 				.getSingleResult();
 	}
+	
+	public <T> long getSize(Class<T> tClass) {
+		return this.em
+				.createQuery("SELECT count(a) FROM " + tClass.getSimpleName() + " a " , long.class)
+				.getSingleResult();
+	}
 
 
 	public List<LeaveTransaction> getEmployeeLeaveAllRecords(Integer empCode) {
@@ -224,14 +229,17 @@ public class PayrollRepository implements Serializable {
 		double amount = ln.getCrAmount() - ln.getDrAmount();
 		double additionalInstallment = ln.getAdditionalInstallment();
 		System.out.println("Additional Installment =" + additionalInstallment);
+		LoanMaster lm = new LoanMaster();
 		// To do
 		// check oracle code to verify how the data is maintained in the loan master
 		try {
-			LoanMaster lm = this.em
+			 lm = this.em
 					.createQuery("Select a from LoanMaster a where a.empCode = :empCode ",
 							LoanMaster.class)
 					.setParameter("empCode", empCode).setParameter("empCode", empCode).getSingleResult();
+				
 			if(lm != null) {
+				System.out.println("lm is not null");
 				Query query = this.em.createQuery("Update LoanMaster a set a.loanAmount = a.loanAmount + :amount, a.loanInstallment = a.loanInstallment + :additionalInstallment where a.empCode = :empCode")
 						.setParameter("empCode", empCode)
 						.setParameter("amount", amount)
@@ -240,7 +248,7 @@ public class PayrollRepository implements Serializable {
 				System.out.println("Query updated");
 			
 			} else {
-			
+				System.out.println("lm is null");
 				Query query = this.em.createQuery("INSERT INTO LoanMaster (empCode, loanAmount, loanDate,loanInstallment, loanType) VALUES (?,?,?,?,?)")
 						.setParameter("empCode", empCode)
 						.setParameter("loanAmount", ln.getCrAmount())
@@ -252,8 +260,17 @@ public class PayrollRepository implements Serializable {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("LoanMaster resultset = "  + lm == null );
 			System.out.println("error updating loan info:" + e.getMessage());
 		}
+		
+	}
+
+	public void updateEmpMasterLoanInstallment(int id, double additionalInstallment) {
+		Query query = this.em.createQuery("Update Employee a set a.loanInstallment = a.loanInstallment + :additionalInstallment where a.id = :id")
+				.setParameter("id", id)
+				.setParameter("additionalInstallment", additionalInstallment);
+		query.executeUpdate();
 		
 	}
 

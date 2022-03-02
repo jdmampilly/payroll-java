@@ -10,18 +10,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 @Entity
-@Table(name="otTable")
+@Table(name="OT_TABLE")
 public class OtTable implements Serializable {
 	private static final long serialVersionUID = 6882760035241203545L;
 	  @Id
 	  @GeneratedValue(strategy = GenerationType.IDENTITY)
 	  @Column(name="id")
 	  private int id;
-	  @Column(name="ot_rate1")
+	  @Column(name="OT_RATE1")
 	  private double otRate1;
-	  @Column(name="ot_rate2")
+	  @Column(name="OT_RATE2")
 	  private double otRate2;
-	  @Column(name="ns_amt")
+	  @Column(name="NS_AMT")
 	  private double nightShiftAmount;
 	public int getId() {
 		return id;

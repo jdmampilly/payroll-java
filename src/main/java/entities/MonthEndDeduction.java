@@ -12,7 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 @Entity
-@Table(name="MonthEndDeduction")
+@Table(name="MET_DEDUCTIONS")
 public class MonthEndDeduction implements Serializable{
 
 	/**
@@ -23,17 +23,17 @@ public class MonthEndDeduction implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
-	@Column(name="empCode")
+	@Column(name="EMP_CODE")
 	private int empCode;
-	@Column(name="trnId")
+	@Column(name="TRN_ID")
 	private int trnId;
-	@Column(name="trnMonth")
+	@Column(name="TRNS_MONTH")
 	private int trnMonth;
-	@Column(name="trnYear")
+	@Column(name="TRN_YEAR")
 	private int trnYear;
-	@Column(name="otherDeduction")
+	@Column(name="OTHER_DEDUCTIONS")
 	private double otherDeduction;
-	@Column(name="description")
+	@Column(name="DESCR")
 	private String description;
 	public int getId() {
 		return id;

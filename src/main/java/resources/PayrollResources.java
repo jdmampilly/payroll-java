@@ -53,7 +53,7 @@ public class PayrollResources {
 		return Response.ok("hello").build();
 	}
 	@GET
-	@Path("/otRates")
+	@Path("/rates")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getOTRates() throws Exception {
 		OtTable ot = repo.getById(OtTable.class, 1);
@@ -79,7 +79,12 @@ public class PayrollResources {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllEmployee() {
 		List<Employee> l = repo.getAll(Employee.class);
-		return Response.ok(l.toArray(new Employee[l.size()])).build();
+//		return Response.ok(l.toArray(new Employee[l.size()])).build();
+		long s= repo.<Employee>getSize(Employee.class );
+		X_TOTAL_COUNT = String.valueOf(s);
+		return Response.ok(l.toArray(new Employee[l.size()]))
+		.header("Access-Control-Expose-Headers", "*")
+		.header("X_TOTAL_COUNT", X_TOTAL_COUNT).build();
 	}
 
 	@POST
@@ -211,8 +216,14 @@ public class PayrollResources {
 	@Path("/employee/loan/save")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response create(LoanTransaction entity) {
+		entity.setVoucherNo("test");
+		System.out.println("Employee Loan: " + entity);
 		repo.save(entity);
-		repo.updateLoanMaster(entity.getEmpCode(), entity);
+//		repo.updateLoanMaster(entity.getEmpCode(), entity);
+		if (entity.getAdditionalInstallment() !=0) {
+			repo.updateEmpMasterLoanInstallment(entity.getEmpCode(), entity.getAdditionalInstallment());	
+		}
+		
 		return Response.ok(entity).build();
 	}
 	
@@ -242,7 +253,7 @@ public class PayrollResources {
 //search or filter
 
 	@POST
-	@Path("filter/{start}/{maxR}")
+	@Path("filterEmployee/{start}/{maxR}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response fetchByEmployeeFilters(@PathParam("start") int start, @PathParam("maxR") int maxR, String jsonData) {
 		return getByFilters(Employee.class, start, maxR, jsonData);

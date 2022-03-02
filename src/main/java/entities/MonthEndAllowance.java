@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="MonthEndAllowance")
+@Table(name="MET_ALLOWANCE")
 public class MonthEndAllowance implements Serializable {
 
 	/**
@@ -21,17 +21,17 @@ public class MonthEndAllowance implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
-	@Column(name="empCode")
+	@Column(name="EMP_CODE")
 	private int empCode;
-	@Column(name="trnId")
+	@Column(name="TRN_ID")
 	private int trnId;
-	@Column(name="trnMonth")
+	@Column(name="TRN_MONTH")
 	private int trnMonth;
-	@Column(name="trnYear")
+	@Column(name="TRN_YEAR")
 	private int trnYear;
-	@Column(name="otherAllowance")
+	@Column(name="OTHER_ALLOWANCE")
 	private double otherAllowance;
-	@Column(name="description")
+	@Column(name="DESCR")
 	private String description;
 	public int getId() {
 		return id;

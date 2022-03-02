@@ -2,42 +2,39 @@ package entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="vwLoanTransactions")
+@Table(name="VW_LOAN_TRANSACTIONS")
 public class LoanTransactionView implements Serializable {
 
 	private static final long serialVersionUID = 237483716382648785L;
 	@Id
-	@Column(name="id")
+	@Column(name="TRN_ID")
 	private int id;
-	@Column(name="empCode")
+	@Column(name="EMP_CODE")
 	private int empCode;
-	@Column(name="empName")
+	@Column(name="emp_name")
 	private String empName;
-	@Column(name="trnId")
-	private int trnId;
 	@Temporal(TemporalType.DATE)
-	@Column(name="trnDate")
+	@Column(name="TRN_DATE")
 	private Date trnDate;
-	@Column(name="drAmount")
+	@Column(name="DR_AMT")
 	private double drAmount;
-	@Column(name="crAmount")
+	@Column(name="CR_AMT")
 	private double crAmount;
-	@Column(name="trnDescription")
+	@Column(name="TRN_DESCR")
 	private String trnDescription;
-	@Column(name="bankCode")
+	@Column(name="BANK_CODE")
 	private String bankCode;
-	@Column(name="voucherNo")
+	@Column(name="VOUCHER_NO")
 	private String voucherNo;
 	public int getId() {
 		return id;
@@ -56,12 +53,6 @@ public class LoanTransactionView implements Serializable {
 	}
 	public void setEmpName(String empName) {
 		this.empName = empName;
-	}
-	public int getTrnId() {
-		return trnId;
-	}
-	public void setTrnId(int trnId) {
-		this.trnId = trnId;
 	}
 	public Date getTrnDate() {
 		return trnDate;
@@ -101,22 +92,7 @@ public class LoanTransactionView implements Serializable {
 	}
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((bankCode == null) ? 0 : bankCode.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(crAmount);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(drAmount);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + empCode;
-		result = prime * result + ((empName == null) ? 0 : empName.hashCode());
-		result = prime * result + id;
-		result = prime * result + ((trnDate == null) ? 0 : trnDate.hashCode());
-		result = prime * result + ((trnDescription == null) ? 0 : trnDescription.hashCode());
-		result = prime * result + trnId;
-		result = prime * result + ((voucherNo == null) ? 0 : voucherNo.hashCode());
-		return result;
+		return Objects.hash(bankCode, crAmount, drAmount, empCode, empName, id, trnDate, trnDescription, voucherNo);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -127,50 +103,20 @@ public class LoanTransactionView implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		LoanTransactionView other = (LoanTransactionView) obj;
-		if (bankCode == null) {
-			if (other.bankCode != null)
-				return false;
-		} else if (!bankCode.equals(other.bankCode))
-			return false;
-		if (Double.doubleToLongBits(crAmount) != Double.doubleToLongBits(other.crAmount))
-			return false;
-		if (Double.doubleToLongBits(drAmount) != Double.doubleToLongBits(other.drAmount))
-			return false;
-		if (empCode != other.empCode)
-			return false;
-		if (empName == null) {
-			if (other.empName != null)
-				return false;
-		} else if (!empName.equals(other.empName))
-			return false;
-		if (id != other.id)
-			return false;
-		if (trnDate == null) {
-			if (other.trnDate != null)
-				return false;
-		} else if (!trnDate.equals(other.trnDate))
-			return false;
-		if (trnDescription == null) {
-			if (other.trnDescription != null)
-				return false;
-		} else if (!trnDescription.equals(other.trnDescription))
-			return false;
-		if (trnId != other.trnId)
-			return false;
-		if (voucherNo == null) {
-			if (other.voucherNo != null)
-				return false;
-		} else if (!voucherNo.equals(other.voucherNo))
-			return false;
-		return true;
+		return Objects.equals(bankCode, other.bankCode)
+				&& Double.doubleToLongBits(crAmount) == Double.doubleToLongBits(other.crAmount)
+				&& Double.doubleToLongBits(drAmount) == Double.doubleToLongBits(other.drAmount)
+				&& empCode == other.empCode && Objects.equals(empName, other.empName) && id == other.id
+				&& Objects.equals(trnDate, other.trnDate) && Objects.equals(trnDescription, other.trnDescription)
+				&& Objects.equals(voucherNo, other.voucherNo);
 	}
 	@Override
 	public String toString() {
-		return "LoanTransactionView [id=" + id + ", empCode=" + empCode + ", empName=" + empName + ", trnId=" + trnId
-				+ ", trnDate=" + trnDate + ", drAmount=" + drAmount + ", crAmount=" + crAmount + ", trnDescription="
-				+ trnDescription + ", bankCode=" + bankCode + ", voucherNo=" + voucherNo + "]";
+		return "LoanTransactionView [id=" + id + ", empCode=" + empCode + ", empName=" + empName + ", trnDate="
+				+ trnDate + ", drAmount=" + drAmount + ", crAmount=" + crAmount + ", trnDescription=" + trnDescription
+				+ ", bankCode=" + bankCode + ", voucherNo=" + voucherNo + "]";
 	}
-
+	
 	
 	
 }

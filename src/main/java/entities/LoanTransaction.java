@@ -15,7 +15,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name="LoanTransaction")
+@Table(name="EMP_LOAN_TRNS")
 public class LoanTransaction implements Serializable {
 
 	/**
@@ -24,24 +24,22 @@ public class LoanTransaction implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name="TRN_ID")
 	private int id;
-	@Column(name="empCode")
+	@Column(name="EMP_CODE")
 	private int empCode;
-	@Column(name="trnId")
-	private int trnId;
 	@Temporal(TemporalType.DATE)
-	@Column(name="trnDate")
+	@Column(name="TRN_DATE")
 	private Date trnDate;
-	@Column(name="drAmount")
+	@Column(name="DR_AMT")
 	private double drAmount;
-	@Column(name="crAmount")
+	@Column(name="CR_AMT")
 	private double crAmount;
-	@Column(name="trnDescription")
+	@Column(name="TRN_DESCR")
 	private String trnDescription;
-	@Column(name="bankCode")
+	@Column(name="BANK_CODE")
 	private String bankCode;
-	@Column(name="voucherNo")
+	@Column(name="VOUCHER_NO")
 	private String voucherNo;
 	@Transient
 	private double additionalInstallment;
@@ -56,12 +54,6 @@ public class LoanTransaction implements Serializable {
 	}
 	public void setEmpCode(int empCode) {
 		this.empCode = empCode;
-	}
-	public int getTrnId() {
-		return trnId;
-	}
-	public void setTrnId(int trnId) {
-		this.trnId = trnId;
 	}
 	public Date getTrnDate() {
 		return trnDate;
@@ -108,7 +100,7 @@ public class LoanTransaction implements Serializable {
 	@Override
 	public int hashCode() {
 		return Objects.hash(additionalInstallment, bankCode, crAmount, drAmount, empCode, id, trnDate, trnDescription,
-				trnId, voucherNo);
+				voucherNo);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -124,16 +116,16 @@ public class LoanTransaction implements Serializable {
 				&& Double.doubleToLongBits(crAmount) == Double.doubleToLongBits(other.crAmount)
 				&& Double.doubleToLongBits(drAmount) == Double.doubleToLongBits(other.drAmount)
 				&& empCode == other.empCode && id == other.id && Objects.equals(trnDate, other.trnDate)
-				&& Objects.equals(trnDescription, other.trnDescription) && trnId == other.trnId
-				&& Objects.equals(voucherNo, other.voucherNo);
+				&& Objects.equals(trnDescription, other.trnDescription) && Objects.equals(voucherNo, other.voucherNo);
 	}
 	@Override
 	public String toString() {
-		return "LoanTransaction [id=" + id + ", empCode=" + empCode + ", trnId=" + trnId + ", trnDate=" + trnDate
-				+ ", drAmount=" + drAmount + ", crAmount=" + crAmount + ", trnDescription=" + trnDescription
-				+ ", bankCode=" + bankCode + ", voucherNo=" + voucherNo + ", additionalInstallment="
-				+ additionalInstallment + "]";
+		return "LoanTransaction [id=" + id + ", empCode=" + empCode + ", trnDate=" + trnDate + ", drAmount=" + drAmount
+				+ ", crAmount=" + crAmount + ", trnDescription=" + trnDescription + ", bankCode=" + bankCode
+				+ ", voucherNo=" + voucherNo + ", additionalInstallment=" + additionalInstallment + "]";
 	}
+	
+	
 	
 	
 	

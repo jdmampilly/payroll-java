@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,16 +21,20 @@ public class LeaveMaster implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "ID")
 	private int id;
 	@Column(name="EMP_CODE")
 	private int empCode;
-	@Column(name="annualLeave")
+	@Column(name="TRN_ID")
+	private int trnId;
+	@Column(name="ANNUAL_LV")
 	private double annualLeave;
-	@Column(name="sickLeave")
+	@Column(name="SICK_LV")
 	private double sickLeave;
-	@Column(name="casualLeave")
+	@Column(name="OTHER_LV")
 	private double casualLeave;
+	@Column(name="ADJ_LV")
+	private double adjLeave;
 	public int getId() {
 		return id;
 	}
@@ -41,6 +46,12 @@ public class LeaveMaster implements Serializable {
 	}
 	public void setEmpCode(int empCode) {
 		this.empCode = empCode;
+	}
+	public int getTrnId() {
+		return trnId;
+	}
+	public void setTrnId(int trnId) {
+		this.trnId = trnId;
 	}
 	public double getAnnualLeave() {
 		return annualLeave;
@@ -60,20 +71,15 @@ public class LeaveMaster implements Serializable {
 	public void setCasualLeave(double casualLeave) {
 		this.casualLeave = casualLeave;
 	}
+	public double getAdjLeave() {
+		return adjLeave;
+	}
+	public void setAdjLeave(double adjLeave) {
+		this.adjLeave = adjLeave;
+	}
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(annualLeave);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(casualLeave);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + empCode;
-		result = prime * result + id;
-		temp = Double.doubleToLongBits(sickLeave);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
+		return Objects.hash(adjLeave, annualLeave, casualLeave, empCode, id, sickLeave, trnId);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -84,23 +90,19 @@ public class LeaveMaster implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		LeaveMaster other = (LeaveMaster) obj;
-		if (Double.doubleToLongBits(annualLeave) != Double.doubleToLongBits(other.annualLeave))
-			return false;
-		if (Double.doubleToLongBits(casualLeave) != Double.doubleToLongBits(other.casualLeave))
-			return false;
-		if (empCode != other.empCode)
-			return false;
-		if (id != other.id)
-			return false;
-		if (Double.doubleToLongBits(sickLeave) != Double.doubleToLongBits(other.sickLeave))
-			return false;
-		return true;
+		return Double.doubleToLongBits(adjLeave) == Double.doubleToLongBits(other.adjLeave)
+				&& Double.doubleToLongBits(annualLeave) == Double.doubleToLongBits(other.annualLeave)
+				&& Double.doubleToLongBits(casualLeave) == Double.doubleToLongBits(other.casualLeave)
+				&& empCode == other.empCode && id == other.id
+				&& Double.doubleToLongBits(sickLeave) == Double.doubleToLongBits(other.sickLeave)
+				&& trnId == other.trnId;
 	}
 	@Override
 	public String toString() {
-		return "LeaveMaster [id=" + id + ", empCode=" + empCode + ", annualLeave=" + annualLeave + ", sickLeave="
-				+ sickLeave + ", casualLeave=" + casualLeave + "]";
+		return "LeaveMaster [id=" + id + ", empCode=" + empCode + ", trnId=" + trnId + ", annualLeave=" + annualLeave
+				+ ", sickLeave=" + sickLeave + ", casualLeave=" + casualLeave + ", adjLeave=" + adjLeave + "]";
 	}
+		
 	
 
 }

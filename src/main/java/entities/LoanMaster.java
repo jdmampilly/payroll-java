@@ -13,7 +13,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="LoanMaster")
+@Table(name="LOAN_MAST")
 public class LoanMaster implements Serializable{
 
 	/**
@@ -24,16 +24,16 @@ public class LoanMaster implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-	@Column(name="empCode")
+	@Column(name="EMP_CODE")
 	private int empCode;
-	@Column(name="loanAmount")
+	@Column(name="LOAN_AMT")
 	private double loanAmount;
-	@Column(name="loanType")
+	@Column(name="LOAN_TYPE")
 	private char loanType;
-	@Column(name="loanInstallment")
+	@Column(name="LOAN_INST")
 	private double loanInstallment;
 	@Temporal(TemporalType.DATE)
-	@Column(name="loanDate")
+	@Column(name="LOAN_DATE")
 	private Date loanDate;
 	public int getId() {
 		return id;

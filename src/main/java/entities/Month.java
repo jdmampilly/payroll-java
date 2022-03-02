@@ -16,17 +16,17 @@ public class Month implements Serializable{
 	private static final long serialVersionUID = -1903990596373342264L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="Id")
+	@Column(name="ID")
 	private int id;
-	@Column(name="month")
+	@Column(name="MONTH")
 	private int month;
-	@Column(name="year")
+	@Column(name="YEAR")
 	private int year;
-	@Column(name="monthName")
+	@Column(name="MONTH_NAME")
 	private String monthName;
-	@Column(name="days")
+	@Column(name="DAYS")
 	private int days;
-	@Column(name="status")
+	@Column(name="STATUS")
 	private String status;
 	public int getId() {
 		return id;

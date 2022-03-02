@@ -2,6 +2,7 @@ package entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,40 +14,43 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="LeaveTransaction")
+@Table(name="EMP_LEAVE")
 public class LeaveTransaction implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name="ID")
 	private int id;
-	@Column(name="empCode")
+	@Column(name="EMP_CODE")
 	private int empCode;
-	@Column(name="leaveType")
+	@Column(name="LV_TYPE")
 	private String leaveType;
-	@Column(name="leaveNature")
+	@Column(name="LV_NATURE")
 	private String leaveNature;
 	@Temporal(TemporalType.DATE)
-	@Column(name="dateFrom")
+	@Column(name="LV_DATE_FROM")
 	private Date dateFrom;
 	@Temporal(TemporalType.DATE)
-	@Column(name="dateTo")
+	@Column(name="LV_DATE_TO")
 	private Date dateTo;
-	@Column(name="approvalStatus")
+	@Column(name="LV_APPROVED")
 	private int approvalStatus;
-	@Column(name="remarks")
+	@Column(name="LV_REMARKS")
 	private String remarks;
 	@Temporal(TemporalType.DATE)
-	@Column(name="applicationDate")
+	@Column(name="LV_APPL_DATE")
 	private Date applicationDate;
+	@Column(name="NO_OF_WORKDAYS")
+	private double noOfWorkingdays;
+	@Column(name="ADJ_LV")
+	private double adjLeave;
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	
 	public int getEmpCode() {
 		return empCode;
 	}
@@ -95,20 +99,22 @@ public class LeaveTransaction implements Serializable {
 	public void setApplicationDate(Date applicationDate) {
 		this.applicationDate = applicationDate;
 	}
+	public double getNoOfWorkingdays() {
+		return noOfWorkingdays;
+	}
+	public void setNoOfWorkingdays(double noOfWorkingdays) {
+		this.noOfWorkingdays = noOfWorkingdays;
+	}
+	public double getAdjLeave() {
+		return adjLeave;
+	}
+	public void setAdjLeave(double adjLeave) {
+		this.adjLeave = adjLeave;
+	}
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((applicationDate == null) ? 0 : applicationDate.hashCode());
-		result = prime * result + approvalStatus;
-		result = prime * result + ((dateFrom == null) ? 0 : dateFrom.hashCode());
-		result = prime * result + ((dateTo == null) ? 0 : dateTo.hashCode());
-		result = prime * result + empCode;
-		result = prime * result + id;
-		result = prime * result + ((leaveNature == null) ? 0 : leaveNature.hashCode());
-		result = prime * result + ((leaveType == null) ? 0 : leaveType.hashCode());
-		result = prime * result + ((remarks == null) ? 0 : remarks.hashCode());
-		return result;
+		return Objects.hash(adjLeave, applicationDate, approvalStatus, dateFrom, dateTo, empCode, id, leaveNature,
+				leaveType, noOfWorkingdays, remarks);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -119,44 +125,20 @@ public class LeaveTransaction implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		LeaveTransaction other = (LeaveTransaction) obj;
-		if (applicationDate == null) {
-			if (other.applicationDate != null)
-				return false;
-		} else if (!applicationDate.equals(other.applicationDate))
-			return false;
-		if (approvalStatus != other.approvalStatus)
-			return false;
-		if (dateFrom == null) {
-			if (other.dateFrom != null)
-				return false;
-		} else if (!dateFrom.equals(other.dateFrom))
-			return false;
-		if (dateTo == null) {
-			if (other.dateTo != null)
-				return false;
-		} else if (!dateTo.equals(other.dateTo))
-			return false;
-		if (empCode != other.empCode)
-			return false;
-		if (id != other.id)
-			return false;
-		if (leaveNature == null) {
-			if (other.leaveNature != null)
-				return false;
-		} else if (!leaveNature.equals(other.leaveNature))
-			return false;
-		if (leaveType == null) {
-			if (other.leaveType != null)
-				return false;
-		} else if (!leaveType.equals(other.leaveType))
-			return false;
-		if (remarks == null) {
-			if (other.remarks != null)
-				return false;
-		} else if (!remarks.equals(other.remarks))
-			return false;
-		return true;
+		return Double.doubleToLongBits(adjLeave) == Double.doubleToLongBits(other.adjLeave)
+				&& Objects.equals(applicationDate, other.applicationDate) && approvalStatus == other.approvalStatus
+				&& Objects.equals(dateFrom, other.dateFrom) && Objects.equals(dateTo, other.dateTo)
+				&& empCode == other.empCode && id == other.id && Objects.equals(leaveNature, other.leaveNature)
+				&& Objects.equals(leaveType, other.leaveType)
+				&& Double.doubleToLongBits(noOfWorkingdays) == Double.doubleToLongBits(other.noOfWorkingdays)
+				&& Objects.equals(remarks, other.remarks);
+	}
+	@Override
+	public String toString() {
+		return "LeaveTransaction [id=" + id + ", empCode=" + empCode + ", leaveType=" + leaveType + ", leaveNature="
+				+ leaveNature + ", dateFrom=" + dateFrom + ", dateTo=" + dateTo + ", approvalStatus=" + approvalStatus
+				+ ", remarks=" + remarks + ", applicationDate=" + applicationDate + ", noOfWorkingdays="
+				+ noOfWorkingdays + ", adjLeave=" + adjLeave + "]";
 	}
 	
-
 }
