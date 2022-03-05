@@ -10,7 +10,6 @@ import javax.persistence.PersistenceContext;
 import entities.MonthEndAllowance;
 import entities.MonthEndDeduction;
 import entities.MonthEndTransaction;
-import exception.DataNotFoundException;
 
 @Stateless
 public class SalaryRepository implements Serializable {
@@ -24,10 +23,10 @@ public class SalaryRepository implements Serializable {
 
 	}
 
-	public MonthEndTransaction getEmployeeSalary(Integer empCode) {
+	public MonthEndTransaction getEmployeeSalary(Integer id) {
 		try {
-			return this.em.createQuery("Select a from MonthEndTransaction a where a.empCode = :empCode",
-					MonthEndTransaction.class).setParameter("empCode", empCode).getSingleResult();
+			return this.em.createQuery("Select a from MonthEndTransaction a where a.id = :id",
+					MonthEndTransaction.class).setParameter("id", id).getSingleResult();
 			
 		} catch (Exception e) {
 			System.out.println("No current record: " + e.getMessage());
@@ -37,36 +36,29 @@ public class SalaryRepository implements Serializable {
 	}
 	
 	public List<MonthEndAllowance> getMEA(int id) {
-		return this.em.createQuery("Select a from MonthEndAllowance a where a.trnId = :id",
+		return this.em.createQuery("Select a from MonthEndAllowance a where a.id = :id",
 				MonthEndAllowance.class).setParameter("id", id).getResultList();
 	}
 	
 	public List<MonthEndDeduction> getMED(int id) {
-		return this.em.createQuery("Select a from MonthEndDeduction a where a.trnId = :id",
+		return this.em.createQuery("Select a from MonthEndDeduction a where a.id = :id",
 				MonthEndDeduction.class).setParameter("id", id).getResultList();
 	}
 
 	public void save(MonthEndTransaction met, List<MonthEndAllowance> mea, List<MonthEndDeduction> med) {
+		System.out.println("MEA:" + mea);
 		
 		try {
 
 			if (met.getId() == 0) {
 				System.out.println("new transaction");
+				System.out.println("Month End Trn:" + met);
 				em.persist(met);
 				em.flush();
 
 			} else {
 				System.out.println("update transaction");
 				em.merge(met);
-			}
-			for (MonthEndAllowance a : met.getOtherAllowances()) {
-				a.setTrnId((met.getId()));
-				a.setEmpCode(met.getEmpCode());
-			}
-			
-			for (MonthEndDeduction d : met.getOtherDeductions()) {
-				d.setTrnId((met.getId()));
-				d.setEmpCode(met.getEmpCode());
 			}
 			deleteMEA(met.getId());
 			for (MonthEndAllowance a : mea) {
@@ -86,13 +78,13 @@ public class SalaryRepository implements Serializable {
 	}
 	
 	public void deleteMEA(int id) {
-		this.em.createQuery("DELETE FROM MonthEndAllowance a WHERE a.trnId = :id")
+		this.em.createQuery("DELETE FROM MonthEndAllowance a WHERE a.id = :id")
 		.setParameter("id", id)
 		.executeUpdate();
 	}
 	
 	public void deleteMED(int id) {
-		this.em.createQuery("DELETE FROM MonthEndDeduction a WHERE a.trnId = :id")
+		this.em.createQuery("DELETE FROM MonthEndDeduction a WHERE a.id = :id")
 		.setParameter("id", id)
 		.executeUpdate();
 	}

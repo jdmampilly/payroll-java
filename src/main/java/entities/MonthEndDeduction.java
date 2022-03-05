@@ -1,10 +1,6 @@
 package entities;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.util.Locale;
-import java.util.stream.IntStream;
-
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 @Entity
-@Table(name="MET_DEDUCTIONS")
+@Table(name="MET_DEDUCTION")
 public class MonthEndDeduction implements Serializable{
 
 	/**
@@ -21,37 +17,29 @@ public class MonthEndDeduction implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	private int id;
-	@Column(name="EMP_CODE")
-	private int empCode;
 	@Column(name="TRN_ID")
 	private int trnId;
-	@Column(name="TRNS_MONTH")
+	@Column(name="EMP_CODE")
+	private int id;
+	@Column(name="TRN_MONTH")
 	private int trnMonth;
 	@Column(name="TRN_YEAR")
 	private int trnYear;
-	@Column(name="OTHER_DEDUCTIONS")
+	@Column(name="OTHER_DEDUCTION")
 	private double otherDeduction;
 	@Column(name="DESCR")
 	private String description;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public int getEmpCode() {
-		return empCode;
-	}
-	public void setEmpCode(int empCode) {
-		this.empCode = empCode;
-	}
 	public int getTrnId() {
 		return trnId;
 	}
 	public void setTrnId(int trnId) {
 		this.trnId = trnId;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public int getTrnMonth() {
 		return trnMonth;
@@ -79,18 +67,7 @@ public class MonthEndDeduction implements Serializable{
 	}
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + empCode;
-		result = prime * result + id;
-		long temp;
-		temp = Double.doubleToLongBits(otherDeduction);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + trnId;
-		result = prime * result + trnMonth;
-		result = prime * result + trnYear;
-		return result;
+		return Objects.hash(description, id, otherDeduction, trnId, trnMonth, trnYear);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -101,30 +78,16 @@ public class MonthEndDeduction implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		MonthEndDeduction other = (MonthEndDeduction) obj;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (empCode != other.empCode)
-			return false;
-		if (id != other.id)
-			return false;
-		if (Double.doubleToLongBits(otherDeduction) != Double.doubleToLongBits(other.otherDeduction))
-			return false;
-		if (trnId != other.trnId)
-			return false;
-		if (trnMonth != other.trnMonth)
-			return false;
-		if (trnYear != other.trnYear)
-			return false;
-		return true;
+		return Objects.equals(description, other.description) && id == other.id
+				&& Double.doubleToLongBits(otherDeduction) == Double.doubleToLongBits(other.otherDeduction)
+				&& trnId == other.trnId && trnMonth == other.trnMonth && trnYear == other.trnYear;
 	}
 	@Override
 	public String toString() {
-		return "MonthEndDeduction [id=" + id + ", empCode=" + empCode + ", trnId=" + trnId + ", trnMonth=" + trnMonth
-				+ ", trnYear=" + trnYear + ", otherDeduction=" + otherDeduction + ", description=" + description + "]";
+		return "MonthEndDeduction [trnId=" + trnId + ", id=" + id + ", trnMonth=" + trnMonth + ", trnYear=" + trnYear
+				+ ", otherDeduction=" + otherDeduction + ", description=" + description + "]";
 	}
+	
 	
 	
 }

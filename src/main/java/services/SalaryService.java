@@ -52,16 +52,16 @@ public class SalaryService implements Serializable {
 		try {
 			Employee emp = payrollRepo.getById(Employee.class, empCode);
 			Month month = payrollRepo.getByKey(Month.class, "status", "current");
-			LoanMaster l = new LoanMaster();
-			try {
-				l = payrollRepo.getByKey(LoanMaster.class,"empCode", empCode);
-			} catch (Exception e) {
-				// TODO: handle exception
-				System.out.println("No result: " + e.getMessage());
-			}
+//			LoanMaster l = new LoanMaster();
+//			try {
+//				l = payrollRepo.getByKey(LoanMaster.class,"empCode", empCode);
+//			} catch (Exception e) {
+//				// TODO: handle exception
+//				System.out.println("No result: " + e.getMessage());
+//			}
 			
-			if (m.getEmpCode() == 0) {
-				m.setEmpCode(emp.getId());
+			if (m.getId() == 0) {
+				m.setId(emp.getId());
 				m.setEmpName(emp.getEmpName());
 				m.setBasicSalary(emp.getBasicSalary());
 				m.setAttendance(30);

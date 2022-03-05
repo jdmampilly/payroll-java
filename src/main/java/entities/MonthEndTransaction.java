@@ -17,11 +17,8 @@ import javax.persistence.Transient;
 public class MonthEndTransaction  implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="ID")
-	private int id;
 	@Column(name="EMP_CODE")
-	private int empCode;
+	private int id;
 	@Transient
 	private String empName;
 	@Column(name="TRN_YEAR")
@@ -71,12 +68,6 @@ public class MonthEndTransaction  implements Serializable{
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public int getEmpCode() {
-		return empCode;
-	}
-	public void setEmpCode(int empCode) {
-		this.empCode = empCode;
 	}
 	public String getEmpName() {
 		return empName;
@@ -212,8 +203,8 @@ public class MonthEndTransaction  implements Serializable{
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(attendance, bankAcNo, bankCode, basicSalary, empCode, empName, gosiAmount, hBankLoan, id,
-				lateHours, loanDeduction, monthName, nShiftAllowance, ot1, ot2, otherAllowanceTotal, otherAllowances,
+		return Objects.hash(attendance, bankAcNo, bankCode, basicSalary, empName, gosiAmount, hBankLoan, id, lateHours,
+				loanDeduction, monthName, nShiftAllowance, ot1, ot2, otherAllowanceTotal, otherAllowances,
 				otherDeductionTotal, otherDeductions, rentAllowance, spageAllowance, travelAllowance, trnMonth,
 				trnYear);
 	}
@@ -229,7 +220,7 @@ public class MonthEndTransaction  implements Serializable{
 		return Double.doubleToLongBits(attendance) == Double.doubleToLongBits(other.attendance)
 				&& Objects.equals(bankAcNo, other.bankAcNo) && Objects.equals(bankCode, other.bankCode)
 				&& Double.doubleToLongBits(basicSalary) == Double.doubleToLongBits(other.basicSalary)
-				&& empCode == other.empCode && Objects.equals(empName, other.empName)
+				&& Objects.equals(empName, other.empName)
 				&& Double.doubleToLongBits(gosiAmount) == Double.doubleToLongBits(other.gosiAmount)
 				&& Double.doubleToLongBits(hBankLoan) == Double.doubleToLongBits(other.hBankLoan) && id == other.id
 				&& Double.doubleToLongBits(lateHours) == Double.doubleToLongBits(other.lateHours)
@@ -249,15 +240,14 @@ public class MonthEndTransaction  implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "MonthEndTransaction [id=" + id + ", empCode=" + empCode + ", empName=" + empName + ", trnYear="
-				+ trnYear + ", trnMonth=" + trnMonth + ", monthName=" + monthName + ", attendance=" + attendance
-				+ ", basicSalary=" + basicSalary + ", rentAllowance=" + rentAllowance + ", spageAllowance="
-				+ spageAllowance + ", travelAllowance=" + travelAllowance + ", otherAllowanceTotal="
-				+ otherAllowanceTotal + ", gosiAmount=" + gosiAmount + ", hBankLoan=" + hBankLoan + ", loanDeduction="
-				+ loanDeduction + ", otherDeductionTotal=" + otherDeductionTotal + ", bankCode=" + bankCode
-				+ ", bankAcNo=" + bankAcNo + ", ot1=" + ot1 + ", ot2=" + ot2 + ", nShiftAllowance=" + nShiftAllowance
-				+ ", lateHours=" + lateHours + ", otherAllowances=" + otherAllowances + ", otherDeductions="
-				+ otherDeductions + "]";
+		return "MonthEndTransaction [id=" + id + ", empName=" + empName + ", trnYear=" + trnYear + ", trnMonth="
+				+ trnMonth + ", monthName=" + monthName + ", attendance=" + attendance + ", basicSalary=" + basicSalary
+				+ ", rentAllowance=" + rentAllowance + ", spageAllowance=" + spageAllowance + ", travelAllowance="
+				+ travelAllowance + ", otherAllowanceTotal=" + otherAllowanceTotal + ", gosiAmount=" + gosiAmount
+				+ ", hBankLoan=" + hBankLoan + ", loanDeduction=" + loanDeduction + ", otherDeductionTotal="
+				+ otherDeductionTotal + ", bankCode=" + bankCode + ", bankAcNo=" + bankAcNo + ", ot1=" + ot1 + ", ot2="
+				+ ot2 + ", nShiftAllowance=" + nShiftAllowance + ", lateHours=" + lateHours + ", otherAllowances="
+				+ otherAllowances + ", otherDeductions=" + otherDeductions + "]";
 	}
 	
 	

@@ -126,6 +126,8 @@ public class PayrollResources {
 	public Response create(MonthEndTransaction entity) {
 		System.out.println("saving employee month end transactions");
 		try {
+			System.out.println("other Allowance:" + entity.getOtherAllowances() );
+			System.out.println("other Deductions:" + entity.getOtherDeductions() );
 			salServ.save(entity, entity.getOtherAllowances(), entity.getOtherDeductions());
 		} catch (NotSupportedException e) {
 			// TODO Auto-generated catch block

@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,12 +20,10 @@ public class MonthEndAllowance implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	private int id;
-	@Column(name="EMP_CODE")
-	private int empCode;
 	@Column(name="TRN_ID")
 	private int trnId;
+	@Column(name="EMP_CODE")
+	private int id;
 	@Column(name="TRN_MONTH")
 	private int trnMonth;
 	@Column(name="TRN_YEAR")
@@ -33,23 +32,17 @@ public class MonthEndAllowance implements Serializable {
 	private double otherAllowance;
 	@Column(name="DESCR")
 	private String description;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public int getEmpCode() {
-		return empCode;
-	}
-	public void setEmpCode(int empCode) {
-		this.empCode = empCode;
-	}
 	public int getTrnId() {
 		return trnId;
 	}
 	public void setTrnId(int trnId) {
 		this.trnId = trnId;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public int getTrnMonth() {
 		return trnMonth;
@@ -77,18 +70,7 @@ public class MonthEndAllowance implements Serializable {
 	}
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + empCode;
-		result = prime * result + id;
-		long temp;
-		temp = Double.doubleToLongBits(otherAllowance);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + trnId;
-		result = prime * result + trnMonth;
-		result = prime * result + trnYear;
-		return result;
+		return Objects.hash(description, id, otherAllowance, trnId, trnMonth, trnYear);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -99,30 +81,16 @@ public class MonthEndAllowance implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		MonthEndAllowance other = (MonthEndAllowance) obj;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (empCode != other.empCode)
-			return false;
-		if (id != other.id)
-			return false;
-		if (Double.doubleToLongBits(otherAllowance) != Double.doubleToLongBits(other.otherAllowance))
-			return false;
-		if (trnId != other.trnId)
-			return false;
-		if (trnMonth != other.trnMonth)
-			return false;
-		if (trnYear != other.trnYear)
-			return false;
-		return true;
+		return Objects.equals(description, other.description) && id == other.id
+				&& Double.doubleToLongBits(otherAllowance) == Double.doubleToLongBits(other.otherAllowance)
+				&& trnId == other.trnId && trnMonth == other.trnMonth && trnYear == other.trnYear;
 	}
 	@Override
 	public String toString() {
-		return "MonthEndAllowance [id=" + id + ", empCode=" + empCode + ", trnId=" + trnId + ", trnMonth=" + trnMonth
-				+ ", trnYear=" + trnYear + ", otherAllowance=" + otherAllowance + ", description=" + description + "]";
+		return "MonthEndAllowance [trnId=" + trnId + ", id=" + id + ", trnMonth=" + trnMonth + ", trnYear=" + trnYear
+				+ ", otherAllowance=" + otherAllowance + ", description=" + description + "]";
 	}
+	
 	
 
 }
