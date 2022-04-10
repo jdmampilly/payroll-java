@@ -5,6 +5,7 @@ repositories\PayrollRepository.class
 services\EmployeeService.class
 services\SalaryService.class
 exception\GenericExceptionMapper.class
+entities\LeaveTransactionHistory.class
 exception\DataNotFoundException.class
 filter\CORSFilter.class
 entities\Month.class
@@ -18,6 +19,7 @@ resources\PayrollResources.class
 entities\MonthEndDeduction.class
 entities\MonthEndTransaction.class
 entities\LeaveTransaction.class
+entities\LeaveSummary.class
 resources\MyApp.class
 entities\EmployeeLoanSummaryView.class
 repositories\SalaryRepository.class

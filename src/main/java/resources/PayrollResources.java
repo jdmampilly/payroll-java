@@ -2,6 +2,8 @@ package resources;
 
 import java.io.StringReader;
 import java.lang.reflect.Array;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +27,10 @@ import javax.ws.rs.core.Response;
 
 import dto.EmpLoanSummaryDto;
 import entities.Employee;
+import entities.LeaveSummary;
 //import entities.EmployeeLoanSummaryView;
 import entities.LeaveTransaction;
+import entities.LeaveTransactionHistory;
 import entities.LoanMaster;
 import entities.LoanTransaction;
 import entities.LoanTransactionView;
@@ -145,6 +149,7 @@ public class PayrollResources {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllLeaveTrans() {
 		List<LeaveTransaction> l = repo.getAll(LeaveTransaction.class);
+		Collections.sort(l, (o1, o2) -> o2.getId() - o1.getId());
 		return Response.ok(l.toArray(new LeaveTransaction[l.size()])).build();
 	}
 	@GET
@@ -164,6 +169,47 @@ public class PayrollResources {
 		return Response.ok(x).build();
 	}
 	
+	@GET
+	@Path("/employee/leaveSummary")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getLeaveSummary() {
+		List<LeaveSummary> l = repo.getAll(LeaveSummary.class);
+		return Response.ok(l.toArray(new LeaveSummary[l.size()])).build();
+	}
+	
+	
+	@GET
+	@Path("/employee/leaveSummary/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getlsbyId(@PathParam("id") int id) throws Exception {
+		LeaveSummary leaveSummary = repo.getById(LeaveSummary.class, id);
+		return Response.ok(leaveSummary).build();
+	}
+	
+	@POST
+	@Path("/employee/saveLeaveTransaction")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response saveLeave(LeaveTransaction entity) throws NotSupportedException, SystemException {
+		System.out.println("saving employee leave transactions");
+		repo.save(entity);
+		return Response.ok(entity).build();
+	}
+	
+//	@GET
+//	@Path("/employee/leaveTransactionList/{id}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public LeaveTransactionHistory getltlistbyId(@PathParam("id") int id) throws Exception {
+//		return repo.getByKey(LeaveTransactionHistory.class,"empCode", id);
+//	}
+	
+	@GET
+	@Path("/employee/leaveTransactionList/{empCode}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getltlistbyId(@PathParam("empCode") int empCode) throws Exception {
+		List<LeaveTransactionHistory> l = repo.getListByKey(LeaveTransactionHistory.class, "empCode", empCode);
+		return Response.ok(l.toArray(new LeaveTransactionHistory[l.size()])).build();
+	}
+
 	//to do
 //	@POST
 //	@Path("/employee/leaves")
@@ -279,6 +325,15 @@ public class PayrollResources {
 		return getByFilters(LeaveTransaction.class, start, maxR, jsonData);
 
 	}
+	
+//	@POST
+//	@Path("/filterLeaveSummary/{start}/{maxR}")
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	public Response fetchByLeaveSummaryFilters(@PathParam("start") int start, @PathParam("maxR") int maxR, String jsonData) {
+//		System.out.println("jsonData:" + jsonData);
+//		return getByFilters(LeaveSummary.class, start, maxR, jsonData);
+//
+//	}
 
 
 //utility

@@ -14,6 +14,7 @@ E:\JDM\GitHub\payroll-java\src\main\java\exception\GenericExceptionMapper.java
 E:\JDM\GitHub\payroll-java\src\main\java\exception\DataNotFoundException.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\MonthEndTransaction.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\EmployeeLoanSummaryView.java
+E:\JDM\GitHub\payroll-java\src\main\java\entities\LeaveSummary.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\MonthEndAllowance.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\LeaveMaster.java
 E:\JDM\GitHub\payroll-java\src\main\java\dto\EmpLoanSummaryDto.java
@@ -21,6 +22,7 @@ E:\JDM\GitHub\payroll-java\src\main\java\exception\DataNotFoundExceptionMapper.j
 E:\JDM\GitHub\payroll-java\src\main\java\exception\SQLServerExceptionMapper.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\Employee.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\LoanTransactionView.java
+E:\JDM\GitHub\payroll-java\src\main\java\entities\LeaveTransactionHistory.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\Month.java
 E:\JDM\GitHub\payroll-java\src\main\java\exception\SQLServerException.java
 E:\JDM\GitHub\payroll-java\src\main\java\resources\MyApp.java

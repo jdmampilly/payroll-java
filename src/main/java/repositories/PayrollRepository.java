@@ -74,18 +74,37 @@ public class PayrollRepository implements Serializable {
 	}
 
 	public <T> T getByKey(Class<T> entity, String searchKey, int searchValue) {
+		System.out.println("search key:" + searchKey);
+		System.out.println("search value:" + searchValue);
+		System.out.println("entity:" + entity);
 		try {
 			T t = em.createQuery(
 					"Select a from " + entity.getSimpleName() + " a " + "where a." + searchKey + "= :searchValue",
 					entity).setParameter("searchValue", searchValue).getSingleResult();
 			return t;
-			
+
 //		}	catch (NoResultException nre) {
 //		        return null;
 		} catch (Exception e) {
-			throw new NoResultException("Data not found for searchValue: " + searchValue);
+			throw new NoResultException("Data not found for searchValue: " + e + searchValue);
 		}
 
+	}
+
+	public <T> List<T> getListByKey(Class<T> entity, String searchKey, int searchValue) {
+		System.out.println("getListByKey.....");
+		try {
+			List<T> t =  em.createQuery(
+					"Select a from " + entity.getSimpleName() + " a " + "where a." + searchKey + "= :searchValue",
+					entity).setParameter("searchValue", searchValue).getResultList();
+			System.out.println("t:" + t);
+			return t;
+
+//		}	catch (NoResultException nre) {
+//		        return null;
+		} catch (Exception e) {
+			throw new NoResultException("Data not found for searchValue: " + e + searchValue);
+		}
 	}
 
 	public <T> T save(T t) {
@@ -160,13 +179,11 @@ public class PayrollRepository implements Serializable {
 				.createQuery("SELECT count(a) FROM " + tClass.getSimpleName() + " a " + filter.toString(), long.class)
 				.getSingleResult();
 	}
-	
+
 	public <T> long getSize(Class<T> tClass) {
-		return this.em
-				.createQuery("SELECT count(a) FROM " + tClass.getSimpleName() + " a " , long.class)
+		return this.em.createQuery("SELECT count(a) FROM " + tClass.getSimpleName() + " a ", long.class)
 				.getSingleResult();
 	}
-
 
 	public List<LeaveTransaction> getEmployeeLeaveAllRecords(Integer empCode) {
 		List<LeaveTransaction> l = null;
@@ -211,20 +228,19 @@ public class PayrollRepository implements Serializable {
 				.setParameter("empCode", empCode).setParameter("id", id).getSingleResult();
 		return (lt == null ? new LoanTransaction() : lt);
 	}
-	
-	
+
 	public EmployeeLoanSummaryView getEmpLoanSummary(int empCode) {
 		try {
-			return this.em.createQuery("Select a from EmployeeLoanSummaryView a where a.empCode = :empCode", EmployeeLoanSummaryView.class)
-					.setParameter("empCode", empCode).getSingleResult();
+			return this.em.createQuery("Select a from EmployeeLoanSummaryView a where a.empCode = :empCode",
+					EmployeeLoanSummaryView.class).setParameter("empCode", empCode).getSingleResult();
 		} catch (Exception e2) {
 			// TODO: handle exception
 			System.out.println(e2.getLocalizedMessage());
 			return new EmployeeLoanSummaryView();
 		}
-		
+
 	}
-	
+
 	public void updateLoanMaster(int empCode, LoanTransaction ln) {
 		double amount = ln.getCrAmount() - ln.getDrAmount();
 		double additionalInstallment = ln.getAdditionalInstallment();
@@ -233,45 +249,42 @@ public class PayrollRepository implements Serializable {
 		// To do
 		// check oracle code to verify how the data is maintained in the loan master
 		try {
-			 lm = this.em
-					.createQuery("Select a from LoanMaster a where a.empCode = :empCode ",
-							LoanMaster.class)
+			lm = this.em.createQuery("Select a from LoanMaster a where a.empCode = :empCode ", LoanMaster.class)
 					.setParameter("empCode", empCode).setParameter("empCode", empCode).getSingleResult();
-				
-			if(lm != null) {
+
+			if (lm != null) {
 				System.out.println("lm is not null");
-				Query query = this.em.createQuery("Update LoanMaster a set a.loanAmount = a.loanAmount + :amount, a.loanInstallment = a.loanInstallment + :additionalInstallment where a.empCode = :empCode")
-						.setParameter("empCode", empCode)
-						.setParameter("amount", amount)
+				Query query = this.em.createQuery(
+						"Update LoanMaster a set a.loanAmount = a.loanAmount + :amount, a.loanInstallment = a.loanInstallment + :additionalInstallment where a.empCode = :empCode")
+						.setParameter("empCode", empCode).setParameter("amount", amount)
 						.setParameter("additionalInstallment", additionalInstallment);
 				query.executeUpdate();
 				System.out.println("Query updated");
-			
+
 			} else {
 				System.out.println("lm is null");
-				Query query = this.em.createQuery("INSERT INTO LoanMaster (empCode, loanAmount, loanDate,loanInstallment, loanType) VALUES (?,?,?,?,?)")
-						.setParameter("empCode", empCode)
-						.setParameter("loanAmount", ln.getCrAmount())
+				Query query = this.em.createQuery(
+						"INSERT INTO LoanMaster (empCode, loanAmount, loanDate,loanInstallment, loanType) VALUES (?,?,?,?,?)")
+						.setParameter("empCode", empCode).setParameter("loanAmount", ln.getCrAmount())
 						.setParameter("loanDate", ln.getTrnDate())
-						.setParameter("loanInstallment", ln.getAdditionalInstallment())
-						.setParameter("loanType", "1");
+						.setParameter("loanInstallment", ln.getAdditionalInstallment()).setParameter("loanType", "1");
 				query.executeUpdate();
 				System.out.println("Query insert");
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("LoanMaster resultset = "  + lm == null );
+			System.out.println("LoanMaster resultset = " + lm == null);
 			System.out.println("error updating loan info:" + e.getMessage());
 		}
-		
+
 	}
 
 	public void updateEmpMasterLoanInstallment(int id, double additionalInstallment) {
-		Query query = this.em.createQuery("Update Employee a set a.loanInstallment = a.loanInstallment + :additionalInstallment where a.id = :id")
-				.setParameter("id", id)
-				.setParameter("additionalInstallment", additionalInstallment);
+		Query query = this.em.createQuery(
+				"Update Employee a set a.loanInstallment = a.loanInstallment + :additionalInstallment where a.id = :id")
+				.setParameter("id", id).setParameter("additionalInstallment", additionalInstallment);
 		query.executeUpdate();
-		
+
 	}
 
 }
