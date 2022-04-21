@@ -7,12 +7,15 @@ E:\JDM\GitHub\payroll-java\src\main\java\entities\MonthEndDeduction.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\LoanMaster.java
 E:\JDM\GitHub\payroll-java\src\main\java\exception\NoResultExceptionMapper.java
 E:\JDM\GitHub\payroll-java\src\main\java\filter\PoweredByFilter.java
+E:\JDM\GitHub\payroll-java\src\main\java\services\PayrollService.java
 E:\JDM\GitHub\payroll-java\src\main\java\services\SalaryService.java
 E:\JDM\GitHub\payroll-java\src\main\java\resources\PayrollResources.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\LoanTransaction.java
+E:\JDM\GitHub\payroll-java\src\main\java\entities\SalaryIncrement.java
 E:\JDM\GitHub\payroll-java\src\main\java\exception\GenericExceptionMapper.java
 E:\JDM\GitHub\payroll-java\src\main\java\exception\DataNotFoundException.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\MonthEndTransaction.java
+E:\JDM\GitHub\payroll-java\src\main\java\entities\Reports.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\EmployeeLoanSummaryView.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\LeaveSummary.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\MonthEndAllowance.java

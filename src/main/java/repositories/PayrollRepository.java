@@ -1,6 +1,7 @@
 package repositories;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -12,10 +13,14 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import entities.Employee;
 import entities.EmployeeLoanSummaryView;
 import entities.LeaveTransaction;
 import entities.LoanMaster;
 import entities.LoanTransaction;
+import entities.Month;
+import entities.MonthEndTransaction;
+import entities.SalaryIncrement;
 import exception.DataNotFoundException;
 import exception.NoResultException;
 import exception.SQLServerException;
@@ -94,7 +99,7 @@ public class PayrollRepository implements Serializable {
 	public <T> List<T> getListByKey(Class<T> entity, String searchKey, int searchValue) {
 		System.out.println("getListByKey.....");
 		try {
-			List<T> t =  em.createQuery(
+			List<T> t = em.createQuery(
 					"Select a from " + entity.getSimpleName() + " a " + "where a." + searchKey + "= :searchValue",
 					entity).setParameter("searchValue", searchValue).getResultList();
 			System.out.println("t:" + t);
@@ -284,6 +289,130 @@ public class PayrollRepository implements Serializable {
 				"Update Employee a set a.loanInstallment = a.loanInstallment + :additionalInstallment where a.id = :id")
 				.setParameter("id", id).setParameter("additionalInstallment", additionalInstallment);
 		query.executeUpdate();
+
+	}
+
+	public void salaryIncrement(SalaryIncrement inc) {
+		Employee emp = this.getById(Employee.class, inc.getEmpCode());
+		Query query = this.em
+				.createQuery("Update Employee a set a.basicSalary = a.basicSalary + :salaryIncrement where a.id = :id")
+				.setParameter("id", inc.getEmpCode()).setParameter("salaryIncrement", inc.getSalIncrement());
+		query.executeUpdate();
+	}
+
+	public void PostToLoanFiles() {
+		try {
+			Month m = this.getByKey(Month.class, "status", "current");
+			String d1 = m.getYear() + "-" + m.getMonth() + "-" + "01";
+			String d2 = m.getYear() + "-" + m.getMonth() + "-" + m.getDays();
+			System.out.println("Current Month: " + m.getDays());
+//			Date date = new Date();
+			//post to loan transactions
+			Query query = this.em.createNativeQuery(
+					"insert into EMP_LOAN_TRNS(TRN_DATE,DR_AMT,CR_AMT,TRN_DESCR,EMP_CODE,VOUCHER_NO) select GETDATE(), 0,LOAN_DEDUCTION,'Loan Ded. from Salary',EMP_CODE,'SAL-DED' from MET_MAIN a");
+			query.executeUpdate();
+			//post to leave history
+			Query query1 = this.em.createNativeQuery(
+					"insert into LV_TRANS_HIST(EMP_CODE,SICK_LV,ANNUAL_LV,OTHER_LV,LV_DATE_FROM,LV_DATE_TO,ADJ_LV) "
+							+ "select EMP_CODE,1.25,2.5,0,?1,?2 ,0 from EMP_MAST where EMP_DT_LEAVE  IS NULL");
+			query1.setParameter(1, d1);
+			query1.setParameter(2, d2);
+			query1.executeUpdate();
+			
+			//set month end transaction to posted
+			Query query3 = this.em.createQuery("Update MonthEndTransaction a set a.posted = 1");
+			query3.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println("Error " + e);
+			// TODO: handle exception
+		}
+
+	}
+
+	public void PostToLeaveFiles() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void PostToSalaryHistory() {
+		Query query = this.em.createNativeQuery(
+				"insert into MET_MAIN_HIST select * from MET_MAIN a");
+		query.executeUpdate();
+
+	}
+
+	public void PostToAllowanceHistory() {
+		Query query = this.em.createNativeQuery(
+				"insert into MET_ALLW_HIST select * from MET_ALLOWANCE a");
+		query.executeUpdate();
+
+	}
+
+	public void PostToDeductionHistory() {
+		Query query = this.em.createNativeQuery(
+				"insert into MET_DED_HIST select * from MET_DEDUCTION a");
+		query.executeUpdate();
+
+	}
+	
+	public void DeleteCurrentSalaryData() {
+//		 Query query1 = em.createQuery(
+//			      "DELETE FROM MonthEndAllowance m");
+//		 query1.executeUpdate();
+		 
+		 Query query2 = em.createQuery(
+			      "DELETE FROM MonthEndDeduction m");
+		 query2.executeUpdate();
+		 
+//		 Query query3 = em.createQuery(
+//			      "DELETE FROM MonthEndTransaction m");
+//		 query3.executeUpdate();
+	}
+	
+	
+	public void CreateLeave(LeaveTransaction lt) {
+		
+		double v_sick  = 0;
+		double v_annual =0;
+		double v_other =0;
+		String leaveType = "";
+		
+		leaveType = lt.getLeaveType();
+		switch(leaveType) {
+		  case "SL":
+			  v_sick = lt.getNoOfWorkingdays() *-1;
+		    break;
+		  case "AL":
+			  v_annual = lt.getNoOfWorkingdays() *-1;
+		    break;
+		  case "OL":
+			  v_other = lt.getNoOfWorkingdays() *-1;
+		    break;
+		  default:
+		    // code block
+		}
+		
+		try {
+			save(lt);
+			Query query = this.em.createNativeQuery(
+					"insert into LV_TRANS_HIST(EMP_CODE,SICK_LV,ANNUAL_LV,OTHER_LV,LV_DATE_FROM,LV_DATE_TO,ADJ_LV) "
+							+ "select ?1,?2,?3,?4,?5,?6 ,?7 ");
+			query.setParameter(1, lt.getEmpCode());
+			query.setParameter(2, v_sick);
+			query.setParameter(3, v_annual);
+			query.setParameter(4, v_other);
+			query.setParameter(5, lt.getDateFrom());
+			query.setParameter(6, lt.getDateTo());
+			query.setParameter(7, lt.getAdjLeave());
+			query.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("error:" +e);
+			
+			// TODO: handle exception
+		}
+		
+		
 
 	}
 

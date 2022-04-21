@@ -15,7 +15,9 @@ dto\EmpLoanSummaryDto.class
 exception\SQLServerException.class
 entities\LoanTransaction.class
 entities\LeaveMaster.class
+entities\Reports.class
 resources\PayrollResources.class
+services\PayrollService.class
 entities\MonthEndDeduction.class
 entities\MonthEndTransaction.class
 entities\LeaveTransaction.class
@@ -26,6 +28,7 @@ repositories\SalaryRepository.class
 entities\LoanTransactionView.class
 exception\NoResultException.class
 exception\NoResultExceptionMapper.class
+entities\SalaryIncrement.class
 entities\OtTable.class
 entities\Employee.class
 entities\LoanMaster.class

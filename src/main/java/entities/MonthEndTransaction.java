@@ -59,6 +59,8 @@ public class MonthEndTransaction  implements Serializable{
 	private double nShiftAllowance;
 	@Column(name="LATE_HRS")
 	private double lateHours;
+	@Column(name="POSTED")
+	private int posted;
 	@Transient
 	private List<MonthEndAllowance> otherAllowances;
 	@Transient
@@ -189,6 +191,12 @@ public class MonthEndTransaction  implements Serializable{
 	public void setLateHours(double lateHours) {
 		this.lateHours = lateHours;
 	}
+	public int getPosted() {
+		return posted;
+	}
+	public void setPosted(int posted) {
+		this.posted = posted;
+	}
 	public List<MonthEndAllowance> getOtherAllowances() {
 		return otherAllowances;
 	}
@@ -205,7 +213,7 @@ public class MonthEndTransaction  implements Serializable{
 	public int hashCode() {
 		return Objects.hash(attendance, bankAcNo, bankCode, basicSalary, empName, gosiAmount, hBankLoan, id, lateHours,
 				loanDeduction, monthName, nShiftAllowance, ot1, ot2, otherAllowanceTotal, otherAllowances,
-				otherDeductionTotal, otherDeductions, rentAllowance, spageAllowance, travelAllowance, trnMonth,
+				otherDeductionTotal, otherDeductions, posted, rentAllowance, spageAllowance, travelAllowance, trnMonth,
 				trnYear);
 	}
 	@Override
@@ -232,7 +240,7 @@ public class MonthEndTransaction  implements Serializable{
 				&& Double.doubleToLongBits(otherAllowanceTotal) == Double.doubleToLongBits(other.otherAllowanceTotal)
 				&& Objects.equals(otherAllowances, other.otherAllowances)
 				&& Double.doubleToLongBits(otherDeductionTotal) == Double.doubleToLongBits(other.otherDeductionTotal)
-				&& Objects.equals(otherDeductions, other.otherDeductions)
+				&& Objects.equals(otherDeductions, other.otherDeductions) && posted == other.posted
 				&& Double.doubleToLongBits(rentAllowance) == Double.doubleToLongBits(other.rentAllowance)
 				&& Double.doubleToLongBits(spageAllowance) == Double.doubleToLongBits(other.spageAllowance)
 				&& Double.doubleToLongBits(travelAllowance) == Double.doubleToLongBits(other.travelAllowance)
@@ -246,9 +254,10 @@ public class MonthEndTransaction  implements Serializable{
 				+ travelAllowance + ", otherAllowanceTotal=" + otherAllowanceTotal + ", gosiAmount=" + gosiAmount
 				+ ", hBankLoan=" + hBankLoan + ", loanDeduction=" + loanDeduction + ", otherDeductionTotal="
 				+ otherDeductionTotal + ", bankCode=" + bankCode + ", bankAcNo=" + bankAcNo + ", ot1=" + ot1 + ", ot2="
-				+ ot2 + ", nShiftAllowance=" + nShiftAllowance + ", lateHours=" + lateHours + ", otherAllowances="
-				+ otherAllowances + ", otherDeductions=" + otherDeductions + "]";
+				+ ot2 + ", nShiftAllowance=" + nShiftAllowance + ", lateHours=" + lateHours + ", posted=" + posted
+				+ ", otherAllowances=" + otherAllowances + ", otherDeductions=" + otherDeductions + "]";
 	}
+	
 	
 	
 	

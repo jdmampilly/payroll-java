@@ -7,9 +7,11 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import entities.Employee;
 import entities.MonthEndAllowance;
 import entities.MonthEndDeduction;
 import entities.MonthEndTransaction;
+import entities.SalaryIncrement;
 
 @Stateless
 public class SalaryRepository implements Serializable {
@@ -88,5 +90,7 @@ public class SalaryRepository implements Serializable {
 		.setParameter("id", id)
 		.executeUpdate();
 	}
+	
+	
 
 }

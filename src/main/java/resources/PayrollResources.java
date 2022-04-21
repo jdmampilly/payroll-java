@@ -37,8 +37,11 @@ import entities.LoanTransactionView;
 import entities.Month;
 import entities.MonthEndTransaction;
 import entities.OtTable;
+import entities.Reports;
+import entities.SalaryIncrement;
 import repositories.PayrollRepository;
 import services.EmployeeService;
+import services.PayrollService;
 import services.SalaryService;
 
 @Path("v1")
@@ -50,6 +53,8 @@ public class PayrollResources {
 	SalaryService salServ;
 	@EJB
 	EmployeeService empServ;
+	@EJB
+	PayrollService payrollServ;
 
 	@GET
 	@Path("echo")
@@ -106,6 +111,17 @@ public class PayrollResources {
 		repo.update(entity);
 		return Response.ok(entity).build();
 	}
+	
+//Salary Increment
+	@POST
+	@Path("/salaryIncrement/save")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response create(SalaryIncrement entity) throws Exception {
+		System.out.println("Salary increment ..");
+		salServ.saveSalaryIncrement(entity);
+		return Response.ok(entity).build();
+	}
+	
 // Month end transactions
 // All salary list
 	@GET
@@ -141,6 +157,21 @@ public class PayrollResources {
 			e.printStackTrace();
 		}
 		return Response.ok(entity).build();
+	}
+	
+// Month end closing
+	
+	@POST
+	@Path("/monthEndClose")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response closeMonth() throws NotSupportedException {
+		System.out.println("Closing Month");
+		try {
+			payrollServ.CloseMonth();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return Response.ok().build();
 	}
 	
 // Leaves
@@ -191,7 +222,7 @@ public class PayrollResources {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response saveLeave(LeaveTransaction entity) throws NotSupportedException, SystemException {
 		System.out.println("saving employee leave transactions");
-		repo.save(entity);
+		repo.CreateLeave(entity);
 		return Response.ok(entity).build();
 	}
 	
@@ -281,6 +312,31 @@ public class PayrollResources {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getActiveSalaryMonth() {
 		return Response.ok(repo.getByKey(Month.class, "status", "A")).build();
+	}
+	
+	@GET
+	@Path("/month")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getMonth() throws Exception {
+		List<Month> l = repo.getAll(Month.class);
+		return Response.ok(l.toArray(new Month[l.size()])).build();
+		
+	}
+	@POST
+	@Path("/month")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response save(Month entity) {
+		repo.update(entity);
+		return Response.ok(entity).build();
+	}
+	
+	@GET
+	@Path("/reports")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getReportList() throws Exception {
+		List<Reports> l = repo.getAll(Reports.class);
+		return Response.ok(l.toArray(new Reports[l.size()])).build();
+		
 	}
 	
 // testing

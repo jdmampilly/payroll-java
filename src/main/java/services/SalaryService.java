@@ -21,6 +21,7 @@ import entities.Month;
 import entities.MonthEndAllowance;
 import entities.MonthEndDeduction;
 import entities.MonthEndTransaction;
+import entities.SalaryIncrement;
 import exception.DataNotFoundException;
 import repositories.PayrollRepository;
 import repositories.SalaryRepository;
@@ -59,7 +60,7 @@ public class SalaryService implements Serializable {
 //				// TODO: handle exception
 //				System.out.println("No result: " + e.getMessage());
 //			}
-			
+
 			if (m.getId() == 0) {
 				m.setId(emp.getId());
 				m.setEmpName(emp.getEmpName());
@@ -91,8 +92,8 @@ public class SalaryService implements Serializable {
 		return m;
 	}
 
-	public void save(MonthEndTransaction met, List<MonthEndAllowance> mea,
-			List<MonthEndDeduction> med) throws NotSupportedException, SystemException {
+	public void save(MonthEndTransaction met, List<MonthEndAllowance> mea, List<MonthEndDeduction> med)
+			throws NotSupportedException, SystemException {
 		// TODO Auto-generated method stub
 		System.out.println("save in salary service");
 		try {
@@ -119,9 +120,22 @@ public class SalaryService implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void saveSalaryIncrement(SalaryIncrement inc) throws Exception {
+		try {
+			utx.begin();
+			payrollRepo.save(inc);
+			payrollRepo.salaryIncrement(inc);
+			utx.commit();
+		} catch (RollbackException re) {
+			System.out.println("Rollback....");
+			utx.rollback();
+			re.printStackTrace();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
-		
-	
-	
+	}
 
 }
