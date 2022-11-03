@@ -9,7 +9,8 @@ import javax.ejb.Stateless;
 import dto.EmpLoanSummaryDto;
 import entities.Employee;
 import entities.EmployeeLoanSummaryView;
-import entities.LoanMaster;
+import entities.LoanSummaryView;
+import entities.LoanTransaction;
 import repositories.PayrollRepository;
 import repositories.SalaryRepository;
 import java.time.temporal.ChronoUnit;
@@ -27,24 +28,30 @@ public class EmployeeService implements Serializable {
 	PayrollRepository payrollRepo;
 
 	public EmpLoanSummaryDto calculateEmpLoanInfo(int empCode) {
-		EmployeeLoanSummaryView e = new EmployeeLoanSummaryView();
-//		e = payrollRepo.getByKey(EmployeeLoanSummaryView.class, "empCode", empCode);
+		System.out.println("ïn calculateEmpLoanInfo");
+		EmpLoanSummaryDto e = new EmpLoanSummaryDto();
+//		e = payrollRepo.getByKey(EmployeeLoanSummaryView.class, "empCode", empCode)
+		
 		try {
-			e = payrollRepo.getEmpLoanSummary(empCode);
+			e =  payrollRepo.getEmpLoanSummary(empCode);
+			System.out.println("employee loan summary:" + e);
 		} catch (Exception e2) {
 			// TODO: handle exception
+			System.out.println("employee loan summary error:" +e2.getMessage());
 		}
 //			
 		EmpLoanSummaryDto eDto = new EmpLoanSummaryDto();
 		if (e != null) {
-			eDto.setDrAmountTotal(e.getDrAmount());
-			eDto.setCrAmountTotal(e.getCrAmount());
-			eDto.setLastTrnDate(e.getLastTransactionDate());
+			System.out.println("employee loan summary:" + e);
+			eDto.setEmpcode(empCode);
+			eDto.setDrAmountTotal(e.getDrAmountTotal());
+			eDto.setCrAmountTotal(e.getCrAmountTotal());
+			eDto.setLastTrnDate(e.getLastTrnDate());
 			
 		} else {
 			System.out.println("e is null");
 		}
-		eDto.setEmpcode(empCode);
+//		eDto.setEmpcode(empCode);
 		Employee emp = payrollRepo.getById(Employee.class, empCode);
 		eDto.setLoanInstallment(emp.getLoanInstallment());
 //		try {
@@ -56,8 +63,15 @@ public class EmployeeService implements Serializable {
 //		}
 		eDto.setBasicSalary(emp.getBasicSalary());
 		eDto.setIndeminity(calculateIndeminity(emp));
+		System.out.println("Employee loan summary:" +eDto);
 		return eDto;
 
+	}
+	
+	public LoanSummaryView getEmpLoanInfo(int empCode) {
+		
+		return payrollRepo.getById(LoanSummaryView.class, empCode);
+		
 	}
 
 	private double calculateIndeminity(Employee e) {
@@ -73,7 +87,7 @@ public class EmployeeService implements Serializable {
 		LocalDate startDate = instant.atZone(defaultZoneId).toLocalDate();
 		endDate = LocalDate.now();
 		noOfDays = ChronoUnit.DAYS.between(startDate, endDate);
-		System.out.println("Indeminity calculation...");
+		System.out.println("Indeminity calculation in calculateIndeminity.........");
 		if (noOfDays < 1095) {
 			indeminity1 = (basicSalary / 2) / 365 * noOfDays;
 		}

@@ -16,17 +16,27 @@ public class LeaveSummary implements Serializable {
 	@Id
 	@Column(name="EMP_CODE")
 	private int id;
+	@Column(name="EMP_NAME")
+	private String empName;
 	@Column(name="annualLeave")
 	private double annualLeave;
 	@Column(name="sickLeave")
 	private double sickLeave;
 	@Column(name="otherLeave")
 	private double casualLeave;
+	@Column(name="leaveAdjusted")
+	private double leaveAdjusted;
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public String getEmpName() {
+		return empName;
+	}
+	public void setEmpName(String empName) {
+		this.empName = empName;
 	}
 	public double getAnnualLeave() {
 		return annualLeave;
@@ -46,9 +56,15 @@ public class LeaveSummary implements Serializable {
 	public void setCasualLeave(double casualLeave) {
 		this.casualLeave = casualLeave;
 	}
+	public double getLeaveAdjusted() {
+		return leaveAdjusted;
+	}
+	public void setLeaveAdjusted(double leaveAdjusted) {
+		this.leaveAdjusted = leaveAdjusted;
+	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(annualLeave, casualLeave, id, sickLeave);
+		return Objects.hash(annualLeave, casualLeave, empName, id, leaveAdjusted, sickLeave);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -60,14 +76,17 @@ public class LeaveSummary implements Serializable {
 			return false;
 		LeaveSummary other = (LeaveSummary) obj;
 		return Double.doubleToLongBits(annualLeave) == Double.doubleToLongBits(other.annualLeave)
-				&& Double.doubleToLongBits(casualLeave) == Double.doubleToLongBits(other.casualLeave) && id == other.id
+				&& Double.doubleToLongBits(casualLeave) == Double.doubleToLongBits(other.casualLeave)
+				&& Objects.equals(empName, other.empName) && id == other.id
+				&& Double.doubleToLongBits(leaveAdjusted) == Double.doubleToLongBits(other.leaveAdjusted)
 				&& Double.doubleToLongBits(sickLeave) == Double.doubleToLongBits(other.sickLeave);
 	}
 	@Override
 	public String toString() {
-		return "LeaveSummary [id=" + id + ", annualLeave=" + annualLeave + ", sickLeave=" + sickLeave + ", casualLeave="
-				+ casualLeave + "]";
+		return "LeaveSummary [id=" + id + ", empName=" + empName + ", annualLeave=" + annualLeave + ", sickLeave="
+				+ sickLeave + ", casualLeave=" + casualLeave + ", leaveAdjusted=" + leaveAdjusted + "]";
 	}
+	
 	
 	
 

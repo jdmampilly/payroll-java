@@ -3,7 +3,6 @@ package resources;
 import java.io.StringReader;
 import java.lang.reflect.Array;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +12,8 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.json.JsonValue;
+import javax.json.JsonValue.ValueType;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 import javax.ws.rs.Consumes;
@@ -26,19 +27,30 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import dto.EmpLoanSummaryDto;
+import dto.EmpLoanSummaryListDto;
+import dto.PayrollSummaryDto;
+import entities.Department;
 import entities.Employee;
+import entities.EmployeeLoanSummaryView;
 import entities.LeaveSummary;
 //import entities.EmployeeLoanSummaryView;
 import entities.LeaveTransaction;
 import entities.LeaveTransactionHistory;
+import entities.LeaveTransactionView;
 import entities.LoanMaster;
+import entities.LoanSummaryView;
 import entities.LoanTransaction;
 import entities.LoanTransactionView;
 import entities.Month;
+import entities.MonthEndAllowance;
+import entities.MonthEndDeduction;
 import entities.MonthEndTransaction;
 import entities.OtTable;
+import entities.PayrollSummary;
+import entities.PayrollSummaryView;
 import entities.Reports;
 import entities.SalaryIncrement;
+import repositories.LoansRepository;
 import repositories.PayrollRepository;
 import services.EmployeeService;
 import services.PayrollService;
@@ -55,7 +67,11 @@ public class PayrollResources {
 	EmployeeService empServ;
 	@EJB
 	PayrollService payrollServ;
+	@EJB
+	LoansRepository lrepo;
 
+	
+	
 	@GET
 	@Path("echo")
 	public Response echo() {
@@ -68,6 +84,25 @@ public class PayrollResources {
 		OtTable ot = repo.getById(OtTable.class, 1);
 		return Response.ok(ot).build();
 	}
+	
+	@GET
+	@Path("/department")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllDepartment() {
+		List<Department> l = repo.getAllDepartment();
+		return Response.ok(l.toArray(new Department[l.size()])).build();
+	}
+	
+	@GET
+	@Path("/department/{divisionCode}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllDepartmentByDivisoin(@PathParam("divisionCode") String divisionCode) {
+		System.out.println("Division Code:"+ divisionCode);
+		List<Department> l = repo.getAllDepartmentByDivision(divisionCode);
+		
+		return Response.ok(l.toArray(new Department[l.size()])).build();
+	}
+	
 	@GET
 	@Path("/employee/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -139,6 +174,24 @@ public class PayrollResources {
 		MonthEndTransaction m = salServ.getEmployeeSalary(id);
 		return Response.ok(m).build();
 	}
+	
+	@GET
+	@Path("/employee/mea/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getEmployeeAllowance(@PathParam("id") int id) {
+		System.out.println("get employee allowances");
+		List<MonthEndAllowance> l = salServ.getEmployeeMea(id);
+		return Response.ok(l.toArray(new MonthEndAllowance[l.size()])).build();
+	}
+	@GET
+	@Path("/employee/med/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getEmployeeDeduction(@PathParam("id") int id) {
+		System.out.println("get employee allowances");
+		List<MonthEndDeduction> l = salServ.getEmployeeMed(id);
+		return Response.ok(l.toArray(new MonthEndDeduction[l.size()])).build();
+	}
+	
 // Employee salary save	
 	@POST
 	@Path("/employee/met/save")
@@ -148,6 +201,8 @@ public class PayrollResources {
 		try {
 			System.out.println("other Allowance:" + entity.getOtherAllowances() );
 			System.out.println("other Deductions:" + entity.getOtherDeductions() );
+			System.out.println("other allowance total:"  + entity.getOtherAllowanceTotal());
+			System.out.println("other deduction total:"  + entity.getOtherDeductionTotal());
 			salServ.save(entity, entity.getOtherAllowances(), entity.getOtherDeductions());
 		} catch (NotSupportedException e) {
 			// TODO Auto-generated catch block
@@ -157,6 +212,35 @@ public class PayrollResources {
 			e.printStackTrace();
 		}
 		return Response.ok(entity).build();
+	}
+	
+	
+	@GET
+	@Path("/salaryList")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getSalaryList() {
+		List<PayrollSummary> l = repo.getAll(PayrollSummary.class);
+		Collections.sort(l, (o1, o2) -> o2.getId() - o1.getId());
+		return Response.ok(l.toArray(new PayrollSummary[l.size()])).build();
+	}
+	
+
+	@GET
+	@Path("/salaryListTest")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getSalaryListTest() {
+		List<PayrollSummaryDto> l = repo.getSalaryList("0","0");
+		Collections.sort(l, (o1, o2) -> o2.getId() - o1.getId());
+		return Response.ok(l.toArray(new PayrollSummaryDto[l.size()])).build();
+	}
+	
+	@GET
+	@Path("/salaryList/{divisionCode}/{deptCode}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getSalaryListFilter(@PathParam("divisionCode") String divisionCode, @PathParam("deptCode") String deptCode) {
+		List<PayrollSummaryView> l = salServ.getSalaryList(divisionCode, deptCode);
+		Collections.sort(l, (o1, o2) -> o2.getId() - o1.getId());
+		return Response.ok(l.toArray(new PayrollSummaryView[l.size()])).build();
 	}
 	
 // Month end closing
@@ -257,7 +341,24 @@ public class PayrollResources {
 		List<LoanTransactionView> l = repo.getAll(LoanTransactionView.class);
 		return Response.ok(l.toArray(new LoanTransactionView[l.size()])).build();
 	}
+	
+	@GET
+	@Path("/loanSummary")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getLoanSummary() {
+//		List<LoanSummaryView> l = repo.getAll(LoanSummaryView.class);
+		List<EmpLoanSummaryListDto> l = repo.getAllLoanSummary();
+		return Response.ok(l.toArray(new Object[l.size()])).build();
+	}
 
+//	@GET
+//	@Path("/loanSummary1")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response getLoanSummary1() {
+//		LoanTransaction l = payrollServ.getLoanSummary();
+//		 return Response.ok(l).build();
+//	}
+	
 // all loan transaction for the employee
 	@GET
 	@Path("/employee/loantransactions/{empCode}")
@@ -285,9 +386,13 @@ public class PayrollResources {
 	}
 	@GET
 	@Path("/employee/loan/summary/{empCode}")
-	public EmpLoanSummaryDto getEmployeeLoanSumary(@PathParam("empCode") int empCode) {
+	public EmpLoanSummaryDto getEmpLoanSumary(@PathParam("empCode") int empCode) {
 		System.out.println("empCode in loan summary:" + empCode);
 		return empServ.calculateEmpLoanInfo(empCode);
+		
+		//return empServ.getEmpLoanInfo(empCode);
+//		return repo.getById(LoanSummaryView.class, empCode);
+//		return  repo.getEmpLoanSummary(empCode);
 		
 	}
 	
@@ -373,12 +478,21 @@ public class PayrollResources {
 
 	}
 	
+//	@POST
+//	@Path("/filterLeaveTransactions/{start}/{maxR}")
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	public Response fetchByLeaveTransactionFilters(@PathParam("start") int start, @PathParam("maxR") int maxR, String jsonData) {
+//		System.out.println("jsonData:" + jsonData);
+//		return getByFilters(LeaveTransaction.class, start, maxR, jsonData);
+//
+//	}
+	
 	@POST
 	@Path("/filterLeaveTransactions/{start}/{maxR}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response fetchByLeaveTransactionFilters(@PathParam("start") int start, @PathParam("maxR") int maxR, String jsonData) {
 		System.out.println("jsonData:" + jsonData);
-		return getByFilters(LeaveTransaction.class, start, maxR, jsonData);
+		return getByFilters(LeaveTransactionView.class, start, maxR, jsonData);
 
 	}
 	
@@ -407,20 +521,77 @@ public class PayrollResources {
 		boolean isASC = sortingObject.getString("Sort").equalsIgnoreCase("ASC");
 
 		JsonArray jsonArray = mainJsonObject.getJsonArray("filter");
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		for (int i = 0; i < jsonArray.size(); i++) {
 			JsonObject jsonObject = jsonArray.getJsonObject(i);
-			map.put(jsonObject.getString("fieldName"), jsonObject.getString("value"));
+			JsonValue jsonValue = jsonObject.get("value");
+			Object value = jsonValue.getValueType() == ValueType.NULL ? ""
+					: jsonValue.getValueType() == ValueType.ARRAY ? getArray(jsonObject.getJsonArray("value"))
+							: jsonValue.getValueType() == ValueType.NUMBER ? jsonObject.getJsonNumber("value")
+									: (jsonValue.getValueType() == ValueType.TRUE
+											|| jsonValue.getValueType() == ValueType.FALSE)
+													? jsonObject.getBoolean("value")
+													: jsonObject.getString("value");
+			map.put(jsonObject.getString("fieldName"), value.getClass().isArray() ? value : value.toString());
 		}
 		List<T> a = repo.<T>getAllRecords(tClass, map, start, maxR, sortFieldName, isASC);
+		
 		long l = repo.<T>getSize(tClass, map);
+		
 		X_TOTAL_COUNT = String.valueOf(l);
 		System.out.println("--------------- received:" + a.size());
+
+		// ??
+
 		@SuppressWarnings("unchecked")
 		T[] array = (T[]) Array.newInstance(tClass, a.size());
+//		System.out.println(tClass + ".isAssignableFrom(Mf1801.class)" + tClass.isAssignableFrom(Mf1801.class));
+//		if(tClass.isAssignableFrom(Mf1801.class)) {
+//			a.forEach(entity ->{
+//				((Mf1801)entity).getCreatedByName();
+//			});
+//		}
+
 		System.out.println("a.toArray(array):" + a.toArray(array));
 		return Response.ok(a.toArray(array)).header("Access-Control-Expose-Headers", "*")
 				.header("X_TOTAL_COUNT", X_TOTAL_COUNT).build();
 	}
+
+	private String[] getArray(JsonArray jsonArray) {
+		String[] array = new String[jsonArray.size()];
+		for (int i = 0; i < jsonArray.size(); i++) {
+			array[i] = "'" + jsonArray.getString(i).toUpperCase() + "'";
+		}
+		return array;
+	}
+//	private <T> Response getByFilters1(Class<T> tClass, int start, int maxR, String jsonData) {
+//
+//		System.out.println("jsonData:" + jsonData.toString());
+//		StringReader reader = new StringReader(jsonData);
+//		JsonReader jsonReader = Json.createReader(reader);
+//		JsonObject mainJsonObject = jsonReader.readObject();
+//
+//		JsonObject sortingObject = mainJsonObject.getJsonObject("sorting");
+//
+//		String sortFieldName = sortingObject.getString("fieldName");
+//		System.out.println("SortfieldName:" + sortFieldName);
+//		boolean isASC = sortingObject.getString("Sort").equalsIgnoreCase("ASC");
+//
+//		JsonArray jsonArray = mainJsonObject.getJsonArray("filter");
+//		Map<String, String> map = new HashMap<String, String>();
+//		for (int i = 0; i < jsonArray.size(); i++) {
+//			JsonObject jsonObject = jsonArray.getJsonObject(i);
+//			map.put(jsonObject.getString("fieldName"), jsonObject.getString("value"));
+//		}
+//		List<T> a = repo.<T>getAllRecords(tClass, map, start, maxR, sortFieldName, isASC);
+//		long l = repo.<T>getSize(tClass, map);
+//		X_TOTAL_COUNT = String.valueOf(l);
+//		System.out.println("--------------- received:" + a.size());
+//		@SuppressWarnings("unchecked")
+//		T[] array = (T[]) Array.newInstance(tClass, a.size());
+//		System.out.println("a.toArray(array):" + a.toArray(array));
+//		return Response.ok(a.toArray(array)).header("Access-Control-Expose-Headers", "*")
+//				.header("X_TOTAL_COUNT", X_TOTAL_COUNT).build();
+//	}
 
 }

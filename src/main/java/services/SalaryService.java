@@ -16,11 +16,11 @@ import javax.ejb.TransactionManagementType;
 import javax.persistence.RollbackException;
 
 import entities.Employee;
-import entities.LoanMaster;
 import entities.Month;
 import entities.MonthEndAllowance;
 import entities.MonthEndDeduction;
 import entities.MonthEndTransaction;
+import entities.PayrollSummaryView;
 import entities.SalaryIncrement;
 import exception.DataNotFoundException;
 import repositories.PayrollRepository;
@@ -45,8 +45,10 @@ public class SalaryService implements Serializable {
 
 	public MonthEndTransaction getEmployeeSalary(int empCode) {
 		MonthEndTransaction m = new MonthEndTransaction();
+		List<MonthEndAllowance> mea = null;
 		try {
 			m = repo.getEmployeeSalary(empCode);
+			mea = repo.getMEA(empCode);
 		} catch (Exception e) {
 
 		}
@@ -81,8 +83,8 @@ public class SalaryService implements Serializable {
 			} else {
 				m.setEmpName(emp.getEmpName());
 				m.setMonthName(month.getMonthName());
-				m.setOtherAllowances(repo.getMEA(m.getId()));
-				m.setOtherDeductions(repo.getMED(m.getId()));
+//				m.setOtherAllowances(repo.getMEA(m.getId()));
+//				m.setOtherDeductions(repo.getMED(m.getId()));
 			}
 
 		} catch (Exception e) {
@@ -136,6 +138,20 @@ public class SalaryService implements Serializable {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+	}
+
+	public List<PayrollSummaryView> getSalaryList(String divisionCode, String deptCode) {
+		return repo.getSalaryList(divisionCode, deptCode);
+	}
+
+	public List<MonthEndAllowance> getEmployeeMea(int id) {
+		// TODO Auto-generated method stub
+		return repo.getMEA(id);
+	}
+
+	public List<MonthEndDeduction> getEmployeeMed(int id) {
+		// TODO Auto-generated method stub
+		return repo.getMED(id);
 	}
 
 }

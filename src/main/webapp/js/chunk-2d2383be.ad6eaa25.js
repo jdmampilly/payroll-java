@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d2383be"],{ff08:function(t,e,l){"use strict";l.r(e);var a=function(){var t=this,e=t.$createElement,l=t._self._c||e;return l("div",[l("b-modal",{attrs:{id:"modal-1",title:"BootstrapVue"}},[l("p",{staticClass:"my-4"},[t._v("Hello from modal!")])])],1)},n=[],o=l("2877"),s={},r=Object(o["a"])(s,a,n,!1,null,null,null);e["default"]=r.exports}}]);
+//# sourceMappingURL=chunk-2d2383be.ad6eaa25.js.map

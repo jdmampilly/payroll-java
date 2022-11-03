@@ -2,6 +2,7 @@ package entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +15,7 @@ import javax.persistence.TemporalType;
 @Table(name="EMP_LN_SUMM_VU1")
 public class EmployeeLoanSummaryView implements Serializable {
 
-	private static final long serialVersionUID = 4139567230683771811L;
+	private static final long serialVersionUID = 6184724137114311791L;
 	@Id
 	@Column(name="emp_code")
 	private int empCode;
@@ -51,16 +52,7 @@ public class EmployeeLoanSummaryView implements Serializable {
 	}
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(crAmount);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(drAmount);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + empCode;
-		result = prime * result + ((lastTransactionDate == null) ? 0 : lastTransactionDate.hashCode());
-		return result;
+		return Objects.hash(crAmount, drAmount, empCode, lastTransactionDate);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -71,18 +63,9 @@ public class EmployeeLoanSummaryView implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		EmployeeLoanSummaryView other = (EmployeeLoanSummaryView) obj;
-		if (Double.doubleToLongBits(crAmount) != Double.doubleToLongBits(other.crAmount))
-			return false;
-		if (Double.doubleToLongBits(drAmount) != Double.doubleToLongBits(other.drAmount))
-			return false;
-		if (empCode != other.empCode)
-			return false;
-		if (lastTransactionDate == null) {
-			if (other.lastTransactionDate != null)
-				return false;
-		} else if (!lastTransactionDate.equals(other.lastTransactionDate))
-			return false;
-		return true;
+		return Double.doubleToLongBits(crAmount) == Double.doubleToLongBits(other.crAmount)
+				&& Double.doubleToLongBits(drAmount) == Double.doubleToLongBits(other.drAmount)
+				&& empCode == other.empCode && Objects.equals(lastTransactionDate, other.lastTransactionDate);
 	}
 	@Override
 	public String toString() {
