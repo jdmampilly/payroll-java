@@ -14,36 +14,36 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="EMP_LEAVE")
+@Table(name = "EMP_LEAVE")
 public class LeaveTransaction implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="ID")
+	@Column(name = "ID")
 	private int id;
-	@Column(name="EMP_CODE")
+	@Column(name = "EMP_CODE")
 	private int empCode;
-	@Column(name="LV_TYPE")
+	@Column(name = "LV_TYPE")
 	private String leaveType;
-	@Column(name="LV_NATURE")
+	@Column(name = "LV_NATURE")
 	private String leaveNature;
 	@Temporal(TemporalType.DATE)
-	@Column(name="LV_DATE_FROM")
+	@Column(name = "LV_DATE_FROM")
 	private Date dateFrom;
 	@Temporal(TemporalType.DATE)
-	@Column(name="LV_DATE_TO")
+	@Column(name = "LV_DATE_TO")
 	private Date dateTo;
-	@Column(name="LV_APPROVED")
+	@Column(name = "LV_APPROVED")
 	private int approvalStatus;
-	@Column(name="LV_REMARKS")
+	@Column(name = "LV_REMARKS")
 	private String remarks;
 	@Temporal(TemporalType.DATE)
-	@Column(name="LV_APPL_DATE")
+	@Column(name = "LV_APPL_DATE")
 	private Date applicationDate;
-	@Column(name="NO_OF_WORKDAYS")
+	@Column(name = "NO_OF_WORKDAYS")
 	private double noOfWorkingdays;
-	@Column(name="ADJ_LV")
+	@Column(name = "ADJ_LV")
 	private double adjLeave;
 	public int getId() {
 		return id;
@@ -141,4 +141,7 @@ public class LeaveTransaction implements Serializable {
 				+ noOfWorkingdays + ", adjLeave=" + adjLeave + "]";
 	}
 	
+	
+	
+
 }

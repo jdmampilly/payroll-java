@@ -127,58 +127,10 @@ public class SalaryRepository implements Serializable {
 				// TODO: handle exception
 				e.printStackTrace();
 			}
-//			 return this.em.createQuery("Select a from PayrollSummaryView a", PayrollSummaryView.class).getResultList();
 		} else {
 			 return this.em.createQuery("Select a from PayrollSummaryView a where a.divCode = :divCode ", PayrollSummaryView.class)
 						.setParameter("divCode", divCode)
 						.getResultList();
-//			System.out.println("new query:");
-//			String q = "a.emp_code,";
-//					q = q + "a.emp_name,"; 
-//					q = q  + "a.dept_code,";
-//					q = q  + "b.dept_name,";
-//					q = q  + "b.division_code,"; 
-//					q = q  + "c.division_name,"; 
-//					q = q  + "a.basic_salary,"; 
-//					q = q  + "d.attendance,"; 
-//					q = q  + "d.loan_deduction,"; 
-//					q = q  + "d.rent_allowance," ;
-//					q = q  + "d.travel_allowance,"; 
-//					q = q  + "d.spage_allowance,";
-//					q = q  + "d.gosi_amt,"; 
-//					q = q  + "d.hbank_loan,";
-//					q = q  + "d.nShift_allowance,"; 
-//					q = q  + "d.other_allowance_total,"; 
-//					q = q  + "d.other_deduction_total,"; 
-//					q = q  + "d.late_hrs,"; 
-//					q = q  + "(d.OT_1 * g.OT_RATE1) + (d.OT_2*g.OT_RATE2) as ot_total,"; 
-//					q = q  + "(((a.BASIC_SALARY/30) * d.ATTENDANCE ) + d.RENT_ALLOWANCE +d.TRAVEL_ALLOWANCE +d.SPAGE_ALLOWANCE + (d.NSHIFT_ALLOWANCE*g.NS_AMT)+"; 
-//					q = q  + "(d.OT_1 * g.OT_RATE1) + (d.OT_2*g.OT_RATE2)+ d.other_allowance_total) as sub_total,"; 
-//					q = q  + "(((a.BASIC_SALARY/30) * d.ATTENDANCE ) + d.RENT_ALLOWANCE +d.TRAVEL_ALLOWANCE +d.SPAGE_ALLOWANCE + (d.NSHIFT_ALLOWANCE*g.NS_AMT)+"; 
-//					q = q  + "(d.OT_1 * g.OT_RATE1) + (d.OT_2*g.OT_RATE2)+ d.other_allowance_total-d.loan_deduction-d.other_deduction_total-d.gosi_amt-((a.BASIC_SALARY/30)* d.late_hrs)";    
-//					q = q  + ") as net_salary"; 
-//					q = q  + "from emp_mast a, dept b, division c, met_main d, ot_table g"; 
-//					q = q  + "where a.dept_code = b.dept_code and"; 
-//					q = q  + "b.division_code = c.division_code and";
-//					q = q  + "a.emp_code = d.emp_code" ;
-//			
-//			  Query query = em.createNativeQuery(q);
-//			   
-//			   List<Object[]> ls =  query.getResultList();
-////			   List<EmpLoanSummaryListDto> dtoList =  new ArrayList<EmpLoanSummaryListDto>();
-//			   
-//			   for (Object[] a : ls) {
-////				   EmpLoanSummaryListDto els = new EmpLoanSummaryListDto();
-//				   System.out.println("Other Allowance total:" + a[15]);
-////				   els.setId((int) a[0]);
-////				   els.setEmpName((String) a[1]);
-////				   els.setLastTransactionDate((Date) a[2]);
-////				   els.setTotalLoans((BigDecimal) a[3]);
-////				   els.setTotalPayment((BigDecimal) a[4]);
-////				   
-////				   dtoList.add(els);
-//				}
-//			   return null;
 			
 		}
 			

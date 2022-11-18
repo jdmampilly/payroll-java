@@ -21,6 +21,8 @@ public class MonthEndTransaction  implements Serializable{
 	private int id;
 	@Transient
 	private String empName;
+	@Transient
+	private String departmentName;
 	@Column(name="TRN_YEAR")
 	private int trnYear;
 	@Column(name="TRN_MONTH")
@@ -76,6 +78,12 @@ public class MonthEndTransaction  implements Serializable{
 	}
 	public void setEmpName(String empName) {
 		this.empName = empName;
+	}
+	public String getDepartmentName() {
+		return departmentName;
+	}
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
 	}
 	public int getTrnYear() {
 		return trnYear;
@@ -211,10 +219,10 @@ public class MonthEndTransaction  implements Serializable{
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(attendance, bankAcNo, bankCode, basicSalary, empName, gosiAmount, hBankLoan, id, lateHours,
-				loanDeduction, monthName, nShiftAllowance, ot1, ot2, otherAllowanceTotal, otherAllowances,
-				otherDeductionTotal, otherDeductions, posted, rentAllowance, spageAllowance, travelAllowance, trnMonth,
-				trnYear);
+		return Objects.hash(attendance, bankAcNo, bankCode, basicSalary, departmentName, empName, gosiAmount, hBankLoan,
+				id, lateHours, loanDeduction, monthName, nShiftAllowance, ot1, ot2, otherAllowanceTotal,
+				otherAllowances, otherDeductionTotal, otherDeductions, posted, rentAllowance, spageAllowance,
+				travelAllowance, trnMonth, trnYear);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -228,7 +236,7 @@ public class MonthEndTransaction  implements Serializable{
 		return Double.doubleToLongBits(attendance) == Double.doubleToLongBits(other.attendance)
 				&& Objects.equals(bankAcNo, other.bankAcNo) && Objects.equals(bankCode, other.bankCode)
 				&& Double.doubleToLongBits(basicSalary) == Double.doubleToLongBits(other.basicSalary)
-				&& Objects.equals(empName, other.empName)
+				&& Objects.equals(departmentName, other.departmentName) && Objects.equals(empName, other.empName)
 				&& Double.doubleToLongBits(gosiAmount) == Double.doubleToLongBits(other.gosiAmount)
 				&& Double.doubleToLongBits(hBankLoan) == Double.doubleToLongBits(other.hBankLoan) && id == other.id
 				&& Double.doubleToLongBits(lateHours) == Double.doubleToLongBits(other.lateHours)
@@ -248,19 +256,17 @@ public class MonthEndTransaction  implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "MonthEndTransaction [id=" + id + ", empName=" + empName + ", trnYear=" + trnYear + ", trnMonth="
-				+ trnMonth + ", monthName=" + monthName + ", attendance=" + attendance + ", basicSalary=" + basicSalary
-				+ ", rentAllowance=" + rentAllowance + ", spageAllowance=" + spageAllowance + ", travelAllowance="
-				+ travelAllowance + ", otherAllowanceTotal=" + otherAllowanceTotal + ", gosiAmount=" + gosiAmount
-				+ ", hBankLoan=" + hBankLoan + ", loanDeduction=" + loanDeduction + ", otherDeductionTotal="
-				+ otherDeductionTotal + ", bankCode=" + bankCode + ", bankAcNo=" + bankAcNo + ", ot1=" + ot1 + ", ot2="
-				+ ot2 + ", nShiftAllowance=" + nShiftAllowance + ", lateHours=" + lateHours + ", posted=" + posted
-				+ ", otherAllowances=" + otherAllowances + ", otherDeductions=" + otherDeductions + "]";
+		return "MonthEndTransaction [id=" + id + ", empName=" + empName + ", departmentName=" + departmentName
+				+ ", trnYear=" + trnYear + ", trnMonth=" + trnMonth + ", monthName=" + monthName + ", attendance="
+				+ attendance + ", basicSalary=" + basicSalary + ", rentAllowance=" + rentAllowance + ", spageAllowance="
+				+ spageAllowance + ", travelAllowance=" + travelAllowance + ", otherAllowanceTotal="
+				+ otherAllowanceTotal + ", gosiAmount=" + gosiAmount + ", hBankLoan=" + hBankLoan + ", loanDeduction="
+				+ loanDeduction + ", otherDeductionTotal=" + otherDeductionTotal + ", bankCode=" + bankCode
+				+ ", bankAcNo=" + bankAcNo + ", ot1=" + ot1 + ", ot2=" + ot2 + ", nShiftAllowance=" + nShiftAllowance
+				+ ", lateHours=" + lateHours + ", posted=" + posted + ", otherAllowances=" + otherAllowances
+				+ ", otherDeductions=" + otherDeductions + "]";
 	}
-	
-	
-	
-	
+
 	
 
 }

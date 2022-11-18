@@ -16,6 +16,7 @@ import javax.ejb.TransactionManagementType;
 import javax.persistence.RollbackException;
 
 import entities.Employee;
+import entities.EmployeeView;
 import entities.Month;
 import entities.MonthEndAllowance;
 import entities.MonthEndDeduction;
@@ -53,7 +54,8 @@ public class SalaryService implements Serializable {
 
 		}
 		try {
-			Employee emp = payrollRepo.getById(Employee.class, empCode);
+			EmployeeView emp = new EmployeeView();
+			emp = payrollRepo.getById(EmployeeView.class, empCode);
 			Month month = payrollRepo.getByKey(Month.class, "status", "current");
 //			LoanMaster l = new LoanMaster();
 //			try {
@@ -64,8 +66,9 @@ public class SalaryService implements Serializable {
 //			}
 
 			if (m.getId() == 0) {
-				m.setId(emp.getId());
+				m.setId(emp.getEmpCode());
 				m.setEmpName(emp.getEmpName());
+				m.setDepartmentName(emp.getDeptName());
 				m.setBasicSalary(emp.getBasicSalary());
 				m.setAttendance(30);
 				m.setBankAcNo(emp.getAcNumber());
@@ -83,6 +86,7 @@ public class SalaryService implements Serializable {
 			} else {
 				m.setEmpName(emp.getEmpName());
 				m.setMonthName(month.getMonthName());
+				m.setDepartmentName(emp.getDeptName());
 //				m.setOtherAllowances(repo.getMEA(m.getId()));
 //				m.setOtherDeductions(repo.getMED(m.getId()));
 			}

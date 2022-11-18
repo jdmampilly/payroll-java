@@ -24,8 +24,6 @@ import entities.LeaveTransaction;
 import entities.LoanMaster;
 import entities.LoanTransaction;
 import entities.Month;
-import entities.PayrollSummary;
-import entities.PayrollSummaryView;
 import entities.SalaryIncrement;
 import exception.DataNotFoundException;
 import exception.NoResultException;
@@ -513,12 +511,13 @@ public class PayrollRepository implements Serializable {
 //		 query3.executeUpdate();
 	}
 
+	@Transactional
 	public void CreateLeave(LeaveTransaction lt) {
-
+		System.out.println("in CreateLeave:" + lt);
 		double v_sick = 0;
 		double v_annual = 0;
 		double v_other = 0;
-		double v_adj = 0;
+//		double v_adj = 0;
 		String leaveType = "";
 
 		leaveType = lt.getLeaveType();
@@ -537,7 +536,14 @@ public class PayrollRepository implements Serializable {
 		}
 
 		try {
+			System.out.println("save lt");
 			save(lt);
+		} catch (Exception e) {
+			System.out.println("error  SAVING LT:" + e);
+			e.printStackTrace();
+		}
+		try {
+			System.out.println("save insert query");
 			Query query = this.em.createNativeQuery(
 					"insert into LV_TRANS_HIST(EMP_CODE,SICK_LV,ANNUAL_LV,OTHER_LV,LV_DATE_FROM,LV_DATE_TO,ADJ_LV) "
 							+ "select ?1,?2,?3,?4,?5,?6 ,?7 ");
@@ -549,13 +555,28 @@ public class PayrollRepository implements Serializable {
 			query.setParameter(6, lt.getDateTo());
 			query.setParameter(7, lt.getAdjLeave());
 			query.executeUpdate();
+			System.out.println("Success for LV_Trans_hist insert query");
 		} catch (Exception e) {
-			System.out.println("error:" + e);
-
 			// TODO: handle exception
+			System.out.println("error  LV_Trans_hist insert query  and saving leave record:" + e);
+			e.printStackTrace();
 		}
 
 	}
+
+//	public void saveLT(LeaveTransaction lt) {
+//		try {
+//			em.persist(lt);
+//			em.flush();
+//			em.close();
+//			System.out.println("successfully saved Leave Transaction:" + lt);
+//		} catch (Exception e) {
+//			System.out.println("Error on saving Leave Transaction");
+//			e.printStackTrace();
+//		}
+//
+//		
+//	}
 
 	public List<Department> getAllDepartment() {
 		return this.em.createQuery("Select a from Department a", Department.class).getResultList();
@@ -613,13 +634,30 @@ public class PayrollRepository implements Serializable {
 					Query query = em.createNativeQuery(s);
 					List<Object[]> ls = query.getResultList();
 					List<PayrollSummaryDto> dtoList = new ArrayList<PayrollSummaryDto>();
-
 					for (Object[] a : ls) {
 						PayrollSummaryDto els = new PayrollSummaryDto();
 						els.setId((int) a[0]);
 						els.setEmpName((String) a[1]);
-						els.setLoanDeduction((BigDecimal) a[8]);
-
+						els.setDeptCode((String) a[2]);
+						els.setDeptName((String) a[3]);
+						els.setDivCode((String) a[4]);
+						els.setDivName((String) a[5]);
+						els.setBasicSalary((double) a[6]);
+						els.setAttendance((double) a[7]);
+						els.setLoanDeduction((double) a[8]);
+						els.setRentAllowance((double) a[9]);
+						els.setTravelAllowance((double) a[10]);
+						els.setSpageAllowance((double) a[11]);
+						els.setGosiAmt((double) a[12]);
+						els.setHbankLoan((double) a[13]);
+						els.setnShiftAllowance((double) a[14]);
+						els.setOtherAllowanceTotal((double) a[15]);
+						els.setOtherDeductionTotal((double) a[16]);
+						els.setLateHrs((double) a[17]);
+						els.setOt1((double) a[18]);
+						els.setOt2((double) a[19]);
+						els.setOtRate1((double) a[20]);
+						els.setOtRate2((double) a[21]);
 						dtoList.add(els);
 					}
 					return dtoList;

@@ -219,11 +219,19 @@ public class PayrollResources {
 	@Path("/salaryList")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getSalaryList() {
-		List<PayrollSummary> l = repo.getAll(PayrollSummary.class);
+		List<PayrollSummaryView> l = repo.getAll(PayrollSummaryView.class);
 		Collections.sort(l, (o1, o2) -> o2.getId() - o1.getId());
-		return Response.ok(l.toArray(new PayrollSummary[l.size()])).build();
+		return Response.ok(l.toArray(new PayrollSummaryView[l.size()])).build();
 	}
 	
+	@GET
+	@Path("/salaryListTest1")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getSalaryListTest1() {
+		List<PayrollSummaryView> l = salServ.getSalaryList("0","0");
+		Collections.sort(l, (o1, o2) -> o2.getId() - o1.getId());
+		return Response.ok(l.toArray(new PayrollSummaryView[l.size()])).build();
+	}
 
 	@GET
 	@Path("/salaryListTest")
@@ -416,7 +424,7 @@ public class PayrollResources {
 	@Path("/month/active")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getActiveSalaryMonth() {
-		return Response.ok(repo.getByKey(Month.class, "status", "A")).build();
+		return Response.ok(repo.getByKey(Month.class, "status", "current")).build();
 	}
 	
 	@GET

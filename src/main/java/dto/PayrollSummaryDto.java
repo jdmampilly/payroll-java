@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-import javax.persistence.Column;
 import javax.persistence.Id;
 
 public class PayrollSummaryDto implements Serializable {
@@ -19,7 +18,7 @@ public class PayrollSummaryDto implements Serializable {
 	private String divName;
 	private double basicSalary;
 	private double attendance;
-	private BigDecimal loanDeduction;
+	private double loanDeduction;
 	private double rentAllowance;
 	private double travelAllowance;
 	private double spageAllowance;
@@ -33,6 +32,7 @@ public class PayrollSummaryDto implements Serializable {
 	private double ot2;
 	private double otRate1;
 	private double otRate2;
+	private double ot1Total;
 	public int getId() {
 		return id;
 	}
@@ -81,10 +81,10 @@ public class PayrollSummaryDto implements Serializable {
 	public void setAttendance(double attendance) {
 		this.attendance = attendance;
 	}
-	public BigDecimal getLoanDeduction() {
+	public double getLoanDeduction() {
 		return loanDeduction;
 	}
-	public void setLoanDeduction(BigDecimal loanDeduction) {
+	public void setLoanDeduction(double loanDeduction) {
 		this.loanDeduction = loanDeduction;
 	}
 	public double getRentAllowance() {
@@ -165,10 +165,16 @@ public class PayrollSummaryDto implements Serializable {
 	public void setOtRate2(double otRate2) {
 		this.otRate2 = otRate2;
 	}
+	public double getOt1Total() {
+		return ot1Total;
+	}
+	public void setOt1Total(double ot1Total) {
+		this.ot1Total = ot1Total;
+	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(attendance, basicSalary, deptCode, deptName, divCode, divName, empName, gosiAmt, hbankLoan,
-				id, lateHrs, loanDeduction, nShiftAllowance, ot1, ot2, otRate1, otRate2, otherAllowanceTotal,
+				id, lateHrs, loanDeduction, nShiftAllowance, ot1, ot1Total, ot2, otRate1, otRate2, otherAllowanceTotal,
 				otherDeductionTotal, rentAllowance, spageAllowance, travelAllowance);
 	}
 	@Override
@@ -188,9 +194,10 @@ public class PayrollSummaryDto implements Serializable {
 				&& Double.doubleToLongBits(gosiAmt) == Double.doubleToLongBits(other.gosiAmt)
 				&& Double.doubleToLongBits(hbankLoan) == Double.doubleToLongBits(other.hbankLoan) && id == other.id
 				&& Double.doubleToLongBits(lateHrs) == Double.doubleToLongBits(other.lateHrs)
-				&& Objects.equals(loanDeduction, other.loanDeduction)
+				&& Double.doubleToLongBits(loanDeduction) == Double.doubleToLongBits(other.loanDeduction)
 				&& Double.doubleToLongBits(nShiftAllowance) == Double.doubleToLongBits(other.nShiftAllowance)
 				&& Double.doubleToLongBits(ot1) == Double.doubleToLongBits(other.ot1)
+				&& Double.doubleToLongBits(ot1Total) == Double.doubleToLongBits(other.ot1Total)
 				&& Double.doubleToLongBits(ot2) == Double.doubleToLongBits(other.ot2)
 				&& Double.doubleToLongBits(otRate1) == Double.doubleToLongBits(other.otRate1)
 				&& Double.doubleToLongBits(otRate2) == Double.doubleToLongBits(other.otRate2)
@@ -208,9 +215,9 @@ public class PayrollSummaryDto implements Serializable {
 				+ ", travelAllowance=" + travelAllowance + ", spageAllowance=" + spageAllowance + ", gosiAmt=" + gosiAmt
 				+ ", hbankLoan=" + hbankLoan + ", nShiftAllowance=" + nShiftAllowance + ", otherAllowanceTotal="
 				+ otherAllowanceTotal + ", otherDeductionTotal=" + otherDeductionTotal + ", lateHrs=" + lateHrs
-				+ ", ot1=" + ot1 + ", ot2=" + ot2 + ", otRate1=" + otRate1 + ", otRate2=" + otRate2 + "]";
+				+ ", ot1=" + ot1 + ", ot2=" + ot2 + ", otRate1=" + otRate1 + ", otRate2=" + otRate2 + ", ot1Total="
+				+ ot1Total + "]";
 	}
-	
 	
 	
 	

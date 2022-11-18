@@ -32,6 +32,7 @@ resources\MyApp.class
 entities\EmployeeLoanSummaryView.class
 repositories\SalaryRepository.class
 entities\LoanTransactionView.class
+entities\EmployeeView.class
 entities\Department.class
 exception\NoResultException.class
 exception\NoResultExceptionMapper.class
