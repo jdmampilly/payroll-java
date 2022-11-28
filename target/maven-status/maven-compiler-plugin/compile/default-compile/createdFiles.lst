@@ -10,6 +10,7 @@ exception\GenericExceptionMapper.class
 entities\LeaveTransactionHistory.class
 exception\DataNotFoundException.class
 filter\CORSFilter.class
+entities\DepartmentView.class
 entities\Month.class
 dto\PayrollSummaryDto.class
 exception\SQLServerExceptionMapper.class

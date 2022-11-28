@@ -30,6 +30,7 @@ import dto.EmpLoanSummaryDto;
 import dto.EmpLoanSummaryListDto;
 import dto.PayrollSummaryDto;
 import entities.Department;
+import entities.DepartmentView;
 import entities.Employee;
 import entities.EmployeeLoanSummaryView;
 import entities.LeaveSummary;
@@ -94,13 +95,29 @@ public class PayrollResources {
 	}
 	
 	@GET
-	@Path("/department/{divisionCode}")
+	@Path("/departmentView")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllDepartmentByDivisoin(@PathParam("divisionCode") String divisionCode) {
+	public Response getAllDepartmentView() {
+		List<DepartmentView> l = repo.getAll(DepartmentView.class);
+		return Response.ok(l.toArray(new DepartmentView[l.size()])).build();
+	}
+	
+	@GET
+	@Path("/departmentByDivision/{divisionCode}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllDepartmentByDivision(@PathParam("divisionCode") String divisionCode) {
 		System.out.println("Division Code:"+ divisionCode);
 		List<Department> l = repo.getAllDepartmentByDivision(divisionCode);
 		
 		return Response.ok(l.toArray(new Department[l.size()])).build();
+	}
+	
+	@GET
+	@Path("/department/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getdepartmentById(@PathParam("id") String id) throws Exception {
+		Department department = repo.getById(Department.class, id);
+		return Response.ok(department).build();
 	}
 	
 	@GET

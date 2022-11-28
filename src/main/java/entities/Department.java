@@ -14,15 +14,15 @@ public class Department implements Serializable {
 	private static final long serialVersionUID = 5951317614463105953L;
 	@Id
 	@Column(name = "DEPT_CODE")
-	private int id;
+	private String id;
 	@Column(name = "DEPT_NAME")
 	private String departmentName;
 	@Column(name = "DIVISION_CODE	")
 	private String divisionCode;
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getDepartmentName() {
@@ -51,12 +51,13 @@ public class Department implements Serializable {
 			return false;
 		Department other = (Department) obj;
 		return Objects.equals(departmentName, other.departmentName) && Objects.equals(divisionCode, other.divisionCode)
-				&& id == other.id;
+				&& Objects.equals(id, other.id);
 	}
 	@Override
 	public String toString() {
 		return "Department [id=" + id + ", departmentName=" + departmentName + ", divisionCode=" + divisionCode + "]";
 	}
+	
 	
 	
 	

@@ -26,6 +26,7 @@ E:\JDM\GitHub\payroll-java\src\main\java\dto\PayrollSummaryDto.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\MonthEndTransaction.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\Reports.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\EmployeeLoanSummaryView.java
+E:\JDM\GitHub\payroll-java\src\main\java\entities\DepartmentView.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\LeaveSummary.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\MonthEndAllowance.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\LeaveMaster.java
