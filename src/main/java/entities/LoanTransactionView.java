@@ -98,9 +98,7 @@ public class LoanTransactionView implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		LoanTransactionView other = (LoanTransactionView) obj;
 		return Objects.equals(bankCode, other.bankCode)
@@ -116,7 +114,7 @@ public class LoanTransactionView implements Serializable {
 				+ trnDate + ", drAmount=" + drAmount + ", crAmount=" + crAmount + ", trnDescription=" + trnDescription
 				+ ", bankCode=" + bankCode + ", voucherNo=" + voucherNo + "]";
 	}
-	
-	
-	
+
+
+
 }

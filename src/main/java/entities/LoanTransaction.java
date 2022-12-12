@@ -19,7 +19,7 @@ import javax.persistence.Transient;
 public class LoanTransaction implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -106,9 +106,7 @@ public class LoanTransaction implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		LoanTransaction other = (LoanTransaction) obj;
 		return Double.doubleToLongBits(additionalInstallment) == Double.doubleToLongBits(other.additionalInstallment)
@@ -124,10 +122,10 @@ public class LoanTransaction implements Serializable {
 				+ ", crAmount=" + crAmount + ", trnDescription=" + trnDescription + ", bankCode=" + bankCode
 				+ ", voucherNo=" + voucherNo + ", additionalInstallment=" + additionalInstallment + "]";
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 }

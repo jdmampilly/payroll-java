@@ -116,9 +116,7 @@ public class LeaveTransactionView implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		LeaveTransactionView other = (LeaveTransactionView) obj;
 		return Double.doubleToLongBits(adjLeave) == Double.doubleToLongBits(other.adjLeave)
@@ -135,6 +133,6 @@ public class LeaveTransactionView implements Serializable {
 				+ approvalStatus + ", applicationDate=" + applicationDate + ", noOfWorkingdays=" + noOfWorkingdays
 				+ ", adjLeave=" + adjLeave + "]";
 	}
-	
-	
+
+
 }

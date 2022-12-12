@@ -67,9 +67,7 @@ public class EmpLoanSummaryDto  implements Serializable{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		EmpLoanSummaryDto other = (EmpLoanSummaryDto) obj;
 		return Double.doubleToLongBits(basicSalary) == Double.doubleToLongBits(other.basicSalary)
@@ -79,11 +77,11 @@ public class EmpLoanSummaryDto  implements Serializable{
 				&& Objects.equals(lastTrnDate, other.lastTrnDate)
 				&& Double.doubleToLongBits(loanInstallment) == Double.doubleToLongBits(other.loanInstallment);
 	}
-	
-	
-	
 
-	
-	
+
+
+
+
+
 
 }

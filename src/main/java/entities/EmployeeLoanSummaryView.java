@@ -58,9 +58,7 @@ public class EmployeeLoanSummaryView implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		EmployeeLoanSummaryView other = (EmployeeLoanSummaryView) obj;
 		return Double.doubleToLongBits(crAmount) == Double.doubleToLongBits(other.crAmount)
@@ -72,7 +70,7 @@ public class EmployeeLoanSummaryView implements Serializable {
 		return "EmployeeLoanSummaryView [empCode=" + empCode + ", drAmount=" + drAmount + ", crAmount=" + crAmount
 				+ ", lastTransactionDate=" + lastTransactionDate + "]";
 	}
-	
-	
+
+
 
 }

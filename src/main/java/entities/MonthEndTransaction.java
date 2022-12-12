@@ -6,8 +6,6 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -228,9 +226,7 @@ public class MonthEndTransaction  implements Serializable{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		MonthEndTransaction other = (MonthEndTransaction) obj;
 		return Double.doubleToLongBits(attendance) == Double.doubleToLongBits(other.attendance)
@@ -267,6 +263,6 @@ public class MonthEndTransaction  implements Serializable{
 				+ ", otherDeductions=" + otherDeductions + "]";
 	}
 
-	
+
 
 }

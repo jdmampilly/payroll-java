@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 public class LoanMaster implements Serializable{
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -90,9 +90,7 @@ public class LoanMaster implements Serializable{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		LoanMaster other = (LoanMaster) obj;
 		if (empCode != other.empCode)
@@ -117,10 +115,10 @@ public class LoanMaster implements Serializable{
 		return "LoanMaster [id=" + id + ", empCode=" + empCode + ", loanAmount=" + loanAmount + ", loanType=" + loanType
 				+ ", loanInstallment=" + loanInstallment + ", loanDate=" + loanDate + "]";
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 }

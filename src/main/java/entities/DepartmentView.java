@@ -46,9 +46,7 @@ public class DepartmentView implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		DepartmentView other = (DepartmentView) obj;
 		return Objects.equals(departmentName, other.departmentName) && Objects.equals(divisionName, other.divisionName)
@@ -59,10 +57,10 @@ public class DepartmentView implements Serializable {
 		return "DepartmentView [id=" + id + ", departmentName=" + departmentName + ", divisionName=" + divisionName
 				+ "]";
 	}
-	
-	
-	
-	
+
+
+
+
 }
 
 

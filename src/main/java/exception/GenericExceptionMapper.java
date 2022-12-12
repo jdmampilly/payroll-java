@@ -17,6 +17,6 @@ public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
 				.entity(errorMessage)
 				.build();
 	}
-	
+
 
 }

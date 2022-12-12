@@ -58,6 +58,14 @@ public class PayrollSummaryView implements Serializable {
 	private double subTotal;
 	@Column(name ="net_salary")
 	private double netSalary;
+	@Column(name="BANK_CODE")
+	private String bankCode;
+	@Column(name="lateHoursAmount")
+	private double lateHoursAmount;
+	@Column(name="AC_NO")
+	private String accountNo;
+	@Column(name="total_deductions")
+	private double totalDeductions;
 	public int getId() {
 		return id;
 	}
@@ -184,11 +192,36 @@ public class PayrollSummaryView implements Serializable {
 	public void setNetSalary(double netSalary) {
 		this.netSalary = netSalary;
 	}
+	public String getBankCode() {
+		return bankCode;
+	}
+	public void setBankCode(String bankCode) {
+		this.bankCode = bankCode;
+	}
+	public double getLateHoursAmount() {
+		return lateHoursAmount;
+	}
+	public void setLateHoursAmount(double lateHoursAmount) {
+		this.lateHoursAmount = lateHoursAmount;
+	}
+	public String getAccountNo() {
+		return accountNo;
+	}
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
+	}
+	public double getTotalDeductions() {
+		return totalDeductions;
+	}
+	public void setTotalDeductions(double totalDeductions) {
+		this.totalDeductions = totalDeductions;
+	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(attendance, basicSalary, deptCode, deptName, divCode, divName, empName, gosiAmt, hbankLoan,
-				id, lateHrs, loanDeduction, nShiftAllowance, netSalary, otTotal, otherAllowanceTotal,
-				otherDeductionTotal, rentAllowance, spageAllowance, subTotal, travelAllowance);
+		return Objects.hash(accountNo, attendance, bankCode, basicSalary, deptCode, deptName, divCode, divName, empName,
+				gosiAmt, hbankLoan, id, lateHoursAmount, lateHrs, loanDeduction, nShiftAllowance, netSalary, otTotal,
+				otherAllowanceTotal, otherDeductionTotal, rentAllowance, spageAllowance, subTotal, totalDeductions,
+				travelAllowance);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -199,13 +232,16 @@ public class PayrollSummaryView implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		PayrollSummaryView other = (PayrollSummaryView) obj;
-		return Double.doubleToLongBits(attendance) == Double.doubleToLongBits(other.attendance)
+		return Objects.equals(accountNo, other.accountNo)
+				&& Double.doubleToLongBits(attendance) == Double.doubleToLongBits(other.attendance)
+				&& Objects.equals(bankCode, other.bankCode)
 				&& Double.doubleToLongBits(basicSalary) == Double.doubleToLongBits(other.basicSalary)
 				&& Objects.equals(deptCode, other.deptCode) && Objects.equals(deptName, other.deptName)
 				&& Objects.equals(divCode, other.divCode) && Objects.equals(divName, other.divName)
 				&& Objects.equals(empName, other.empName)
 				&& Double.doubleToLongBits(gosiAmt) == Double.doubleToLongBits(other.gosiAmt)
 				&& Double.doubleToLongBits(hbankLoan) == Double.doubleToLongBits(other.hbankLoan) && id == other.id
+				&& Double.doubleToLongBits(lateHoursAmount) == Double.doubleToLongBits(other.lateHoursAmount)
 				&& Double.doubleToLongBits(lateHrs) == Double.doubleToLongBits(other.lateHrs)
 				&& Double.doubleToLongBits(loanDeduction) == Double.doubleToLongBits(other.loanDeduction)
 				&& Double.doubleToLongBits(nShiftAllowance) == Double.doubleToLongBits(other.nShiftAllowance)
@@ -216,6 +252,7 @@ public class PayrollSummaryView implements Serializable {
 				&& Double.doubleToLongBits(rentAllowance) == Double.doubleToLongBits(other.rentAllowance)
 				&& Double.doubleToLongBits(spageAllowance) == Double.doubleToLongBits(other.spageAllowance)
 				&& Double.doubleToLongBits(subTotal) == Double.doubleToLongBits(other.subTotal)
+				&& Double.doubleToLongBits(totalDeductions) == Double.doubleToLongBits(other.totalDeductions)
 				&& Double.doubleToLongBits(travelAllowance) == Double.doubleToLongBits(other.travelAllowance);
 	}
 	@Override
@@ -226,10 +263,12 @@ public class PayrollSummaryView implements Serializable {
 				+ ", travelAllowance=" + travelAllowance + ", spageAllowance=" + spageAllowance + ", gosiAmt=" + gosiAmt
 				+ ", hbankLoan=" + hbankLoan + ", nShiftAllowance=" + nShiftAllowance + ", otherAllowanceTotal="
 				+ otherAllowanceTotal + ", otherDeductionTotal=" + otherDeductionTotal + ", lateHrs=" + lateHrs
-				+ ", otTotal=" + otTotal + ", subTotal=" + subTotal + ", netSalary=" + netSalary + "]";
+				+ ", otTotal=" + otTotal + ", subTotal=" + subTotal + ", netSalary=" + netSalary + ", bankCode="
+				+ bankCode + ", lateHoursAmount=" + lateHoursAmount + ", accountNo=" + accountNo + ", totalDeductions="
+				+ totalDeductions + "]";
 	}
 	
 	
 
-	
+
 }

@@ -1,6 +1,7 @@
 package entities;
 import java.io.Serializable;
 import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +13,7 @@ import javax.persistence.Table;
 public class MonthEndDeduction implements Serializable{
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -73,9 +74,7 @@ public class MonthEndDeduction implements Serializable{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		MonthEndDeduction other = (MonthEndDeduction) obj;
 		return Objects.equals(description, other.description) && id == other.id
@@ -87,7 +86,7 @@ public class MonthEndDeduction implements Serializable{
 		return "MonthEndDeduction [trnId=" + trnId + ", id=" + id + ", trnMonth=" + trnMonth + ", trnYear=" + trnYear
 				+ ", otherDeduction=" + otherDeduction + ", description=" + description + "]";
 	}
-	
-	
-	
+
+
+
 }

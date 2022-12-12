@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class MonthEndAllowance implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -76,9 +76,7 @@ public class MonthEndAllowance implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		MonthEndAllowance other = (MonthEndAllowance) obj;
 		return Objects.equals(description, other.description) && id == other.id
@@ -90,7 +88,7 @@ public class MonthEndAllowance implements Serializable {
 		return "MonthEndAllowance [trnId=" + trnId + ", id=" + id + ", trnMonth=" + trnMonth + ", trnYear=" + trnYear
 				+ ", otherAllowance=" + otherAllowance + ", description=" + description + "]";
 	}
-	
-	
+
+
 
 }

@@ -6,16 +6,15 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.persistence.RollbackException;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
-import javax.persistence.RollbackException;
 
-import entities.Employee;
 import entities.EmployeeView;
 import entities.Month;
 import entities.MonthEndAllowance;
@@ -127,7 +126,7 @@ public class SalaryService implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void saveSalaryIncrement(SalaryIncrement inc) throws Exception {
 		try {
 			utx.begin();

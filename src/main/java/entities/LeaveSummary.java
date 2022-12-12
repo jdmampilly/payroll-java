@@ -70,9 +70,7 @@ public class LeaveSummary implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		LeaveSummary other = (LeaveSummary) obj;
 		return Double.doubleToLongBits(annualLeave) == Double.doubleToLongBits(other.annualLeave)
@@ -86,8 +84,8 @@ public class LeaveSummary implements Serializable {
 		return "LeaveSummary [id=" + id + ", empName=" + empName + ", annualLeave=" + annualLeave + ", sickLeave="
 				+ sickLeave + ", casualLeave=" + casualLeave + ", leaveAdjusted=" + leaveAdjusted + "]";
 	}
-	
-	
-	
+
+
+
 
 }

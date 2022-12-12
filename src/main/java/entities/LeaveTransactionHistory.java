@@ -17,10 +17,10 @@ import javax.persistence.TemporalType;
 @Table(name="LV_TRANS_HIST")
 public class LeaveTransactionHistory implements Serializable{
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -3173438766493145012L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="ID")
@@ -97,9 +97,7 @@ public class LeaveTransactionHistory implements Serializable{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		LeaveTransactionHistory other = (LeaveTransactionHistory) obj;
 		return Double.doubleToLongBits(adjLeave) == Double.doubleToLongBits(other.adjLeave)
@@ -115,6 +113,6 @@ public class LeaveTransactionHistory implements Serializable{
 				+ dateTo + ", annualLeave=" + annualLeave + ", sickLeave=" + sickLeave + ", casualLeave=" + casualLeave
 				+ ", adjLeave=" + adjLeave + "]";
 	}
-	
+
 
 }

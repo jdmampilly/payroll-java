@@ -9,6 +9,7 @@ E:\JDM\GitHub\payroll-java\src\main\java\entities\MonthEndDeduction.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\LoanSummaryView.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\LoanMaster.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\PayrollSummaryView.java
+E:\JDM\GitHub\payroll-java\src\main\java\entities\SalaryBankTransfer.java
 E:\JDM\GitHub\payroll-java\src\main\java\exception\NoResultExceptionMapper.java
 E:\JDM\GitHub\payroll-java\src\main\java\entities\Department.java
 E:\JDM\GitHub\payroll-java\src\main\java\filter\PoweredByFilter.java

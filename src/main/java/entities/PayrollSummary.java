@@ -198,9 +198,7 @@ public class PayrollSummary implements Serializable{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		PayrollSummary other = (PayrollSummary) obj;
 		return Double.doubleToLongBits(attendance) == Double.doubleToLongBits(other.attendance)
@@ -233,18 +231,18 @@ public class PayrollSummary implements Serializable{
 				+ otherAllowanceTotal + ", otherDeductionTotal=" + otherDeductionTotal + ", lateHrs=" + lateHrs
 				+ ", ot1=" + ot1 + ", ot2=" + ot2 + ", otRate1=" + otRate1 + ", otRate2=" + otRate2 + "]";
 	}
-	
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

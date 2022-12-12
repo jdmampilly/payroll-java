@@ -57,7 +57,7 @@ public class PayrollRepository implements Serializable {
 
 //			   List<EmpLoanSummaryListDto> l = query.getResultList();
 			List<Object[]> ls = query.getResultList();
-			List<EmpLoanSummaryListDto> dtoList = new ArrayList<EmpLoanSummaryListDto>();
+			List<EmpLoanSummaryListDto> dtoList = new ArrayList<>();
 
 			for (Object[] a : ls) {
 				EmpLoanSummaryListDto els = new EmpLoanSummaryListDto();
@@ -85,7 +85,7 @@ public class PayrollRepository implements Serializable {
 
 //	public List<LoanTransaction> getAllLoanSummary1() {
 //		return this.em.createQuery("SELECT a FROM  LoanTransaction a  where a.empCode = 212", LoanTransaction.class).getResultList();
-//		
+//
 //	}
 
 	public <T> List<T> getAllByCriteria(Class<T> entity, Map<String, String> parameters) {
@@ -168,11 +168,13 @@ public class PayrollRepository implements Serializable {
 			em.persist(t);
 			em.flush();
 //			em.refresh(t);
-			em.close();
+//			em.close();
 			System.out.println(t);
 			return t;
 		} catch (Exception e) {
-			throw new SQLServerException("On Saving");
+			e.printStackTrace();
+//			throw new SQLServerException("On Saving");
+			throw e;
 		}
 
 	}
@@ -180,8 +182,10 @@ public class PayrollRepository implements Serializable {
 	public <T> T update(T t) {
 		try {
 			em.merge(t);
+			System.out.println("update completed!");
 			return t;
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new SQLServerException("On Updating");
 		}
 	}
@@ -445,7 +449,7 @@ public class PayrollRepository implements Serializable {
 		query.executeUpdate();
 	}
 
-	public void PostToLoanFiles() {
+	public void MonthEndClose() {
 		try {
 			Month m = this.getByKey(Month.class, "status", "current");
 			String d1 = m.getYear() + "-" + m.getMonth() + "-" + "01";
@@ -467,49 +471,73 @@ public class PayrollRepository implements Serializable {
 			// set month end transaction to posted
 			Query query3 = this.em.createQuery("Update MonthEndTransaction a set a.posted = 1");
 			query3.executeUpdate();
+			
+			
+			//post to salary history
+			Query querySalaryHistory = this.em.createNativeQuery("insert into MET_MAIN_HIST select * from MET_MAIN a");
+			querySalaryHistory.executeUpdate();
+			
+			//post to allowance history
+			Query queryAllowanceHistory = this.em.createNativeQuery("insert into MET_ALLW_HIST select * from MET_ALLOWANCE1 a");
+			queryAllowanceHistory.executeUpdate();
+			
+			//post to Deduction history
+			Query queryDeductionHistory = this.em.createNativeQuery("insert into MET_DED_HIST select * from MET_DEDUCTION a");
+			queryDeductionHistory.executeUpdate();
+			
+			//Delete current salary, allowance and deduction data
+			Query queryDeleteAllowance = em.createQuery("DELETE FROM MonthEndAllowance m");
+			queryDeleteAllowance.executeUpdate();
+
+			Query queryDeleteSalaryDeduction = em.createQuery("DELETE FROM MonthEndDeduction m");
+			queryDeleteSalaryDeduction.executeUpdate();
+
+			Query queryDeleteSalary = em.createQuery("DELETE FROM MonthEndTransaction m");
+			queryDeleteSalary.executeUpdate();
 
 		} catch (Exception e) {
 			System.out.println("Error " + e);
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 	}
 
-	public void PostToLeaveFiles() {
-		// TODO Auto-generated method stub
+//	public void PostToSalaryHistory() {
+//		Query query = this.em.createNativeQuery("insert into MET_MAIN_HIST select * from MET_MAIN a");
+//		query.executeUpdate();
+//
+//	}
 
-	}
+//	public void PostToAllowanceHistory() {
+//		try {
+//			Query query = this.em.createNativeQuery("insert into MET_ALLW_HIST select * from MET_ALLOWANCE a");
+//			query.executeUpdate();
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//			throw new SQLServerException("On inserting records to MET_ALLW_HIST");
+//			
+//		}
+//		
+//
+//	}
 
-	public void PostToSalaryHistory() {
-		Query query = this.em.createNativeQuery("insert into MET_MAIN_HIST select * from MET_MAIN a");
-		query.executeUpdate();
+//	public void PostToDeductionHistory() {
+//		Query query = this.em.createNativeQuery("insert into MET_DED_HIST select * from MET_DEDUCTION a");
+//		query.executeUpdate();
+//
+//	}
 
-	}
-
-	public void PostToAllowanceHistory() {
-		Query query = this.em.createNativeQuery("insert into MET_ALLW_HIST select * from MET_ALLOWANCE a");
-		query.executeUpdate();
-
-	}
-
-	public void PostToDeductionHistory() {
-		Query query = this.em.createNativeQuery("insert into MET_DED_HIST select * from MET_DEDUCTION a");
-		query.executeUpdate();
-
-	}
-
-	public void DeleteCurrentSalaryData() {
-//		 Query query1 = em.createQuery(
-//			      "DELETE FROM MonthEndAllowance m");
-//		 query1.executeUpdate();
-
-		Query query2 = em.createQuery("DELETE FROM MonthEndDeduction m");
-		query2.executeUpdate();
-
-//		 Query query3 = em.createQuery(
-//			      "DELETE FROM MonthEndTransaction m");
-//		 query3.executeUpdate();
-	}
+//	public void DeleteCurrentSalaryData() {
+//		Query query1 = em.createQuery("DELETE FROM MonthEndAllowance m");
+//		query1.executeUpdate();
+//
+//		Query query2 = em.createQuery("DELETE FROM MonthEndDeduction m");
+//		query2.executeUpdate();
+//
+//		Query query3 = em.createQuery("DELETE FROM MonthEndTransaction m");
+//		query3.executeUpdate();
+//	}
 
 	@Transactional
 	public void CreateLeave(LeaveTransaction lt) {
@@ -575,7 +603,7 @@ public class PayrollRepository implements Serializable {
 //			e.printStackTrace();
 //		}
 //
-//		
+//
 //	}
 
 	public List<Department> getAllDepartment() {
@@ -592,7 +620,7 @@ public class PayrollRepository implements Serializable {
 
 	/*
 	 * public void fetchLoanSummary () {
-	 * 
+	 *
 	 * Query query = this.em.createNamedQuery( select max(els.TRN_ID), els.emp_code,
 	 * em.emp_name, max(els.trn_date) as trn_date, sum(els.dr_amt) as total_dr,
 	 * sum(els.cr_amt) as total_cr from emp_loan_trns els inner join EMP_MAST em on
@@ -633,7 +661,7 @@ public class PayrollRepository implements Serializable {
 				try {
 					Query query = em.createNativeQuery(s);
 					List<Object[]> ls = query.getResultList();
-					List<PayrollSummaryDto> dtoList = new ArrayList<PayrollSummaryDto>();
+					List<PayrollSummaryDto> dtoList = new ArrayList<>();
 					for (Object[] a : ls) {
 						PayrollSummaryDto els = new PayrollSummaryDto();
 						els.setId((int) a[0]);
@@ -686,7 +714,7 @@ public class PayrollRepository implements Serializable {
 //			}
 
 		}
-//		
+//
 		return null;
 	}
 }

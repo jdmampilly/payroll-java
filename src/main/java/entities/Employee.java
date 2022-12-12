@@ -6,10 +6,7 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,8 +17,8 @@ public class Employee implements Serializable{
 	private static final long serialVersionUID = 1L;
     @Id
 //	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @SequenceGenerator(name = "SEQ_GEN", sequenceName = "SEQ_EMP_MAST", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GEN")
+//    @SequenceGenerator(name = "SEQ_GEN", sequenceName = "SEQ_EMP_MAST", allocationSize = 1)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GEN")
 	@Column(name="EMP_CODE")
 	private int id;
 	@Column(name="EMP_NAME")
@@ -357,9 +354,7 @@ public class Employee implements Serializable{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Employee other = (Employee) obj;
 		return Objects.equals(acNumber, other.acNumber) && Objects.equals(bankCode, other.bankCode)
@@ -416,8 +411,8 @@ public class Employee implements Serializable{
 				+ ", otherAllowance=" + otherAllowance + ", nshAllowance=" + nshAllowance + ", loanInstallment="
 				+ loanInstallment + "]";
 	}
-	
-	
-	
+
+
+
 
 }

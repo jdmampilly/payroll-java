@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class LeaveMaster implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -85,9 +85,7 @@ public class LeaveMaster implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		LeaveMaster other = (LeaveMaster) obj;
 		return Double.doubleToLongBits(adjLeave) == Double.doubleToLongBits(other.adjLeave)
@@ -102,7 +100,7 @@ public class LeaveMaster implements Serializable {
 		return "LeaveMaster [id=" + id + ", empCode=" + empCode + ", trnId=" + trnId + ", annualLeave=" + annualLeave
 				+ ", sickLeave=" + sickLeave + ", casualLeave=" + casualLeave + ", adjLeave=" + adjLeave + "]";
 	}
-		
-	
+
+
 
 }

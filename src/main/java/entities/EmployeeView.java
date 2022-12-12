@@ -370,9 +370,7 @@ public class EmployeeView implements Serializable{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		EmployeeView other = (EmployeeView) obj;
 		return Objects.equals(acNumber, other.acNumber) && Objects.equals(bankCode, other.bankCode)
@@ -430,7 +428,7 @@ public class EmployeeView implements Serializable{
 				+ ", nshAllowance=" + nshAllowance + ", loanInstallment=" + loanInstallment + ", divisionName="
 				+ divisionName + ", deptName=" + deptName + "]";
 	}
-	
-	
+
+
 
 }

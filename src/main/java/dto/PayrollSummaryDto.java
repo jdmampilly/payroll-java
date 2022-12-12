@@ -1,13 +1,12 @@
 package dto;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Objects;
 
 import javax.persistence.Id;
 
 public class PayrollSummaryDto implements Serializable {
-	
+
 	private static final long serialVersionUID = 78696552375406101L;
 	@Id
 	private int id;
@@ -181,9 +180,7 @@ public class PayrollSummaryDto implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		PayrollSummaryDto other = (PayrollSummaryDto) obj;
 		return Double.doubleToLongBits(attendance) == Double.doubleToLongBits(other.attendance)
@@ -218,8 +215,8 @@ public class PayrollSummaryDto implements Serializable {
 				+ ", ot1=" + ot1 + ", ot2=" + ot2 + ", otRate1=" + otRate1 + ", otRate2=" + otRate2 + ", ot1Total="
 				+ ot1Total + "]";
 	}
-	
-	
-	
+
+
+
 
 }

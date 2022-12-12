@@ -55,9 +55,7 @@ public class OtTable implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		OtTable other = (OtTable) obj;
 		return id == other.id
@@ -70,9 +68,9 @@ public class OtTable implements Serializable {
 		return "OtTable [id=" + id + ", otRate1=" + otRate1 + ", otRate2=" + otRate2 + ", nightShiftAmount="
 				+ nightShiftAmount + "]";
 	}
-	  
-	  
-	  
-	
+
+
+
+
 
 }

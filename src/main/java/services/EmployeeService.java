@@ -2,21 +2,19 @@ package services;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import dto.EmpLoanSummaryDto;
 import entities.Employee;
-import entities.EmployeeLoanSummaryView;
 import entities.LoanSummaryView;
-import entities.LoanTransaction;
 import repositories.PayrollRepository;
 import repositories.SalaryRepository;
-import java.time.temporal.ChronoUnit;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 
 @Stateless
 public class EmployeeService implements Serializable {
@@ -31,7 +29,7 @@ public class EmployeeService implements Serializable {
 		System.out.println("ïn calculateEmpLoanInfo");
 		EmpLoanSummaryDto e = new EmpLoanSummaryDto();
 //		e = payrollRepo.getByKey(EmployeeLoanSummaryView.class, "empCode", empCode)
-		
+
 		try {
 			e =  payrollRepo.getEmpLoanSummary(empCode);
 			System.out.println("employee loan summary:" + e);
@@ -39,7 +37,7 @@ public class EmployeeService implements Serializable {
 			// TODO: handle exception
 			System.out.println("employee loan summary error:" +e2.getMessage());
 		}
-//			
+//
 		EmpLoanSummaryDto eDto = new EmpLoanSummaryDto();
 		if (e != null) {
 			System.out.println("employee loan summary:" + e);
@@ -47,7 +45,7 @@ public class EmployeeService implements Serializable {
 			eDto.setDrAmountTotal(e.getDrAmountTotal());
 			eDto.setCrAmountTotal(e.getCrAmountTotal());
 			eDto.setLastTrnDate(e.getLastTrnDate());
-			
+
 		} else {
 			System.out.println("e is null");
 		}
@@ -67,11 +65,11 @@ public class EmployeeService implements Serializable {
 		return eDto;
 
 	}
-	
+
 	public LoanSummaryView getEmpLoanInfo(int empCode) {
-		
+
 		return payrollRepo.getById(LoanSummaryView.class, empCode);
-		
+
 	}
 
 	private double calculateIndeminity(Employee e) {

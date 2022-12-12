@@ -45,9 +45,7 @@ public class Department implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Department other = (Department) obj;
 		return Objects.equals(departmentName, other.departmentName) && Objects.equals(divisionCode, other.divisionCode)
@@ -57,10 +55,10 @@ public class Department implements Serializable {
 	public String toString() {
 		return "Department [id=" + id + ", departmentName=" + departmentName + ", divisionCode=" + divisionCode + "]";
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 
 }

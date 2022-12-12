@@ -11,8 +11,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 public class EmpLoanSummaryListDto implements Serializable {
-	
-	
+
+
 	private static final long serialVersionUID = -6818637243393560584L;
 	@Id
 	@Column(name="emp_code")
@@ -64,17 +64,15 @@ public class EmpLoanSummaryListDto implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		EmpLoanSummaryListDto other = (EmpLoanSummaryListDto) obj;
 		return Objects.equals(empName, other.empName) && id == other.id
 				&& Objects.equals(lastTransactionDate, other.lastTransactionDate)
 				&& Objects.equals(totalLoans, other.totalLoans) && Objects.equals(totalPayment, other.totalPayment);
 	}
-	
-	
-	
+
+
+
 
 }

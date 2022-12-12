@@ -32,14 +32,12 @@ import dto.PayrollSummaryDto;
 import entities.Department;
 import entities.DepartmentView;
 import entities.Employee;
-import entities.EmployeeLoanSummaryView;
 import entities.LeaveSummary;
 //import entities.EmployeeLoanSummaryView;
 import entities.LeaveTransaction;
 import entities.LeaveTransactionHistory;
 import entities.LeaveTransactionView;
 import entities.LoanMaster;
-import entities.LoanSummaryView;
 import entities.LoanTransaction;
 import entities.LoanTransactionView;
 import entities.Month;
@@ -47,9 +45,9 @@ import entities.MonthEndAllowance;
 import entities.MonthEndDeduction;
 import entities.MonthEndTransaction;
 import entities.OtTable;
-import entities.PayrollSummary;
 import entities.PayrollSummaryView;
 import entities.Reports;
+import entities.SalaryBankTransfer;
 import entities.SalaryIncrement;
 import repositories.LoansRepository;
 import repositories.PayrollRepository;
@@ -71,8 +69,8 @@ public class PayrollResources {
 	@EJB
 	LoansRepository lrepo;
 
-	
-	
+
+
 	@GET
 	@Path("echo")
 	public Response echo() {
@@ -85,7 +83,7 @@ public class PayrollResources {
 		OtTable ot = repo.getById(OtTable.class, 1);
 		return Response.ok(ot).build();
 	}
-	
+
 	@GET
 	@Path("/department")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -93,7 +91,7 @@ public class PayrollResources {
 		List<Department> l = repo.getAllDepartment();
 		return Response.ok(l.toArray(new Department[l.size()])).build();
 	}
-	
+
 	@GET
 	@Path("/departmentView")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -101,17 +99,17 @@ public class PayrollResources {
 		List<DepartmentView> l = repo.getAll(DepartmentView.class);
 		return Response.ok(l.toArray(new DepartmentView[l.size()])).build();
 	}
-	
+
 	@GET
 	@Path("/departmentByDivision/{divisionCode}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllDepartmentByDivision(@PathParam("divisionCode") String divisionCode) {
 		System.out.println("Division Code:"+ divisionCode);
 		List<Department> l = repo.getAllDepartmentByDivision(divisionCode);
-		
+
 		return Response.ok(l.toArray(new Department[l.size()])).build();
 	}
-	
+
 	@GET
 	@Path("/department/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -119,12 +117,19 @@ public class PayrollResources {
 		Department department = repo.getById(Department.class, id);
 		return Response.ok(department).build();
 	}
-	
+
 	@GET
 	@Path("/employee/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getEmployeeById(@PathParam("id") int id) throws Exception {
-		Employee employee = repo.getById(Employee.class, id);
+		Employee employee = new Employee();
+		try {
+			employee = repo.getById(Employee.class, id);
+		} catch (Exception e) {
+			System.out.println("no employee found for id:" + id);
+			// TODO: handle exception
+		}
+		
 		return Response.ok(employee).build();
 	}
 
@@ -163,7 +168,7 @@ public class PayrollResources {
 		repo.update(entity);
 		return Response.ok(entity).build();
 	}
-	
+
 //Salary Increment
 	@POST
 	@Path("/salaryIncrement/save")
@@ -173,7 +178,7 @@ public class PayrollResources {
 		salServ.saveSalaryIncrement(entity);
 		return Response.ok(entity).build();
 	}
-	
+
 // Month end transactions
 // All salary list
 	@GET
@@ -191,7 +196,7 @@ public class PayrollResources {
 		MonthEndTransaction m = salServ.getEmployeeSalary(id);
 		return Response.ok(m).build();
 	}
-	
+
 	@GET
 	@Path("/employee/mea/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -208,8 +213,8 @@ public class PayrollResources {
 		List<MonthEndDeduction> l = salServ.getEmployeeMed(id);
 		return Response.ok(l.toArray(new MonthEndDeduction[l.size()])).build();
 	}
-	
-// Employee salary save	
+
+// Employee salary save
 	@POST
 	@Path("/employee/met/save")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -230,8 +235,8 @@ public class PayrollResources {
 		}
 		return Response.ok(entity).build();
 	}
-	
-	
+
+
 	@GET
 	@Path("/salaryList")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -240,7 +245,7 @@ public class PayrollResources {
 		Collections.sort(l, (o1, o2) -> o2.getId() - o1.getId());
 		return Response.ok(l.toArray(new PayrollSummaryView[l.size()])).build();
 	}
-	
+
 	@GET
 	@Path("/salaryListTest1")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -258,7 +263,7 @@ public class PayrollResources {
 		Collections.sort(l, (o1, o2) -> o2.getId() - o1.getId());
 		return Response.ok(l.toArray(new PayrollSummaryDto[l.size()])).build();
 	}
-	
+
 	@GET
 	@Path("/salaryList/{divisionCode}/{deptCode}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -267,9 +272,26 @@ public class PayrollResources {
 		Collections.sort(l, (o1, o2) -> o2.getId() - o1.getId());
 		return Response.ok(l.toArray(new PayrollSummaryView[l.size()])).build();
 	}
+
+// Bank transfer
+	@GET
+	@Path("/bankTransfer")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllBankTransfer() {
+		List<SalaryBankTransfer> l = repo.getAll(SalaryBankTransfer.class);
+		return Response.ok(l.toArray(new SalaryBankTransfer[l.size()])).build();
+	}
+	
+//	@GET
+//	@Path("/bankTransfer1")
+//	@Produces(MediaType.TEXT_PLAIN)
+//	public Response getAllBankTransfer1() {
+//		List<SalaryBankTransfer> l = repo.getAll(SalaryBankTransfer.class);
+//		return Response.ok(l.toArray(new SalaryBankTransfer[l.size()])).build();
+//	}
 	
 // Month end closing
-	
+
 	@POST
 	@Path("/monthEndClose")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -277,12 +299,14 @@ public class PayrollResources {
 		System.out.println("Closing Month");
 		try {
 			payrollServ.CloseMonth();
+			return Response.ok().build();
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
+			return Response.status(500).entity("Error in close month procedure").build();
 		}
-		return Response.ok().build();
 	}
-	
+
 // Leaves
 	@GET
 	@Path("/leaveTransactions")
@@ -308,7 +332,7 @@ public class PayrollResources {
 		x = repo.getEmployeeLeaveRecord(empCode, id);
 		return Response.ok(x).build();
 	}
-	
+
 	@GET
 	@Path("/employee/leaveSummary")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -316,8 +340,8 @@ public class PayrollResources {
 		List<LeaveSummary> l = repo.getAll(LeaveSummary.class);
 		return Response.ok(l.toArray(new LeaveSummary[l.size()])).build();
 	}
-	
-	
+
+
 	@GET
 	@Path("/employee/leaveSummary/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -325,7 +349,7 @@ public class PayrollResources {
 		LeaveSummary leaveSummary = repo.getById(LeaveSummary.class, id);
 		return Response.ok(leaveSummary).build();
 	}
-	
+
 	@POST
 	@Path("/employee/saveLeaveTransaction")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -334,14 +358,14 @@ public class PayrollResources {
 		repo.CreateLeave(entity);
 		return Response.ok(entity).build();
 	}
-	
+
 //	@GET
 //	@Path("/employee/leaveTransactionList/{id}")
 //	@Produces(MediaType.APPLICATION_JSON)
 //	public LeaveTransactionHistory getltlistbyId(@PathParam("id") int id) throws Exception {
 //		return repo.getByKey(LeaveTransactionHistory.class,"empCode", id);
 //	}
-	
+
 	@GET
 	@Path("/employee/leaveTransactionList/{empCode}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -355,7 +379,7 @@ public class PayrollResources {
 //	@Path("/employee/leaves")
 //	@Consumes(MediaType.APPLICATION_JSON)
 //	public Response save( entity) {
-//		
+//
 //	}
 // Employee Loans
 // All Loan Transactions
@@ -366,7 +390,7 @@ public class PayrollResources {
 		List<LoanTransactionView> l = repo.getAll(LoanTransactionView.class);
 		return Response.ok(l.toArray(new LoanTransactionView[l.size()])).build();
 	}
-	
+
 	@GET
 	@Path("/loanSummary")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -383,7 +407,7 @@ public class PayrollResources {
 //		LoanTransaction l = payrollServ.getLoanSummary();
 //		 return Response.ok(l).build();
 //	}
-	
+
 // all loan transaction for the employee
 	@GET
 	@Path("/employee/loantransactions/{empCode}")
@@ -414,13 +438,13 @@ public class PayrollResources {
 	public EmpLoanSummaryDto getEmpLoanSumary(@PathParam("empCode") int empCode) {
 		System.out.println("empCode in loan summary:" + empCode);
 		return empServ.calculateEmpLoanInfo(empCode);
-		
+
 		//return empServ.getEmpLoanInfo(empCode);
 //		return repo.getById(LoanSummaryView.class, empCode);
 //		return  repo.getEmpLoanSummary(empCode);
-		
+
 	}
-	
+
 	@POST
 	@Path("/employee/loan/save")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -430,12 +454,12 @@ public class PayrollResources {
 		repo.save(entity);
 //		repo.updateLoanMaster(entity.getEmpCode(), entity);
 		if (entity.getAdditionalInstallment() !=0) {
-			repo.updateEmpMasterLoanInstallment(entity.getEmpCode(), entity.getAdditionalInstallment());	
+			repo.updateEmpMasterLoanInstallment(entity.getEmpCode(), entity.getAdditionalInstallment());
 		}
-		
+
 		return Response.ok(entity).build();
 	}
-	
+
 	//Month
 	@GET
 	@Path("/month/active")
@@ -443,14 +467,14 @@ public class PayrollResources {
 	public Response getActiveSalaryMonth() {
 		return Response.ok(repo.getByKey(Month.class, "status", "current")).build();
 	}
-	
+
 	@GET
 	@Path("/month")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getMonth() throws Exception {
 		List<Month> l = repo.getAll(Month.class);
 		return Response.ok(l.toArray(new Month[l.size()])).build();
-		
+
 	}
 	@POST
 	@Path("/month")
@@ -459,16 +483,16 @@ public class PayrollResources {
 		repo.update(entity);
 		return Response.ok(entity).build();
 	}
-	
+
 	@GET
 	@Path("/reports")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getReportList() throws Exception {
 		List<Reports> l = repo.getAll(Reports.class);
 		return Response.ok(l.toArray(new Reports[l.size()])).build();
-		
+
 	}
-	
+
 // testing
 	@GET
 	@Path("/testInt/{id}")
@@ -476,14 +500,14 @@ public class PayrollResources {
 	public Employee getTestByInt(@PathParam("id") int id) {
 		return repo.getByKey(Employee.class,"id", id);
 	}
-	
+
 	@GET
 	@Path("/testString/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Employee getTestByString(@PathParam("id") String id) {
 		return repo.getByKey(Employee.class,"cprNo", id);
 	}
-	
+
 //search or filter
 
 	@POST
@@ -493,7 +517,7 @@ public class PayrollResources {
 		return getByFilters(Employee.class, start, maxR, jsonData);
 
 	}
-	
+
 	@POST
 	@Path("/filterLoanTransactions/{start}/{maxR}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -502,7 +526,7 @@ public class PayrollResources {
 		return getByFilters(LoanTransactionView.class, start, maxR, jsonData);
 
 	}
-	
+
 //	@POST
 //	@Path("/filterLeaveTransactions/{start}/{maxR}")
 //	@Consumes(MediaType.APPLICATION_JSON)
@@ -511,7 +535,7 @@ public class PayrollResources {
 //		return getByFilters(LeaveTransaction.class, start, maxR, jsonData);
 //
 //	}
-	
+
 	@POST
 	@Path("/filterLeaveTransactions/{start}/{maxR}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -520,7 +544,7 @@ public class PayrollResources {
 		return getByFilters(LeaveTransactionView.class, start, maxR, jsonData);
 
 	}
-	
+
 //	@POST
 //	@Path("/filterLeaveSummary/{start}/{maxR}")
 //	@Consumes(MediaType.APPLICATION_JSON)
@@ -546,7 +570,7 @@ public class PayrollResources {
 		boolean isASC = sortingObject.getString("Sort").equalsIgnoreCase("ASC");
 
 		JsonArray jsonArray = mainJsonObject.getJsonArray("filter");
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		for (int i = 0; i < jsonArray.size(); i++) {
 			JsonObject jsonObject = jsonArray.getJsonObject(i);
 			JsonValue jsonValue = jsonObject.get("value");
@@ -560,9 +584,9 @@ public class PayrollResources {
 			map.put(jsonObject.getString("fieldName"), value.getClass().isArray() ? value : value.toString());
 		}
 		List<T> a = repo.<T>getAllRecords(tClass, map, start, maxR, sortFieldName, isASC);
-		
+
 		long l = repo.<T>getSize(tClass, map);
-		
+
 		X_TOTAL_COUNT = String.valueOf(l);
 		System.out.println("--------------- received:" + a.size());
 

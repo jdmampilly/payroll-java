@@ -68,9 +68,7 @@ public class SalaryIncrement implements Serializable{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		SalaryIncrement other = (SalaryIncrement) obj;
 		return empCode == other.empCode && id == other.id && Objects.equals(remarks, other.remarks)
@@ -82,7 +80,7 @@ public class SalaryIncrement implements Serializable{
 		return "SalaryIncrement [id=" + id + ", empCode=" + empCode + ", transactionDate=" + transactionDate
 				+ ", salIncrement=" + salIncrement + ", remarks=" + remarks + "]";
 	}
-	
-	
-	
+
+
+
 }

@@ -15,9 +15,9 @@ import javax.persistence.TemporalType;
 @Table(name="VW_LOAN_SUMMARY")
 public class LoanSummaryView implements Serializable {
 
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -2938941525481992500L;
 	@Id
@@ -70,9 +70,7 @@ public class LoanSummaryView implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		LoanSummaryView other = (LoanSummaryView) obj;
 		return Objects.equals(empName, other.empName) && id == other.id
@@ -85,7 +83,7 @@ public class LoanSummaryView implements Serializable {
 		return "LoanSummaryView [id=" + id + ", empName=" + empName + ", lastTransactionDate=" + lastTransactionDate
 				+ ", totalPayment=" + totalPayment + ", totalLoans=" + totalLoans + "]";
 	}
-	
-	
+
+
 
 }

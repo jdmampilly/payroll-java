@@ -14,7 +14,7 @@ public class PoweredByFilter implements ContainerResponseFilter {
 	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
 			throws IOException {
 		responseContext.getHeaders().add("X-Powered-By", "mampilly");
-		
+
 	}
 
 }
