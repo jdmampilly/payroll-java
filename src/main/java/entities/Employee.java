@@ -60,7 +60,7 @@ public class Employee implements Serializable{
 	@Column(name="WORK_DESGN")
 	private String workDesignation;
 	@Column(name="DEPT_CODE")
-	private String deptCode;
+	private String deptCode = "0";
 	@Column(name="CONTRACT_TYPE")
 	private String contractType;
 	@Column(name="RES_PERMIT")

@@ -3,6 +3,7 @@ package resources;
 import java.io.StringReader;
 import java.lang.reflect.Array;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,9 +128,8 @@ public class PayrollResources {
 			employee = repo.getById(Employee.class, id);
 		} catch (Exception e) {
 			System.out.println("no employee found for id:" + id);
-			// TODO: handle exception
+			e.printStackTrace();
 		}
-		
 		return Response.ok(employee).build();
 	}
 
@@ -307,6 +307,22 @@ public class PayrollResources {
 		}
 	}
 
+	@POST
+	@Path("/updateGosi")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateGosi() throws NotSupportedException {
+		System.out.println("Closing Month");
+		try {
+			payrollServ.updateGosi();
+			return Response.ok().build();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return Response.status(500).entity("Error in close update gosi procedure").build();
+		}
+	}	
+	
+	
 // Leaves
 	@GET
 	@Path("/leaveTransactions")
@@ -473,14 +489,17 @@ public class PayrollResources {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getMonth() throws Exception {
 		List<Month> l = repo.getAll(Month.class);
+		l.sort(Comparator.comparing(Month::getMonth));
 		return Response.ok(l.toArray(new Month[l.size()])).build();
 
 	}
 	@POST
 	@Path("/month")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response save(Month entity) {
-		repo.update(entity);
+	public Response save(List<Month> entity) {
+		System.out.println("Month update..");
+		System.out.println("entity.size->" + entity.size());
+		repo.updateMonth(entity);
 		return Response.ok(entity).build();
 	}
 

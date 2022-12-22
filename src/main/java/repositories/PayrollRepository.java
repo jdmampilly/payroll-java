@@ -717,4 +717,29 @@ public class PayrollRepository implements Serializable {
 //
 		return null;
 	}
+
+	public void updateMonth(List<Month> m) {
+			try {
+				this.em.createQuery("DELETE  FROM Month")
+				.executeUpdate();
+				for (Month c : m) {
+					this.em.persist(c);
+				}
+				System.out.println("update completed!");
+				return ;
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new SQLServerException("On Updating");
+			}
+		}
+
+	public void updateGosi() {
+		Query query = this.em.createNativeQuery(
+				"update EMP_MAST set GOSI_AMT = BASIC_SALARY * 0.06 where CONTRACT_TYPE = 0 and EMP_DT_LEAVE  is null ");
+		
+		query.executeUpdate();
+		System.out.println("Success for gosi update query");
+		
+	}
+		
 }

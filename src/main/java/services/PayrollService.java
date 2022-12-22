@@ -72,4 +72,8 @@ public class PayrollService implements Serializable {
 		return lt;
 	}
 
+	public void updateGosi() {
+		payrollRepo.updateGosi();
+	}
+
 }
