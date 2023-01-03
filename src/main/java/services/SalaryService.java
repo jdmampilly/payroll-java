@@ -50,9 +50,11 @@ public class SalaryService implements Serializable {
 			m = repo.getEmployeeSalary(empCode);
 			mea = repo.getMEA(empCode);
 		} catch (Exception e) {
-
+			System.out.println("New Transaction..........");
+			m = new MonthEndTransaction();
 		}
 		try {
+			System.out.println("Update New Transaction..........");
 			EmployeeView emp = new EmployeeView();
 			emp = payrollRepo.getById(EmployeeView.class, empCode);
 			Month month = payrollRepo.getByKey(Month.class, "status", "current");

@@ -387,6 +387,7 @@ public class PayrollResources {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getltlistbyId(@PathParam("empCode") int empCode) throws Exception {
 		List<LeaveTransactionHistory> l = repo.getListByKey(LeaveTransactionHistory.class, "empCode", empCode);
+		Collections.sort(l, (o1, o2) -> o1.getDateFrom().compareTo(o2.getDateFrom()));
 		return Response.ok(l.toArray(new LeaveTransactionHistory[l.size()])).build();
 	}
 
@@ -430,6 +431,7 @@ public class PayrollResources {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getEmployeeLoanAllRecords(@PathParam("empCode") int empCode) {
 		List<LoanTransaction> l = repo.getEmployeeLoanAllRecords(empCode);
+		Collections.sort(l, (o1, o2) -> o1.getTrnDate().compareTo(o2.getTrnDate()));
 		return Response.ok(l.toArray(new LoanTransaction[l.size()])).build();
 	}
 
