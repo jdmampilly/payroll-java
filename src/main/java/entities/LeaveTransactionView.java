@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,6 +14,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="VW_EMP_LEAVE_HISTORY")
+@Cacheable(false)
 public class LeaveTransactionView implements Serializable {
 	private static final long serialVersionUID = 2596386538572126223L;
 	@Id

@@ -6,7 +6,9 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
+import entities.Employee;
 import entities.MonthEndAllowance;
 import entities.MonthEndDeduction;
 import entities.MonthEndTransaction;
@@ -144,6 +146,51 @@ public class SalaryRepository implements Serializable {
 		}
 //
 	}
+	public int getMonthEndTransactionFirstRecord() {
+		MonthEndTransaction e = this.em.createQuery("Select a from MonthEndTransaction a order by a.id asc", MonthEndTransaction.class)
+					.setMaxResults(1)
+					.getSingleResult();
+		return e.getId();
+		
+	}
+	public int getMonthEndTransactionLastRecord() {
+		MonthEndTransaction e = this.em.createQuery("Select a from MonthEndTransaction a order by a.id desc", MonthEndTransaction.class)
+					.setMaxResults(1)
+					.getSingleResult();
+		return e.getId();
+		
+	}
 	
+	public int getMonthEndTransactionNextRecord( int id) {
+		MonthEndTransaction e = new MonthEndTransaction();
+		try {
+			 e = this.em.createQuery("Select a from MonthEndTransaction a where a.id >:id order by a.id", MonthEndTransaction.class)
+					.setParameter("id", id)
+					.setMaxResults(1)
+					.getSingleResult();
+		} catch (Exception ex) {
+			 e = this.em.createQuery("Select a from MonthEndTransaction a order by a.id desc", MonthEndTransaction.class)
+					.setMaxResults(1)
+					.getSingleResult();
+		}
+		return e.getId();
+		
+	}
+	
+	public int getMonthEndTransactionPreviousRecord( int id) {
+		MonthEndTransaction e = new MonthEndTransaction();
+		try {
+			e = this.em.createQuery("Select a from MonthEndTransaction a where a.id <:id order by a.id desc", MonthEndTransaction.class)
+					.setParameter("id", id)
+					.setMaxResults(1)
+					.getSingleResult();
+		} catch (Exception ex) {
+			e = this.em.createQuery("Select a from MonthEndTransaction a order by a.id asc", MonthEndTransaction.class)
+					.setMaxResults(1)
+					.getSingleResult();
+		}
+		 
+		return e.getId();
+	}	
 	
 }

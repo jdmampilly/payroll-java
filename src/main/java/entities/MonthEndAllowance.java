@@ -3,6 +3,7 @@ package entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="MET_ALLOWANCE")
+@Cacheable(false)
 public class MonthEndAllowance implements Serializable {
 
 	/**

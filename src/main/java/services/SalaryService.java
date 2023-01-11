@@ -14,6 +14,7 @@ import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
+import javax.ws.rs.core.Response;
 
 import entities.EmployeeView;
 import entities.Month;
@@ -140,7 +141,6 @@ public class SalaryService implements Serializable {
 			utx.rollback();
 			re.printStackTrace();
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}
@@ -150,13 +150,26 @@ public class SalaryService implements Serializable {
 	}
 
 	public List<MonthEndAllowance> getEmployeeMea(int id) {
-		// TODO Auto-generated method stub
 		return repo.getMEA(id);
 	}
 
 	public List<MonthEndDeduction> getEmployeeMed(int id) {
-		// TODO Auto-generated method stub
 		return repo.getMED(id);
+	}
+	
+	public int getMonthEndTransactionFirstRecord() {
+		return repo.getMonthEndTransactionFirstRecord();
+	}
+	public int getMonthEndTransactionLastRecord() {
+		return repo.getMonthEndTransactionLastRecord();
+	}
+
+	public int getMonthEndTransactionNextRecord(int id) {
+		return repo.getMonthEndTransactionNextRecord(id);
+	}
+	
+	public int getMonthEndTransactionPreviousRecord(int id) {
+		return repo.getMonthEndTransactionPreviousRecord(id);
 	}
 
 }

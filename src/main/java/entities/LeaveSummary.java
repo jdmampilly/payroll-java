@@ -3,6 +3,7 @@ package entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,6 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "VW_LEAVE_SUMMARY")
+@Cacheable(false)
 public class LeaveSummary implements Serializable {
 
 	private static final long serialVersionUID = 1241853321795970645L;

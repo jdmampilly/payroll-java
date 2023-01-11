@@ -235,7 +235,32 @@ public class PayrollResources {
 		}
 		return Response.ok(entity).build();
 	}
+	@GET
+	@Path("/salaryFirstRecord")
+	@Produces(MediaType.TEXT_PLAIN)
+	public int getSalaryFirstRecord() {
+		return salServ.getMonthEndTransactionFirstRecord();
+	}
+	@GET
+	@Path("/salaryLastRecord")
+	@Produces(MediaType.TEXT_PLAIN)
+	public int getSalaryLastRecord() {
+		return salServ.getMonthEndTransactionLastRecord();
+	}
 
+	@GET
+	@Path("/salaryNextRecord/{id}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public int getSalaryNextRecord(@PathParam("id") int id) {
+		return salServ.getMonthEndTransactionNextRecord(id);
+	}
+	
+	@GET
+	@Path("/salaryPreviousRecord/{id}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public int getSalaryPreviousRecord(@PathParam("id") int id) {
+		return salServ.getMonthEndTransactionPreviousRecord(id);
+	}
 
 	@GET
 	@Path("/salaryList")
