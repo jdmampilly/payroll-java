@@ -14,49 +14,52 @@ public class SalaryBankTransfer implements Serializable{
 
 	private static final long serialVersionUID = -406926649813942950L;
 	@Id
-	@Column(name="emp_code")
-	private int empCode;
-	@Column(name="EMP_NAME")
-	private String empName;
-	@Column(name="bank_code")
-	private String bankCode;
 	@Column(name="ac_no")
-	private String accountNo;
+	private String b_accountNo;
+//	@Column(name="emp_code")
+//	private int empCode;
+	@Column(name="EMP_NAME")
+	private String c_nameOfStaff;
+	@Column(name="bank_code")
+	private String a_bankCode;
+
 	@Column(name="net_salary")
-	private double netSalary;
-	public int getEmpCode() {
-		return empCode;
+	private double d_netSalary;
+	@Column(name="company_bank_code")
+	private String zcompanyBankCode;
+	public String getB_accountNo() {
+		return b_accountNo;
 	}
-	public void setEmpCode(int empCode) {
-		this.empCode = empCode;
+	public void setB_accountNo(String b_accountNo) {
+		this.b_accountNo = b_accountNo;
 	}
-	public String getEmpName() {
-		return empName;
+	public String getC_nameOfStaff() {
+		return c_nameOfStaff;
 	}
-	public void setEmpName(String empName) {
-		this.empName = empName;
+	public void setC_nameOfStaff(String c_nameOfStaff) {
+		this.c_nameOfStaff = c_nameOfStaff;
 	}
-	public String getBankCode() {
-		return bankCode;
+	public String getA_bankCode() {
+		return a_bankCode;
 	}
-	public void setBankCode(String bankCode) {
-		this.bankCode = bankCode;
+	public void setA_bankCode(String a_bankCode) {
+		this.a_bankCode = a_bankCode;
 	}
-	public String getAccountNo() {
-		return accountNo;
+	public double getD_netSalary() {
+		return d_netSalary;
 	}
-	public void setAccountNo(String accountNo) {
-		this.accountNo = accountNo;
+	public void setD_netSalary(double d_netSalary) {
+		this.d_netSalary = d_netSalary;
 	}
-	public double getNetSalary() {
-		return netSalary;
+	public String getZcompanyBankCode() {
+		return zcompanyBankCode;
 	}
-	public void setNetSalary(double netSalary) {
-		this.netSalary = netSalary;
+	public void setZcompanyBankCode(String zcompanyBankCode) {
+		this.zcompanyBankCode = zcompanyBankCode;
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(accountNo, bankCode, empCode, empName, netSalary);
+		return Objects.hash(a_bankCode, b_accountNo, c_nameOfStaff, d_netSalary, zcompanyBankCode);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -67,15 +70,17 @@ public class SalaryBankTransfer implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		SalaryBankTransfer other = (SalaryBankTransfer) obj;
-		return Objects.equals(accountNo, other.accountNo) && Objects.equals(bankCode, other.bankCode)
-				&& empCode == other.empCode && Objects.equals(empName, other.empName)
-				&& Double.doubleToLongBits(netSalary) == Double.doubleToLongBits(other.netSalary);
+		return Objects.equals(a_bankCode, other.a_bankCode) && Objects.equals(b_accountNo, other.b_accountNo)
+				&& Objects.equals(c_nameOfStaff, other.c_nameOfStaff)
+				&& Double.doubleToLongBits(d_netSalary) == Double.doubleToLongBits(other.d_netSalary)
+				&& Objects.equals(zcompanyBankCode, other.zcompanyBankCode);
 	}
 	@Override
 	public String toString() {
-		return "SalaryBankTransfer [empCode=" + empCode + ", empName=" + empName + ", bankCode=" + bankCode
-				+ ", accountNo=" + accountNo + ", netSalary=" + netSalary + "]";
+		return "SalaryBankTransfer [b_accountNo=" + b_accountNo + ", c_nameOfStaff=" + c_nameOfStaff + ", a_bankCode="
+				+ a_bankCode + ", d_netSalary=" + d_netSalary + ", zcompanyBankCode=" + zcompanyBankCode + "]";
 	}
+	
 	
 	
 

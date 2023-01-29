@@ -303,9 +303,17 @@ public class PayrollResources {
 	@Path("/bankTransfer")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllBankTransfer() {
-		List<SalaryBankTransfer> l = repo.getAll(SalaryBankTransfer.class);
+		List<SalaryBankTransfer> l = salServ.getSalaryBankTransfer();
 		return Response.ok(l.toArray(new SalaryBankTransfer[l.size()])).build();
 	}
+	
+//	@GET
+//	@Path("/bankTransfer1")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response getAllBankTransfer1() {
+//		List<SalaryBankTransfer> l = repo.getAll(SalaryBankTransfer.class);
+//		return Response.ok(l.toArray(new SalaryBankTransfer[l.size()])).build();
+//	}
 	
 //	@GET
 //	@Path("/bankTransfer1")

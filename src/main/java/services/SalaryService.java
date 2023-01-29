@@ -22,6 +22,7 @@ import entities.MonthEndAllowance;
 import entities.MonthEndDeduction;
 import entities.MonthEndTransaction;
 import entities.PayrollSummaryView;
+import entities.SalaryBankTransfer;
 import entities.SalaryIncrement;
 import exception.DataNotFoundException;
 import repositories.PayrollRepository;
@@ -170,6 +171,11 @@ public class SalaryService implements Serializable {
 	
 	public int getMonthEndTransactionPreviousRecord(int id) {
 		return repo.getMonthEndTransactionPreviousRecord(id);
+	}
+
+	public List<SalaryBankTransfer> getSalaryBankTransfer() {
+		
+		return repo.getSalaryBankTransfer();
 	}
 
 }

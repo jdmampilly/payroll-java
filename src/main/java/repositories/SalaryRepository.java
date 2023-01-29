@@ -13,6 +13,7 @@ import entities.MonthEndAllowance;
 import entities.MonthEndDeduction;
 import entities.MonthEndTransaction;
 import entities.PayrollSummaryView;
+import entities.SalaryBankTransfer;
 
 @Stateless
 public class SalaryRepository implements Serializable {
@@ -191,6 +192,11 @@ public class SalaryRepository implements Serializable {
 		}
 		 
 		return e.getId();
+	}
+
+	public List<SalaryBankTransfer> getSalaryBankTransfer() {
+//		 return this.em.createQuery("Select a.bankCode,a.accountNo,a.empName,a.netSalary,a.companyBankCode from SalaryBankTransfer a ", SalaryBankTransfer.class).getResultList();
+		 return this.em.createQuery("Select a from SalaryBankTransfer a ", SalaryBankTransfer.class).getResultList();
 	}	
 	
 }
