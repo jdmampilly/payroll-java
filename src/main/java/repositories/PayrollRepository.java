@@ -460,6 +460,9 @@ public class PayrollRepository implements Serializable {
 			Query query = this.em.createNativeQuery(
 					"insert into EMP_LOAN_TRNS(TRN_DATE,DR_AMT,CR_AMT,TRN_DESCR,EMP_CODE,VOUCHER_NO) select GETDATE(), 0,LOAN_DEDUCTION,'Loan Ded. from Salary',EMP_CODE,'SAL-DED' from MET_MAIN a");
 			query.executeUpdate();
+			Query queryInstallment = this.em.createNativeQuery(
+					"update EMP_MAST set LOAN_INST = 0 where EMP_CODE in (SELECT EMP_CODE from VW_LOAN_SUMMARY vls where total_dr = total_cr)");
+			queryInstallment.executeUpdate();
 			// post to leave history
 			Query query1 = this.em.createNativeQuery(
 					"insert into LV_TRANS_HIST(EMP_CODE,SICK_LV,ANNUAL_LV,OTHER_LV,LV_DATE_FROM,LV_DATE_TO,ADJ_LV) "
