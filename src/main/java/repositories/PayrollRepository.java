@@ -481,7 +481,7 @@ public class PayrollRepository implements Serializable {
 			querySalaryHistory.executeUpdate();
 			
 			//post to allowance history
-			Query queryAllowanceHistory = this.em.createNativeQuery("insert into MET_ALLW_HIST select * from MET_ALLOWANCE1 a");
+			Query queryAllowanceHistory = this.em.createNativeQuery("insert into MET_ALLW_HIST select * from MET_ALLOWANCE a");
 			queryAllowanceHistory.executeUpdate();
 			
 			//post to Deduction history
