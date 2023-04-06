@@ -738,7 +738,7 @@ public class PayrollRepository implements Serializable {
 
 	public void updateGosi() {
 		Query query = this.em.createNativeQuery(
-				"update EMP_MAST set GOSI_AMT = BASIC_SALARY * 0.07 where CONTRACT_TYPE = 0 and EMP_DT_LEAVE  is null ");
+				"update EMP_MAST set GOSI_AMT = BASIC_SALARY * 0.08 where CONTRACT_TYPE = 0 and EMP_DT_LEAVE  is null ");
 		
 		query.executeUpdate();
 		System.out.println("Success for gosi update query");
