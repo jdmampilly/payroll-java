@@ -745,14 +745,16 @@ public class PayrollRepository implements Serializable {
 		
 	}
 	
-	public void updateCurrentYear(Date startDate, Date endDate) {
+	public void updateCurrentYear(Date startDate, Date endDate, int currentYear) {
+		currentYear = 2023;
 	    Query query = this.em.createNativeQuery(
-	            "update CURRENT_YEAR set START_DATE = ?1, END_DATE = ?2 where ID = 1");
+	            "update AAK_CURRENT_YEAR set StartDate = ?1, EndDate = ?2   where ID = 1");
 //	    query.setParameter("startDate", startDate);
 //	    query.setParameter("endDate", endDate);
 	    
 	    query.setParameter(1, startDate);
 		query.setParameter(2, endDate);
+//		query.setParameter(3, currentYear);
 
 	    query.executeUpdate();
 	    System.out.println("Success for Current Year update query");

@@ -10,17 +10,19 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="CURRENT_YEAR")
+@Table(name="AAK_CURRENT_YEAR")
 public class CurrentYear implements Serializable {
 
 	private static final long serialVersionUID = -2080266219164603054L;
 	@Id
 	@Column(name="ID")
 	private int id;
-	@Column(name="START_DATE")
+	@Column(name="StartDate")
 	private Date startDate;
-	@Column(name="END_DATE")
+	@Column(name="EndDate")
 	private Date endDate;
+	@Column(name="CurrentYear")
+	private int currentYear;
 	public int getId() {
 		return id;
 	}
@@ -39,9 +41,15 @@ public class CurrentYear implements Serializable {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	public int getCurrentYear() {
+		return currentYear;
+	}
+	public void setCurrentYear(int currentYear) {
+		this.currentYear = currentYear;
+	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(endDate, id, startDate);
+		return Objects.hash(currentYear, endDate, id, startDate);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -52,12 +60,15 @@ public class CurrentYear implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		CurrentYear other = (CurrentYear) obj;
-		return Objects.equals(endDate, other.endDate) && id == other.id && Objects.equals(startDate, other.startDate);
+		return currentYear == other.currentYear && Objects.equals(endDate, other.endDate) && id == other.id
+				&& Objects.equals(startDate, other.startDate);
 	}
 	@Override
 	public String toString() {
-		return "CurrentYear [id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+		return "CurrentYear [id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", currentYear="
+				+ currentYear + "]";
 	}
+	
 	
 	
 }

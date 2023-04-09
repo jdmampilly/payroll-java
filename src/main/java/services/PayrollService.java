@@ -77,8 +77,8 @@ public class PayrollService implements Serializable {
 		payrollRepo.updateGosi();
 	}
 
-	public void updateCurrentYear(Date startDate, Date endDate) {
-		payrollRepo.updateCurrentYear(startDate, endDate);
+	public void updateCurrentYear(Date startDate, Date endDate, int currentYear) {
+		payrollRepo.updateCurrentYear(startDate, endDate, currentYear);
 		// TODO Auto-generated method stub
 		
 	}
