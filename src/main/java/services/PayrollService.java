@@ -1,6 +1,7 @@
 package services;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
@@ -74,6 +75,12 @@ public class PayrollService implements Serializable {
 
 	public void updateGosi() {
 		payrollRepo.updateGosi();
+	}
+
+	public void updateCurrentYear(Date startDate, Date endDate) {
+		payrollRepo.updateCurrentYear(startDate, endDate);
+		// TODO Auto-generated method stub
+		
 	}
 
 }

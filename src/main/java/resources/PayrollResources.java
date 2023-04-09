@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.lang.reflect.Array;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,7 @@ import javax.ws.rs.core.Response;
 import dto.EmpLoanSummaryDto;
 import dto.EmpLoanSummaryListDto;
 import dto.PayrollSummaryDto;
+import entities.CurrentYear;
 import entities.Department;
 import entities.DepartmentView;
 import entities.Employee;
@@ -356,6 +358,7 @@ public class PayrollResources {
 	}	
 	
 	
+	
 // Leaves
 	@GET
 	@Path("/leaveTransactions")
@@ -537,6 +540,30 @@ public class PayrollResources {
 		repo.updateMonth(entity);
 		return Response.ok(entity).build();
 	}
+	
+	@GET
+	@Path("/currentYear")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getCurrentYear() throws Exception {
+		CurrentYear cy = repo.getById(CurrentYear.class, 1);
+		return Response.ok(cy).build();
+	}
+	
+	@POST
+	@Path("/updateCurrentYear")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateCurrentYear(CurrentYear entity) throws NotSupportedException {
+		System.out.println("New Financial Year" + entity);
+		System.out.println("New Financial Year" + entity.getStartDate());
+		try {
+			payrollServ.updateCurrentYear(entity.getStartDate(), entity.getEndDate());
+			return Response.ok().build();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return Response.status(500).entity("Error in  update current year procedure").build();
+		}
+	}	
 
 	@GET
 	@Path("/reports")

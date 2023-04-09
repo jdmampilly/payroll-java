@@ -14,6 +14,7 @@ entities\DepartmentView.class
 entities\Month.class
 dto\PayrollSummaryDto.class
 exception\SQLServerExceptionMapper.class
+entities\CurrentYear.class
 model\ErrorMessage.class
 dto\EmpLoanSummaryDto.class
 exception\SQLServerException.class
