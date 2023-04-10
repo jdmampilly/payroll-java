@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,6 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="AAK_CURRENT_YEAR")
+@Cacheable(false)
 public class CurrentYear implements Serializable {
 
 	private static final long serialVersionUID = -2080266219164603054L;
@@ -21,7 +23,7 @@ public class CurrentYear implements Serializable {
 	private Date startDate;
 	@Column(name="EndDate")
 	private Date endDate;
-	@Column(name="CurrentYear")
+	@Column(name="Yr")
 	private int currentYear;
 	public int getId() {
 		return id;

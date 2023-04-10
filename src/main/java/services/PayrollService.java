@@ -15,6 +15,7 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
+import entities.CurrentYear;
 import entities.LoanTransaction;
 import repositories.PayrollRepository;
 //import repositories.SalaryRepository;
@@ -77,8 +78,8 @@ public class PayrollService implements Serializable {
 		payrollRepo.updateGosi();
 	}
 
-	public void updateCurrentYear(Date startDate, Date endDate, int currentYear) {
-		payrollRepo.updateCurrentYear(startDate, endDate, currentYear);
+	public void updateCurrentYear(CurrentYear entity) {
+		payrollRepo.updateCurrentYear(entity);
 		// TODO Auto-generated method stub
 		
 	}

@@ -556,7 +556,8 @@ public class PayrollResources {
 		System.out.println("New Financial Year" + entity);
 		System.out.println("New Financial Year" + entity.getStartDate());
 		try {
-			payrollServ.updateCurrentYear(entity.getStartDate(), entity.getEndDate(), entity.getCurrentYear());
+//			payrollServ.updateCurrentYear(entity.getStartDate(), entity.getEndDate(), entity.getCurrentYear());
+			payrollServ.updateCurrentYear(entity);
 			return Response.ok().build();
 		} catch (Exception e) {
 			// TODO: handle exception

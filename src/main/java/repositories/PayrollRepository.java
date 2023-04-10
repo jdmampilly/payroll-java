@@ -19,6 +19,7 @@ import javax.transaction.Transactional;
 import dto.EmpLoanSummaryDto;
 import dto.EmpLoanSummaryListDto;
 import dto.PayrollSummaryDto;
+import entities.CurrentYear;
 import entities.Department;
 import entities.LeaveTransaction;
 import entities.LoanMaster;
@@ -745,20 +746,83 @@ public class PayrollRepository implements Serializable {
 		
 	}
 	
-	public void updateCurrentYear(Date startDate, Date endDate, int currentYear) {
-		currentYear = 2023;
+	public void updateCurrentYear(CurrentYear cy) {
+		Date startDate, endDate;
+		int currentYear;
+		startDate = cy.getStartDate();
+		endDate = cy.getEndDate();
+//		currentYear = cy.getCurrentYear();
 	    Query query = this.em.createNativeQuery(
 	            "update AAK_CURRENT_YEAR set StartDate = ?1, EndDate = ?2   where ID = 1");
-//	    query.setParameter("startDate", startDate);
-//	    query.setParameter("endDate", endDate);
+
 	    
 	    query.setParameter(1, startDate);
 		query.setParameter(2, endDate);
 //		query.setParameter(3, currentYear);
-
-	    query.executeUpdate();
+		query.executeUpdate();
 	    System.out.println("Success for Current Year update query");
+	   
 	}
+	
+//	public CurrentYear updateCurrentYear(CurrentYear cy) {
+//	    Date startDate = cy.getStartDate();
+//	    Date endDate = cy.getEndDate();
+//	    int currentYear = cy.getCurrentYear();
+//	    Query query = this.em.createNativeQuery(
+//	            "update AAK_CURRENT_YEAR set StartDate = ?1, EndDate = ?2, CurrentYear = ?3 where ID = 1");
+//
+//	    query.setParameter(1, startDate);
+//	    query.setParameter(2, endDate);
+//	    query.setParameter(3, currentYear);
+//	    query.executeUpdate();
+//	    System.out.println("Success for Current Year update query");
+//	    return cy;
+//	}
+	
+//	public CurrentYear updateCurrentYear(CurrentYear cy) {
+//	    Date startDate = cy.getStartDate();
+//	    Date endDate = cy.getEndDate();
+//	    int currentYear = cy.getCurrentYear();
+//	    Query query = this.em.createNativeQuery(
+//	            "update AAK_CURRENT_YEAR set StartDate = ?1, EndDate = ?2, CurrentYear = ?3 where ID = 1");
+//
+//	    query.setParameter(1, startDate);
+//	    query.setParameter(2, endDate);
+//	    query.setParameter(3, currentYear);
+//	    
+//	    try {
+//	        query.executeUpdate();
+//	        System.out.println("Success for Current Year update query");
+//	    } catch (Exception e) {
+//	        System.out.println("Error occurred while updating current year: " + e.getMessage());
+//	    }
+//	    
+//	    return cy;
+//	}
+	
+//	public CurrentYear updateCurrentYear(CurrentYear cy) {
+//	     
+//	    Query query = this.em.createNativeQuery(
+//	            "update AAK_CURRENT_YEAR set StartDate = ?1, EndDate = ?2, CurrentYear = ?3 where ID = 1");
+//	    query.setParameter(1, cy.getStartDate());
+//	    query.setParameter(2, cy.getEndDate());
+//	    query.setParameter(3, cy.getCurrentYear());
+//	    
+//	    query.executeUpdate();
+//	    
+//	    Query getQuery = this.em.createNativeQuery("select * from AAK_CURRENT_YEAR where ID = 1");
+//	    List<Object[]> results = getQuery.getResultList();
+//	    Object[] currentYearResult = results.get(0);
+//	    
+//	    CurrentYear updated = new CurrentYear();
+//	    updated.setId(1);
+//	    updated.setStartDate((Date) currentYearResult[1]); 
+//	    updated.setEndDate((Date) currentYearResult[2]);
+//	    updated.setCurrentYear((Integer) currentYearResult[3]);  
+//
+//	    return updated; 
+//	}
+
 	
 		
 }
