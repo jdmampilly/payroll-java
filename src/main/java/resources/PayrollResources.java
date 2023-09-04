@@ -28,6 +28,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import dto.EmpBasicAllowances;
 import dto.EmpLoanSummaryDto;
 import dto.EmpLoanSummaryListDto;
 import dto.PayrollSummaryDto;
@@ -142,6 +143,14 @@ public class PayrollResources {
 		return repo.getById(Employee.class, id);
 	}
 
+	@GET
+	@Path("/employee/allowance/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public EmpBasicAllowances getEmployeeEba(@PathParam("id") Integer id) {
+		return salServ.getEmpBasicAllowances(id);
+	}
+
+	
 	@GET
 	@Path("/employees")
 	@Produces(MediaType.APPLICATION_JSON)

@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import dto.EmpBasicAllowances;
 import entities.Employee;
 import entities.MonthEndAllowance;
 import entities.MonthEndDeduction;
@@ -197,6 +198,8 @@ public class SalaryRepository implements Serializable {
 	public List<SalaryBankTransfer> getSalaryBankTransfer() {
 //		 return this.em.createQuery("Select a.bankCode,a.accountNo,a.empName,a.netSalary,a.companyBankCode from SalaryBankTransfer a ", SalaryBankTransfer.class).getResultList();
 		 return this.em.createQuery("Select a from SalaryBankTransfer a ", SalaryBankTransfer.class).getResultList();
-	}	
+	}
+
+
 	
 }

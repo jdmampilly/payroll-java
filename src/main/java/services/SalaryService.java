@@ -16,6 +16,8 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import javax.ws.rs.core.Response;
 
+import dto.EmpBasicAllowances;
+import entities.Employee;
 import entities.EmployeeView;
 import entities.Month;
 import entities.MonthEndAllowance;
@@ -47,10 +49,10 @@ public class SalaryService implements Serializable {
 
 	public MonthEndTransaction getEmployeeSalary(int empCode) {
 		MonthEndTransaction m = new MonthEndTransaction();
-		List<MonthEndAllowance> mea = null;
+		//List<MonthEndAllowance> mea = null;
 		try {
 			m = repo.getEmployeeSalary(empCode);
-			mea = repo.getMEA(empCode);
+			//mea = repo.getMEA(empCode);
 		} catch (Exception e) {
 			System.out.println("New Transaction..........");
 			m = new MonthEndTransaction();
@@ -176,6 +178,24 @@ public class SalaryService implements Serializable {
 	public List<SalaryBankTransfer> getSalaryBankTransfer() {
 		
 		return repo.getSalaryBankTransfer();
+	}
+	
+	public EmpBasicAllowances getEmpBasicAllowances(int id) {
+		//return repo.getEmpBasicAllowances();
+		Employee e = new Employee();
+		EmpBasicAllowances eba = new EmpBasicAllowances();
+		try {
+			e = payrollRepo.getById(Employee.class, id);
+			eba.setId(e.getId());
+			eba.setBasicSalary(e.getBasicSalary());
+			eba.setRentAllowance(e.getRentAllowance());
+			eba.setTravelAllowance(e.getTravelAllowance());
+		} catch (Exception ex) {
+			System.out.println("no employee found for id:" + id);
+			ex.printStackTrace();
+		}
+		return eba;
+		
 	}
 
 }
