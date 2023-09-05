@@ -35,7 +35,9 @@ import dto.PayrollSummaryDto;
 import entities.CurrentYear;
 import entities.Department;
 import entities.DepartmentView;
+import entities.Division;
 import entities.Employee;
+import entities.EmployeeView;
 import entities.LeaveSummary;
 //import entities.EmployeeLoanSummaryView;
 import entities.LeaveTransaction;
@@ -120,6 +122,14 @@ public class PayrollResources {
 	public Response getdepartmentById(@PathParam("id") String id) throws Exception {
 		Department department = repo.getById(Department.class, id);
 		return Response.ok(department).build();
+	}
+	
+	@GET
+	@Path("/division/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getdivisionById(@PathParam("id") String id) throws Exception {
+		Division division = repo.getById(Division.class, id);
+		return Response.ok(division).build();
 	}
 
 	@GET
