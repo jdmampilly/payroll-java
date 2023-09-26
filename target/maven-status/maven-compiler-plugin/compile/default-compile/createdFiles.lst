@@ -30,11 +30,9 @@ exception\DataNotFoundException.class
 filter\CORSFilter.class
 entities\DepartmentView.class
 dto\PayrollSummaryDto.class
-entities\Division.class
 exception\SQLServerException.class
 dto\EmpLoanSummaryListDto.class
 entities\Reports.class
-resources\PayrollResources.class
 entities\LeaveSummary.class
 resources\MyApp.class
 entities\EmployeeLoanSummaryView.class
